@@ -4,7 +4,8 @@ import { AnimateIn } from "@/components/animate-in";
 import { CategoryCard } from "@/components/catalog-cards";
 import { PublicDataService } from "@/lib/services/public-data-service";
 import { createClient } from "@/lib/supabase/server";
-import { getLanguage, t } from "@/lib/i18n";
+import { t } from "@/lib/i18n";
+import { getLanguage } from "@/lib/i18n-server";
 
 export const revalidate = 60;
 

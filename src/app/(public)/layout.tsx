@@ -4,8 +4,10 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PublicDataService } from "@/lib/services/public-data-service";
 import { createClient } from "@/lib/supabase/server";
-import { getLanguage, t, tc } from "@/lib/i18n";
+import { t, tc } from "@/lib/i18n";
+import { getLanguage } from "@/lib/i18n-server";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { Navigation } from "@/components/navigation";
 
 const NAV_LINKS = [
   { href: "/", label: "Beranda" },
@@ -38,13 +40,7 @@ export default async function PublicLayout({ children }: { children: React.React
           <Link href="/" className="flex items-center gap-2 font-heading text-xl font-bold">
             <span aria-hidden="true">🌱</span> {settings.business_name}
           </Link>
-          <nav className="hidden gap-8 text-sm font-semibold sm:flex">
-            {NAV_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className="nav-link-animated transition-colors hover:text-primary">
-                {t(link.label, lang)}
-              </Link>
-            ))}
-          </nav>
+          <Navigation links={NAV_LINKS} lang={lang} />
           <div className="flex items-center gap-4">
             <LanguageSwitcher currentLang={lang} />
             {waHref && (
@@ -59,13 +55,7 @@ export default async function PublicLayout({ children }: { children: React.React
             )}
           </div>
         </div>
-        <nav className="flex justify-center gap-6 border-t border-foreground/5 py-2 text-xs font-semibold sm:hidden">
-          {NAV_LINKS.map((link) => (
-            <Link key={link.href} href={link.href}>
-              {t(link.label, lang)}
-            </Link>
-          ))}
-        </nav>
+        <Navigation links={NAV_LINKS} lang={lang} mobile />
       </header>
 
       <main className="flex-1">{children}</main>

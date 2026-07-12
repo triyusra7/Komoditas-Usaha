@@ -1,16 +1,4 @@
-import { cookies } from "next/headers";
-
 export type Language = "id" | "en";
-
-export async function getLanguage(): Promise<Language> {
-  try {
-    const cookieStore = await cookies();
-    const lang = cookieStore.get("lang")?.value;
-    return lang === "en" ? "en" : "id";
-  } catch {
-    return "id";
-  }
-}
 
 const STATIC_TRANSLATIONS: Record<string, Record<Language, string>> = {
   // Navigation

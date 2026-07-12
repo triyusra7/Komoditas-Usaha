@@ -6,7 +6,8 @@ import { AnimateIn } from "@/components/animate-in";
 import { TraceabilityTimeline } from "@/components/traceability-timeline";
 import { PublicDataService } from "@/lib/services/public-data-service";
 import { createClient } from "@/lib/supabase/server";
-import { getLanguage, t, tc } from "@/lib/i18n";
+import { t, tc } from "@/lib/i18n";
+import { getLanguage } from "@/lib/i18n-server";
 
 export const revalidate = 60;
 

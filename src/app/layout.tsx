@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
 });
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${plusJakartaSans.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

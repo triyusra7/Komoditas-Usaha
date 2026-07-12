@@ -56,7 +56,7 @@ export default async function NeracaSaldoPage({
           />
         </div>
         <button type="submit" className="adm-btn adm-btn-primary adm-btn-sm">
-          🔍 Tampilkan
+          Tampilkan
         </button>
       </form>
 
@@ -87,7 +87,7 @@ export default async function NeracaSaldoPage({
               ))}
               {rows.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="py-8 text-center text-[#8896ab]">
+                  <td colSpan={4} className="py-8 text-center text-muted-foreground">
                     Belum ada jurnal posted sampai periode ini.
                   </td>
                 </tr>

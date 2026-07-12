@@ -91,7 +91,7 @@ export default async function PengaturanPage() {
             />
           </div>
           <button type="submit" className="adm-btn adm-btn-primary">
-            💾 Simpan Pengaturan
+            Simpan Pengaturan
           </button>
         </form>
       </div>

@@ -1,3 +1,4 @@
+import { CreateButton, FormModal } from "@/components/admin/modal";
 import { PageHeader } from "@/components/admin/page-header";
 import { formatRupiah } from "@/lib/accounting/period";
 import { requireRole } from "@/lib/auth/access-control";
@@ -21,8 +22,13 @@ const SOURCE_LABEL: Record<string, string> = {
   reversal: "Reversal",
 };
 
-export default async function TransaksiPage() {
+export default async function TransaksiPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ new?: string }>;
+}) {
   await requireRole("owner");
+  const { new: isCreating } = await searchParams;
 
   const supabase = await createClient();
   const { data: entries } = await supabase
@@ -37,17 +43,22 @@ export default async function TransaksiPage() {
       <PageHeader
         title="Transaksi"
         subtitle="Catat transaksi bisnis — jurnal dibuat otomatis"
+        actions={<CreateButton label="Catat Transaksi" />}
       />
 
-      <div className="grid grid-cols-1 gap-5 xl:grid-cols-3">
-        <div className="adm-card h-fit p-5 xl:order-2">
-          <h3 className="mb-4 text-sm font-bold text-[#1e3f5c]">➕ Catat Transaksi Baru</h3>
+      {isCreating && (
+        <FormModal
+          title="Catat Transaksi Baru"
+          subtitle="Jurnal double-entry dibuat otomatis dari input ini"
+          closeHref="/admin/transaksi"
+        >
           <TransactionForm />
-        </div>
+        </FormModal>
+      )}
 
-        <div className="adm-card p-5 xl:col-span-2">
-          <h3 className="mb-4 text-sm font-bold text-[#1e3f5c]">📋 Transaksi Terakhir</h3>
-          <div className="overflow-x-auto">
+      <div className="adm-card p-5">
+        <h3 className="mb-4 text-sm font-bold text-secondary">Transaksi Terakhir</h3>
+        <div className="overflow-x-auto">
             <table className="adm-table">
               <thead>
                 <tr>
@@ -95,15 +106,14 @@ export default async function TransaksiPage() {
                 })}
                 {(!entries || entries.length === 0) && (
                   <tr>
-                    <td colSpan={6} className="py-8 text-center text-[#8896ab]">
-                      Belum ada transaksi. Mulai catat dari form di samping.
+                    <td colSpan={6} className="py-8 text-center text-muted-foreground">
+                      Belum ada transaksi. Klik &ldquo;Catat Transaksi&rdquo; untuk mulai.
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
-        </div>
       </div>
     </div>
   );

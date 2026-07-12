@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { LedgerService } from "@/lib/accounting/ledger-service";
@@ -106,7 +107,7 @@ export async function postTransaction(
   revalidatePath("/admin/transaksi");
   revalidatePath("/admin/laporan");
   revalidatePath("/admin");
-  return {};
+  redirect("/admin/transaksi");
 }
 
 export async function reverseJournalEntry(entryId: string): Promise<void> {

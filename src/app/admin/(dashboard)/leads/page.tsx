@@ -55,7 +55,7 @@ export default async function LeadsPage() {
               ))}
               {leads.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-[#8896ab]">
+                  <td colSpan={5} className="py-8 text-center text-muted-foreground">
                     Belum ada leads masuk.
                   </td>
                 </tr>

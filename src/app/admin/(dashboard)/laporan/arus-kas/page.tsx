@@ -56,7 +56,7 @@ export default async function ArusKasPage({
           />
         </div>
         <button type="submit" className="adm-btn adm-btn-primary adm-btn-sm">
-          🔍 Tampilkan
+          Tampilkan
         </button>
       </form>
 

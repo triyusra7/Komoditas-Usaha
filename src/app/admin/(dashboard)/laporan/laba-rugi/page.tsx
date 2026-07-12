@@ -59,7 +59,7 @@ export default async function LabaRugiPage({
           />
         </div>
         <button type="submit" className="adm-btn adm-btn-primary adm-btn-sm">
-          🔍 Tampilkan
+          Tampilkan
         </button>
       </form>
 
@@ -72,7 +72,7 @@ export default async function LabaRugiPage({
         <table className="adm-table">
           <tbody>
             <tr>
-              <td colSpan={2} className="font-bold text-[#1e3f5c]">
+              <td colSpan={2} className="font-bold text-secondary">
                 PENDAPATAN
               </td>
             </tr>
@@ -84,7 +84,7 @@ export default async function LabaRugiPage({
             ))}
             {statement.incomeLines.length === 0 && (
               <tr>
-                <td className="pl-8 text-[#8896ab]">Belum ada pendapatan</td>
+                <td className="pl-8 text-muted-foreground">Belum ada pendapatan</td>
                 <td className="adm-amount">-</td>
               </tr>
             )}
@@ -94,7 +94,7 @@ export default async function LabaRugiPage({
             </tr>
 
             <tr>
-              <td colSpan={2} className="pt-5 font-bold text-[#1e3f5c]">
+              <td colSpan={2} className="pt-5 font-bold text-secondary">
                 BEBAN
               </td>
             </tr>
@@ -106,7 +106,7 @@ export default async function LabaRugiPage({
             ))}
             {statement.expenseLines.length === 0 && (
               <tr>
-                <td className="pl-8 text-[#8896ab]">Belum ada beban</td>
+                <td className="pl-8 text-muted-foreground">Belum ada beban</td>
                 <td className="adm-amount">-</td>
               </tr>
             )}

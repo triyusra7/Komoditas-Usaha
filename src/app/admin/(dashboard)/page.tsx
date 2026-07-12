@@ -120,23 +120,23 @@ export default async function AdminDashboardPage() {
         {recentEntries && (
           <div className="adm-card p-5">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-[#1e3f5c]">🧾 Jurnal Terbaru</h3>
-              <Link href="/admin/jurnal" className="text-xs font-semibold text-[#264C70] hover:underline">
+              <h3 className="text-sm font-bold text-secondary">Jurnal Terbaru</h3>
+              <Link href="/admin/jurnal" className="text-xs font-semibold text-secondary hover:underline">
                 Lihat semua →
               </Link>
             </div>
             {recentEntries.length === 0 ? (
-              <p className="py-4 text-sm text-[#8896ab]">Belum ada transaksi tercatat.</p>
+              <p className="py-4 text-sm text-muted-foreground">Belum ada transaksi tercatat.</p>
             ) : (
               <div className="space-y-0 text-sm">
                 {recentEntries.map((entry) => (
                   <div
                     key={entry.id}
-                    className="flex items-center justify-between border-b border-[#f0f4f8] py-2.5 last:border-0"
+                    className="flex items-center justify-between border-b border-foreground/10 py-2.5 last:border-0"
                   >
                     <div className="min-w-0">
                       <p className="truncate font-semibold">{entry.memo ?? "-"}</p>
-                      <p className="text-xs text-[#8896ab]">
+                      <p className="text-xs text-muted-foreground">
                         {new Date(entry.entry_date).toLocaleDateString("id-ID")} ·{" "}
                         {entry.source_type}
                       </p>
@@ -154,23 +154,23 @@ export default async function AdminDashboardPage() {
         {recentLeads && (
           <div className="adm-card p-5">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-[#1e3f5c]">📥 Leads Terbaru</h3>
-              <Link href="/admin/leads" className="text-xs font-semibold text-[#264C70] hover:underline">
+              <h3 className="text-sm font-bold text-secondary">Leads Terbaru</h3>
+              <Link href="/admin/leads" className="text-xs font-semibold text-secondary hover:underline">
                 Lihat semua →
               </Link>
             </div>
             {recentLeads.length === 0 ? (
-              <p className="py-4 text-sm text-[#8896ab]">Belum ada leads masuk.</p>
+              <p className="py-4 text-sm text-muted-foreground">Belum ada leads masuk.</p>
             ) : (
               <div className="space-y-0 text-sm">
                 {recentLeads.map((lead) => (
                   <div
                     key={lead.id}
-                    className="flex items-center justify-between border-b border-[#f0f4f8] py-2.5 last:border-0"
+                    className="flex items-center justify-between border-b border-foreground/10 py-2.5 last:border-0"
                   >
                     <div className="min-w-0">
                       <p className="truncate font-semibold">{lead.name}</p>
-                      <p className="text-xs text-[#8896ab]">{lead.contact}</p>
+                      <p className="text-xs text-muted-foreground">{lead.contact}</p>
                     </div>
                     {lead.interest && (
                       <span className="adm-badge adm-badge-blue">{lead.interest}</span>

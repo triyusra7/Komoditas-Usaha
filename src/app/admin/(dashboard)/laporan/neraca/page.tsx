@@ -51,7 +51,7 @@ export default async function NeracaPage({
           />
         </div>
         <button type="submit" className="adm-btn adm-btn-primary adm-btn-sm">
-          🔍 Tampilkan
+          Tampilkan
         </button>
       </form>
 
@@ -71,7 +71,7 @@ export default async function NeracaPage({
         <table className="adm-table">
           <tbody>
             <tr>
-              <td colSpan={2} className="font-bold text-[#1e3f5c]">
+              <td colSpan={2} className="font-bold text-secondary">
                 ASET
               </td>
             </tr>
@@ -87,7 +87,7 @@ export default async function NeracaPage({
             </tr>
 
             <tr>
-              <td colSpan={2} className="pt-5 font-bold text-[#1e3f5c]">
+              <td colSpan={2} className="pt-5 font-bold text-secondary">
                 KEWAJIBAN
               </td>
             </tr>
@@ -103,7 +103,7 @@ export default async function NeracaPage({
             </tr>
 
             <tr>
-              <td colSpan={2} className="pt-5 font-bold text-[#1e3f5c]">
+              <td colSpan={2} className="pt-5 font-bold text-secondary">
                 EKUITAS
               </td>
             </tr>

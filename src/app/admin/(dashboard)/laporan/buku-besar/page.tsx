@@ -85,7 +85,7 @@ export default async function BukuBesarPage({
           />
         </div>
         <button type="submit" className="adm-btn adm-btn-primary adm-btn-sm">
-          🔍 Tampilkan
+          Tampilkan
         </button>
       </form>
 
@@ -100,7 +100,7 @@ export default async function BukuBesarPage({
         </div>
 
         {!selectedAccount ? (
-          <p className="py-10 text-center text-sm text-[#8896ab]">
+          <p className="py-10 text-center text-sm text-muted-foreground">
             Pilih akun lalu klik <b>Tampilkan</b> untuk melihat mutasinya.
           </p>
         ) : (
@@ -131,7 +131,7 @@ export default async function BukuBesarPage({
                 ))}
                 {rowsWithBalance.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="py-8 text-center text-[#8896ab]">
+                    <td colSpan={6} className="py-8 text-center text-muted-foreground">
                       Tidak ada mutasi pada periode ini.
                     </td>
                   </tr>

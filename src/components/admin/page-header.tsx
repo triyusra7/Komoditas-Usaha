@@ -8,7 +8,7 @@ export function PageHeader({
   actions?: React.ReactNode;
 }) {
   return (
-    <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
       <div>
         <h2 className="adm-page-title">{title}</h2>
         {subtitle && <p className="adm-page-sub mt-0.5">{subtitle}</p>}
@@ -30,13 +30,16 @@ export function StatCard({
   icon: string;
 }) {
   return (
-    <div className="adm-card relative overflow-hidden p-5">
-      <span className="absolute top-4 right-4 text-[28px] opacity-15" aria-hidden="true">
+    <div className="adm-card card-hover-lift relative overflow-hidden p-5">
+      <span
+        className="absolute top-4 right-4 flex size-10 items-center justify-center rounded-xl border-2 border-secondary bg-primary/25 text-lg"
+        aria-hidden="true"
+      >
         {icon}
       </span>
-      <p className="adm-stat-label mb-2.5">{label}</p>
+      <p className="adm-stat-label mb-2.5 pr-12">{label}</p>
       <p className="adm-stat-value">{value}</p>
-      {sub && <p className="mt-2 text-xs text-[#5a6a7e]">{sub}</p>}
+      {sub && <p className="mt-2 text-xs text-muted-foreground">{sub}</p>}
     </div>
   );
 }

@@ -138,21 +138,21 @@ export function TransactionForm() {
       )}
 
       {CASH_TOGGLE_TYPES.has(type) && (
-        <label className="flex items-center gap-2 text-sm text-[#4a5568]">
+        <label className="flex items-center gap-2 text-sm text-foreground/80">
           <input name="isCash" type="checkbox" className="size-4" defaultChecked />
           Tunai (hilangkan centang untuk piutang/utang usaha)
         </label>
       )}
 
       {state?.error && (
-        <p className="rounded-lg bg-[#fdeaea] px-3 py-2 text-sm font-semibold text-[#c53030]">
+        <p className="rounded-lg bg-[#fbeeec] px-3 py-2 text-sm font-semibold text-[#a3352c]">
           {state.error}
         </p>
       )}
       <button type="submit" disabled={isPending} className="adm-btn adm-btn-primary w-full justify-center">
-        {isPending ? "Memposting..." : "💾 Posting Transaksi"}
+        {isPending ? "Memposting..." : "Posting Transaksi"}
       </button>
-      <p className="text-xs text-[#8896ab]">
+      <p className="text-xs text-muted-foreground">
         Jurnal double-entry dibuat otomatis. Anda tidak perlu memahami debit/kredit.
       </p>
     </form>

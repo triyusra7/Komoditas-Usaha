@@ -28,7 +28,7 @@ export function ExportCsvButton({ rows, filename }: { rows: CsvRow[]; filename: 
 
   return (
     <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={handleExport}>
-      💾 Export CSV
+      Export CSV
     </button>
   );
 }
@@ -40,7 +40,7 @@ export function PrintButton() {
       className="adm-btn adm-btn-outline adm-btn-sm"
       onClick={() => window.print()}
     >
-      🖨 Cetak
+      Cetak
     </button>
   );
 }

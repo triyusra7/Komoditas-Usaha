@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { requireRole } from "@/lib/auth/access-control";
@@ -38,6 +39,7 @@ export async function createCategory(formData: FormData): Promise<void> {
 
   revalidatePath("/admin/kategori");
   revalidatePath("/");
+  redirect("/admin/kategori");
 }
 
 export async function toggleCategoryPublic(id: string, isPublic: boolean): Promise<void> {

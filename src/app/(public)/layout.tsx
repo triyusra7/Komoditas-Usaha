@@ -48,7 +48,7 @@ export default async function PublicLayout({ children }: { children: React.React
                 href={waHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(buttonVariants({ size: "lg" }), "hidden sm:inline-flex")}
+                className={cn(buttonVariants({ size: "default", variant: "default" }), "hidden sm:inline-flex")}
               >
                 {t("Hubungi Kami", lang)}
               </a>

@@ -40,8 +40,8 @@ export function Navigation({ links, lang, mobile = false }: NavigationProps) {
               key={link.href}
               href={link.href}
               className={cn(
-                "transition-colors duration-200",
-                active ? "text-primary font-bold" : "text-foreground/75 hover:text-primary"
+                "nav-link-animated transition-colors hover:text-primary",
+                active && "is-active"
               )}
             >
               {t(link.label, lang)}
@@ -62,7 +62,7 @@ export function Navigation({ links, lang, mobile = false }: NavigationProps) {
             href={link.href}
             className={cn(
               "nav-link-animated transition-colors hover:text-primary",
-              active && "is-active text-primary font-bold"
+              active && "is-active"
             )}
           >
             {t(link.label, lang)}

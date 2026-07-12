@@ -1,10 +1,12 @@
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
 type WhatsAppButtonProps = {
   phoneNumber: string;
   message: string;
   label?: string;
   className?: string;
+  variant?: "default" | "outline" | "secondary" | "ghost" | "destructive" | "link";
 };
 
 /** Prefilled wa.me link styled as the primary CTA. */
@@ -13,6 +15,7 @@ export function WhatsAppButton({
   message,
   label = "Pesan via WhatsApp",
   className,
+  variant = "default",
 }: WhatsAppButtonProps) {
   const href = `https://wa.me/${phoneNumber.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
 
@@ -22,7 +25,8 @@ export function WhatsAppButton({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-sm font-bold text-white shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-md",
+        buttonVariants({ size: "xl", variant }),
+        "gap-2",
         className,
       )}
     >

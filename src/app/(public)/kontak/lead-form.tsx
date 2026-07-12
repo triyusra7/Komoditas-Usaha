@@ -16,7 +16,29 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { submitLead } from "./actions";
 
-export function LeadForm() {
+type LeadFormProps = {
+  translations: {
+    successTitle: string;
+    successDesc: string;
+    labelName: string;
+    placeholderName: string;
+    labelContact: string;
+    placeholderContact: string;
+    labelInterest: string;
+    placeholderInterest: string;
+    interestBuy: string;
+    interestSupply: string;
+    interestPartner: string;
+    interestInvest: string;
+    interestOther: string;
+    labelMessage: string;
+    placeholderMessage: string;
+    btnSubmit: string;
+    btnSubmitting: string;
+  };
+};
+
+export function LeadForm({ translations }: LeadFormProps) {
   const [state, formAction, isPending] = useActionState(submitLead, undefined);
 
   if (state?.success) {
@@ -25,9 +47,9 @@ export function LeadForm() {
         <p className="text-2xl" aria-hidden="true">
           ✅
         </p>
-        <p className="mt-2 font-heading text-lg font-bold">Pesan terkirim!</p>
+        <p className="mt-2 font-heading text-lg font-bold">{translations.successTitle}</p>
         <p className="mt-1 text-sm text-muted-foreground">
-          Terima kasih. Kami akan menghubungi Anda secepatnya.
+          {translations.successDesc}
         </p>
       </div>
     );
@@ -45,41 +67,41 @@ export function LeadForm() {
         aria-hidden="true"
       />
       <div className="space-y-2">
-        <Label htmlFor="name">Nama *</Label>
-        <Input id="name" name="name" required placeholder="Nama lengkap Anda" />
+        <Label htmlFor="name">{translations.labelName}</Label>
+        <Input id="name" name="name" required placeholder={translations.placeholderName} />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="contact">Kontak (WhatsApp/Email) *</Label>
-        <Input id="contact" name="contact" required placeholder="08xx atau email" />
+        <Label htmlFor="contact">{translations.labelContact}</Label>
+        <Input id="contact" name="contact" required placeholder={translations.placeholderContact} />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="interest">Minat</Label>
+        <Label htmlFor="interest">{translations.labelInterest}</Label>
         <Select name="interest">
           <SelectTrigger id="interest">
-            <SelectValue placeholder="Pilih minat Anda (opsional)" />
+            <SelectValue placeholder={translations.placeholderInterest} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="beli-produk">Beli produk</SelectItem>
-            <SelectItem value="pasokan-rutin">Pasokan rutin / katering</SelectItem>
-            <SelectItem value="kemitraan">Kemitraan</SelectItem>
-            <SelectItem value="investasi">Investasi</SelectItem>
-            <SelectItem value="lainnya">Lainnya</SelectItem>
+            <SelectItem value="beli-produk">{translations.interestBuy}</SelectItem>
+            <SelectItem value="pasokan-rutin">{translations.interestSupply}</SelectItem>
+            <SelectItem value="kemitraan">{translations.interestPartner}</SelectItem>
+            <SelectItem value="investasi">{translations.interestInvest}</SelectItem>
+            <SelectItem value="lainnya">{translations.interestOther}</SelectItem>
           </SelectContent>
         </Select>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="message">Pesan *</Label>
+        <Label htmlFor="message">{translations.labelMessage}</Label>
         <Textarea
           id="message"
           name="message"
           rows={4}
           required
-          placeholder="Ceritakan kebutuhan Anda..."
+          placeholder={translations.placeholderMessage}
         />
       </div>
       {state?.error && <p className="text-sm text-destructive">{state.error}</p>}
-      <Button type="submit" size="lg" disabled={isPending} className="w-full">
-        {isPending ? "Mengirim..." : "Kirim Pesan"}
+      <Button type="submit" size="xl" disabled={isPending} className="w-full">
+        {isPending ? translations.btnSubmitting : translations.btnSubmit}
       </Button>
     </form>
   );

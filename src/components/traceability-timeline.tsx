@@ -1,3 +1,5 @@
+import { t, tc, type Language } from "@/lib/i18n";
+
 export type TraceabilityStage = {
   id: string;
   eventType: string;
@@ -27,30 +29,31 @@ const EVENT_META_BY_COMMODITY: Record<string, Record<string, { icon: string; lab
   },
 };
 
-const META_KEY_LABEL: Record<string, string> = {
-  umur_saat_beli: "Umur saat beli",
-  tanggal_lahir: "Tanggal lahir",
-  jenis: "Jenis",
-  moda: "Moda",
-  lama_perjalanan: "Lama perjalanan",
-  blok: "Blok kandang",
-  kondisi: "Kondisi",
-  bobot: "Bobot",
-  umur: "Umur",
-  pakan: "Pakan",
-  vaksin: "Vaksin",
-  hasil: "Hasil",
-  bobot_potong: "Bobot potong",
-  rendemen: "Rendemen karkas",
+const META_KEY_LABEL: Record<string, Record<Language, string>> = {
+  umur_saat_beli: { id: "Umur saat beli", en: "Age at purchase" },
+  tanggal_lahir: { id: "Tanggal lahir", en: "Date of birth" },
+  jenis: { id: "Jenis", en: "Type" },
+  moda: { id: "Moda", en: "Mode" },
+  lama_perjalanan: { id: "Lama perjalanan", en: "Travel duration" },
+  blok: { id: "Blok kandang", en: "Pen block" },
+  kondisi: { id: "Kondisi", en: "Condition" },
+  bobot: { id: "Bobot", en: "Weight" },
+  umur: { id: "Umur", en: "Age" },
+  pakan: { id: "Pakan", en: "Feed" },
+  vaksin: { id: "Vaksin", en: "Vaccine" },
+  hasil: { id: "Hasil", en: "Result" },
+  bobot_potong: { id: "Bobot potong", en: "Slaughter weight" },
+  rendemen: { id: "Rendemen karkas", en: "Carcass yield" },
 };
 
 type TraceabilityTimelineProps = {
   stages: TraceabilityStage[];
   commodityType: string;
+  lang?: Language;
 };
 
 /** Agnostic across commodities — pig today, coffee/fishery later, same shape. */
-export function TraceabilityTimeline({ stages, commodityType }: TraceabilityTimelineProps) {
+export function TraceabilityTimeline({ stages, commodityType, lang = "id" }: TraceabilityTimelineProps) {
   const labels = EVENT_META_BY_COMMODITY[commodityType] ?? {};
   const ordered = [...stages].sort(
     (a, b) => new Date(a.happenedAt).getTime() - new Date(b.happenedAt).getTime(),
@@ -59,7 +62,7 @@ export function TraceabilityTimeline({ stages, commodityType }: TraceabilityTime
   if (ordered.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-foreground/20 p-10 text-center text-sm text-muted-foreground">
-        Data jejak sedang dilengkapi.
+        {t("Data jejak sedang dilengkapi.", lang)}
       </div>
     );
   }
@@ -78,36 +81,40 @@ export function TraceabilityTimeline({ stages, commodityType }: TraceabilityTime
               {eventMeta?.icon ?? "📍"}
             </span>
             <div className="rounded-2xl border border-foreground/10 bg-card p-5">
-              <p className="text-xs font-bold tracking-widest text-primary-foreground/70 uppercase">
+              <div className="text-xs font-bold tracking-widest text-primary-foreground/70 uppercase">
                 <span className="rounded bg-secondary px-2 py-0.5 text-secondary-foreground">
-                  {eventMeta?.label ?? stage.eventType}
+                  {tc(eventMeta?.label ?? stage.eventType, lang)}
                 </span>
-              </p>
+              </div>
               <p className="mt-2 text-xs text-muted-foreground">
                 📅{" "}
-                {new Date(stage.happenedAt).toLocaleDateString("id-ID", {
+                {new Date(stage.happenedAt).toLocaleDateString(lang === "en" ? "en-US" : "id-ID", {
                   day: "numeric",
                   month: "long",
                   year: "numeric",
                 })}
                 {stage.location ? ` · 📍 ${stage.location}` : ""}
               </p>
-              <p className="mt-1 font-heading text-lg font-bold">{stage.title}</p>
+              <p className="mt-1 font-heading text-lg font-bold">{tc(stage.title, lang)}</p>
               {stage.description && (
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  {stage.description}
+                  {tc(stage.description, lang)}
                 </p>
               )}
               {metaEntries.length > 0 && (
                 <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1.5 border-t border-foreground/10 pt-3 sm:grid-cols-3">
-                  {metaEntries.map(([key, value]) => (
-                    <div key={key}>
-                      <dt className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
-                        {META_KEY_LABEL[key] ?? key.replaceAll("_", " ")}
-                      </dt>
-                      <dd className="text-sm font-semibold">{value}</dd>
-                    </div>
-                  ))}
+                  {metaEntries.map(([key, value]) => {
+                    const labelObj = META_KEY_LABEL[key];
+                    const labelText = labelObj ? labelObj[lang] : key.replaceAll("_", " ");
+                    return (
+                      <div key={key}>
+                        <dt className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
+                          {labelText}
+                        </dt>
+                        <dd className="text-sm font-semibold">{tc(value, lang)}</dd>
+                      </div>
+                    );
+                  })}
                 </dl>
               )}
             </div>

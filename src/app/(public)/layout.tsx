@@ -1,7 +1,11 @@
 import Link from "next/link";
 
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { PublicDataService } from "@/lib/services/public-data-service";
 import { createClient } from "@/lib/supabase/server";
+import { getLanguage, t, tc } from "@/lib/i18n";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 const NAV_LINKS = [
   { href: "/", label: "Beranda" },
@@ -25,6 +29,7 @@ export default async function PublicLayout({ children }: { children: React.React
   const waHref = settings.whatsapp_number
     ? `https://wa.me/${settings.whatsapp_number.replace(/\D/g, "")}`
     : null;
+  const lang = await getLanguage();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -35,26 +40,29 @@ export default async function PublicLayout({ children }: { children: React.React
           </Link>
           <nav className="hidden gap-8 text-sm font-semibold sm:flex">
             {NAV_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className="transition-colors hover:text-primary">
-                {link.label}
+              <Link key={link.href} href={link.href} className="nav-link-animated transition-colors hover:text-primary">
+                {t(link.label, lang)}
               </Link>
             ))}
           </nav>
-          {waHref && (
-            <a
-              href={waHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden rounded-full bg-primary px-5 py-2 text-xs font-bold tracking-wide text-primary-foreground uppercase transition-transform hover:-translate-y-0.5 sm:inline-flex"
-            >
-              Hubungi Kami
-            </a>
-          )}
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher currentLang={lang} />
+            {waHref && (
+              <a
+                href={waHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(buttonVariants({ size: "lg" }), "hidden sm:inline-flex")}
+              >
+                {t("Hubungi Kami", lang)}
+              </a>
+            )}
+          </div>
         </div>
         <nav className="flex justify-center gap-6 border-t border-foreground/5 py-2 text-xs font-semibold sm:hidden">
           {NAV_LINKS.map((link) => (
             <Link key={link.href} href={link.href}>
-              {link.label}
+              {t(link.label, lang)}
             </Link>
           ))}
         </nav>
@@ -66,23 +74,23 @@ export default async function PublicLayout({ children }: { children: React.React
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 sm:grid-cols-3">
           <div>
             <p className="font-heading text-xl font-bold">🌱 {settings.business_name}</p>
-            {settings.tagline && <p className="mt-2 text-sm opacity-80">{settings.tagline}</p>}
+            {settings.tagline && <p className="mt-2 text-sm opacity-80">{tc(settings.tagline, lang)}</p>}
             {settings.address && <p className="mt-4 text-sm opacity-70">📍 {settings.address}</p>}
           </div>
           <div>
-            <p className="text-xs font-bold tracking-widest uppercase opacity-60">Navigasi</p>
+            <p className="text-xs font-bold tracking-widest uppercase opacity-60">{t("Navigasi", lang)}</p>
             <ul className="mt-3 space-y-2 text-sm">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="opacity-80 hover:opacity-100 hover:underline">
-                    {link.label}
+                    {t(link.label, lang)}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <p className="text-xs font-bold tracking-widest uppercase opacity-60">Kontak</p>
+            <p className="text-xs font-bold tracking-widest uppercase opacity-60">{t("Kontak", lang)}</p>
             <ul className="mt-3 space-y-2 text-sm opacity-80">
               {settings.whatsapp_number && <li>WhatsApp: +{settings.whatsapp_number}</li>}
               {settings.email && <li>Email: {settings.email}</li>}
@@ -105,7 +113,7 @@ export default async function PublicLayout({ children }: { children: React.React
           </div>
         </div>
         <div className="border-t border-secondary-foreground/10 py-5 text-center text-xs opacity-60">
-          © {new Date().getFullYear()} {settings.business_name}. Semua hak dilindungi.
+          © {new Date().getFullYear()} {settings.business_name}. {t("Semua hak dilindungi.", lang)}
         </div>
       </footer>
     </div>

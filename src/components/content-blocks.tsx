@@ -1,4 +1,5 @@
 import type { PublicContentBlock } from "@/lib/services/public-data-service";
+import { tc, type Language } from "@/lib/i18n";
 
 type BlockPayload = {
   text?: string;
@@ -15,7 +16,7 @@ function payload(block: PublicContentBlock): BlockPayload {
  * Renders owner-editable CMS blocks. Consecutive `stat` blocks are grouped
  * into one grid so the owner can add stats without touching layout.
  */
-export function ContentBlocks({ blocks }: { blocks: PublicContentBlock[] }) {
+export function ContentBlocks({ blocks, lang = "id" }: { blocks: PublicContentBlock[]; lang?: Language }) {
   const groups: (PublicContentBlock | PublicContentBlock[])[] = [];
   for (const block of blocks) {
     const last = groups[groups.length - 1];
@@ -47,7 +48,7 @@ export function ContentBlocks({ blocks }: { blocks: PublicContentBlock[] }) {
                       {p.value}
                     </p>
                     <p className="mt-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-                      {p.label}
+                      {tc(p.label, lang)}
                     </p>
                   </div>
                 );
@@ -61,13 +62,13 @@ export function ContentBlocks({ blocks }: { blocks: PublicContentBlock[] }) {
           case "heading":
             return (
               <h2 key={group.id} className="font-heading text-2xl font-bold sm:text-3xl">
-                {p.text}
+                {tc(p.text, lang)}
               </h2>
             );
           case "richtext":
             return (
               <p key={group.id} className="max-w-2xl text-base leading-relaxed text-muted-foreground">
-                {p.text}
+                {tc(p.text, lang)}
               </p>
             );
           default:

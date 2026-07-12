@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.git
+.gitignore
+.claude
+Dockerfile
+docker-compose.yml
+.vscode
+*.md
+docs

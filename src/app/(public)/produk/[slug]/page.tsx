@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -53,6 +54,11 @@ export default async function ProdukDetailPage({
   ]);
   const lang = await getLanguage();
 
+  const gallery = Array.isArray(product.gallery)
+    ? product.gallery.filter((item): item is string => typeof item === "string")
+    : [];
+  const images = [product.cover_image, ...gallery].filter((url): url is string => !!url);
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <AnimateIn variant="fade" duration={400}>
@@ -64,9 +70,42 @@ export default async function ProdukDetailPage({
       <div className="mt-6 grid gap-12 lg:grid-cols-2">
         {/* Visual */}
         <AnimateIn variant="fade-left" duration={700} delay={100}>
-          <div className="flex h-80 items-center justify-center rounded-3xl bg-gradient-to-br from-primary/30 via-card to-secondary/10 text-9xl lg:h-[420px]">
-            <span className="animate-float-slow" aria-hidden="true">🐖</span>
-          </div>
+          {images.length > 0 ? (
+            <div className="flex flex-col gap-3">
+              <div className="relative h-80 overflow-hidden rounded-3xl border-2 border-secondary shadow-[4px_4px_0px_#1d2b1f] lg:h-[420px]">
+                <Image
+                  src={images[0]}
+                  alt={tc(product.name, lang)}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              {images.length > 1 && (
+                <div className="grid grid-cols-3 gap-3">
+                  {images.slice(1).map((url, index) => (
+                    <div
+                      key={url}
+                      className="relative aspect-square overflow-hidden rounded-2xl border-2 border-secondary shadow-[3px_3px_0px_#1d2b1f]"
+                    >
+                      <Image
+                        src={url}
+                        alt={`${tc(product.name, lang)} — foto ${index + 2}`}
+                        fill
+                        sizes="(min-width: 1024px) 16vw, 33vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex h-80 items-center justify-center rounded-3xl bg-gradient-to-br from-primary/30 via-card to-secondary/10 text-9xl lg:h-[420px]">
+              <span className="animate-float-slow" aria-hidden="true">🐖</span>
+            </div>
+          )}
         </AnimateIn>
 
         {/* Info */}

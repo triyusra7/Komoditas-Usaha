@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { t, tc, type Language } from "@/lib/i18n";
 
 export type TraceabilityStage = {
@@ -7,6 +9,7 @@ export type TraceabilityStage = {
   description: string | null;
   location: string | null;
   happenedAt: string;
+  photoUrl?: string | null;
   meta: Record<string, string>;
 };
 
@@ -30,20 +33,20 @@ const EVENT_META_BY_COMMODITY: Record<string, Record<string, { icon: string; lab
 };
 
 const META_KEY_LABEL: Record<string, Record<Language, string>> = {
-  umur_saat_beli: { id: "Umur saat beli", en: "Age at purchase" },
-  tanggal_lahir: { id: "Tanggal lahir", en: "Date of birth" },
-  jenis: { id: "Jenis", en: "Type" },
-  moda: { id: "Moda", en: "Mode" },
-  lama_perjalanan: { id: "Lama perjalanan", en: "Travel duration" },
-  blok: { id: "Blok kandang", en: "Pen block" },
-  kondisi: { id: "Kondisi", en: "Condition" },
-  bobot: { id: "Bobot", en: "Weight" },
-  umur: { id: "Umur", en: "Age" },
-  pakan: { id: "Pakan", en: "Feed" },
-  vaksin: { id: "Vaksin", en: "Vaccine" },
-  hasil: { id: "Hasil", en: "Result" },
-  bobot_potong: { id: "Bobot potong", en: "Slaughter weight" },
-  rendemen: { id: "Rendemen karkas", en: "Carcass yield" },
+  umur_saat_beli: { id: "Umur saat beli", en: "Age at purchase", zh: "购买时月龄" },
+  tanggal_lahir: { id: "Tanggal lahir", en: "Date of birth", zh: "出生日期" },
+  jenis: { id: "Jenis", en: "Type", zh: "类型" },
+  moda: { id: "Moda", en: "Mode", zh: "运输方式" },
+  lama_perjalanan: { id: "Lama perjalanan", en: "Travel duration", zh: "运输时长" },
+  blok: { id: "Blok kandang", en: "Pen block", zh: "舍区/栏位" },
+  kondisi: { id: "Kondisi", en: "Condition", zh: "状态" },
+  bobot: { id: "Bobot", en: "Weight", zh: "体重" },
+  umur: { id: "Umur", en: "Age", zh: "月龄" },
+  pakan: { id: "Pakan", en: "Feed", zh: "饲料" },
+  vaksin: { id: "Vaksin", en: "Vaccine", zh: "疫苗" },
+  hasil: { id: "Hasil", en: "Result", zh: "结果" },
+  bobot_potong: { id: "Bobot potong", en: "Slaughter weight", zh: "出栏体重" },
+  rendemen: { id: "Rendemen karkas", en: "Carcass yield", zh: "屠宰率" },
 };
 
 type TraceabilityTimelineProps = {
@@ -100,6 +103,17 @@ export function TraceabilityTimeline({ stages, commodityType, lang = "id" }: Tra
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   {tc(stage.description, lang)}
                 </p>
+              )}
+              {stage.photoUrl && (
+                <div className="relative mt-3 h-52 overflow-hidden rounded-xl border-2 border-secondary shadow-[3px_3px_0px_#1d2b1f]">
+                  <Image
+                    src={stage.photoUrl}
+                    alt={tc(stage.title, lang)}
+                    fill
+                    sizes="(min-width: 768px) 40rem, 100vw"
+                    className="object-cover"
+                  />
+                </div>
               )}
               {metaEntries.length > 0 && (
                 <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1.5 border-t border-foreground/10 pt-3 sm:grid-cols-3">

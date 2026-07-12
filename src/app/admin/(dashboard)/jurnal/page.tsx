@@ -1,28 +1,51 @@
+import { CreateButton, FormModal } from "@/components/admin/modal";
 import { PageHeader } from "@/components/admin/page-header";
 import { reverseJournalEntry } from "@/app/admin/(dashboard)/transaksi/actions";
 import { formatRupiah } from "@/lib/accounting/period";
 import { requireRole } from "@/lib/auth/access-control";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function JurnalPage() {
+import { ManualJournalForm } from "./manual-journal-form";
+
+export default async function JurnalPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ new?: string }>;
+}) {
   await requireRole("owner");
+  const { new: isCreating } = await searchParams;
 
   const supabase = await createClient();
-  const { data: entries } = await supabase
-    .from("journal_entries")
-    .select(
-      "id, entry_date, memo, source_type, status, journal_lines(debit, credit, accounts(code, name))",
-    )
-    .order("entry_date", { ascending: false })
-    .order("created_at", { ascending: false })
-    .limit(50);
+  const [{ data: entries }, { data: accounts }] = await Promise.all([
+    supabase
+      .from("journal_entries")
+      .select(
+        "id, entry_date, memo, source_type, status, journal_lines(debit, credit, accounts(code, name))",
+      )
+      .order("entry_date", { ascending: false })
+      .order("created_at", { ascending: false })
+      .limit(50),
+    supabase.from("accounts").select("code, name").eq("is_active", true).order("code"),
+  ]);
 
   return (
     <div>
       <PageHeader
         title="Daftar Jurnal"
-        subtitle="Semua jurnal double-entry — dibuat otomatis dari transaksi"
+        subtitle="Jurnal double-entry — otomatis dari transaksi, atau tulis manual"
+        actions={<CreateButton label="Jurnal Manual" />}
       />
+
+      {isCreating && (
+        <FormModal
+          title="Buat Jurnal Manual"
+          subtitle="Jurnal umum untuk penyesuaian/kasus khusus — wajib balance"
+          closeHref="/admin/jurnal"
+          wide
+        >
+          <ManualJournalForm accounts={accounts ?? []} />
+        </FormModal>
+      )}
 
       <div className="space-y-3">
         {(entries ?? []).map((entry) => {
@@ -36,7 +59,7 @@ export default async function JurnalPage() {
                   </span>
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold">{entry.memo ?? "-"}</p>
-                    <p className="text-xs text-[#8896ab]">
+                    <p className="text-xs text-muted-foreground">
                       {new Date(entry.entry_date).toLocaleDateString("id-ID", {
                         day: "numeric",
                         month: "long",
@@ -53,10 +76,10 @@ export default async function JurnalPage() {
                   >
                     {entry.status === "posted" ? "Posted" : "Void"}
                   </span>
-                  <span className="text-xs text-[#8896ab] group-open:rotate-180">▼</span>
+                  <span className="text-xs text-muted-foreground group-open:rotate-180">▼</span>
                 </div>
               </summary>
-              <div className="border-t border-[#f0f4f8] px-4 pb-4">
+              <div className="border-t border-foreground/10 px-4 pb-4">
                 <table className="adm-table mt-3">
                   <thead>
                     <tr>
@@ -91,7 +114,7 @@ export default async function JurnalPage() {
                 {entry.status === "posted" && (
                   <form action={reverseJournalEntry.bind(null, entry.id)} className="mt-3">
                     <button type="submit" className="adm-btn adm-btn-danger adm-btn-sm">
-                      ↩️ Reversal (batalkan dengan jurnal pembalik)
+                      Reversal (batalkan dengan jurnal pembalik)
                     </button>
                   </form>
                 )}
@@ -101,7 +124,7 @@ export default async function JurnalPage() {
         })}
 
         {(!entries || entries.length === 0) && (
-          <div className="adm-card p-10 text-center text-sm text-[#8896ab]">
+          <div className="adm-card p-10 text-center text-sm text-muted-foreground">
             Belum ada jurnal. Catat transaksi di menu <b>Transaksi</b> — jurnal akan dibuat
             otomatis.
           </div>

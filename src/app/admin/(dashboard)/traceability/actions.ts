@@ -1,11 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { requireRole } from "@/lib/auth/access-control";
 import { TraceabilityService } from "@/lib/services/traceability-service";
 import { createClient } from "@/lib/supabase/server";
+import { getUploadedFiles, uploadImage } from "@/lib/supabase/storage";
 
 const createSubjectSchema = z.object({
   code: z.string().min(2),
@@ -38,6 +40,7 @@ export async function createSubject(formData: FormData): Promise<void> {
   });
 
   revalidatePath("/admin/traceability");
+  redirect("/admin/traceability");
 }
 
 export async function toggleSubjectPublic(id: string, isPublic: boolean): Promise<void> {
@@ -88,6 +91,10 @@ export async function createEvent(formData: FormData): Promise<void> {
   });
 
   const supabase = await createClient();
+
+  const [photo] = getUploadedFiles(formData, "photo");
+  const photoUrl = photo ? await uploadImage(supabase, photo, "trace-events") : null;
+
   const traceability = new TraceabilityService(supabase);
   await traceability.createEvent({
     subject_id: parsed.subjectId,
@@ -98,6 +105,7 @@ export async function createEvent(formData: FormData): Promise<void> {
     happened_at: parsed.happenedAt,
     meta: parsed.extraNote ? { catatan: parsed.extraNote } : {},
     is_public: parsed.isPublic,
+    photo_url: photoUrl,
     created_by: user.id,
   });
 
@@ -110,4 +118,5 @@ export async function createEvent(formData: FormData): Promise<void> {
 
   revalidatePath(`/admin/traceability/${parsed.subjectId}`);
   revalidatePath("/admin/traceability");
+  redirect(`/admin/traceability/${parsed.subjectId}`);
 }

@@ -93,6 +93,7 @@ export default async function JejakDetailPage({
               description: event.description,
               location: event.location,
               happenedAt: event.happened_at,
+              photoUrl: event.photo_url,
               meta: (event.meta ?? {}) as Record<string, string>,
             }))}
           />

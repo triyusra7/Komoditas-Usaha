@@ -1,0 +1,73 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
+import { requireRole } from "@/lib/auth/access-control";
+import { ContentService } from "@/lib/services/content-service";
+import { createClient } from "@/lib/supabase/server";
+
+const createProductSchema = z.object({
+  categoryId: z.string().uuid(),
+  slug: z
+    .string()
+    .min(2)
+    .regex(/^[a-z0-9-]+$/, "Slug hanya boleh huruf kecil, angka, dan tanda hubung"),
+  name: z.string().min(2),
+  description: z.string().optional(),
+  unit: z.string().optional(),
+  priceNumeric: z.coerce.number().nonnegative().optional(),
+});
+
+export async function createProduct(formData: FormData): Promise<void> {
+  await requireRole("owner");
+
+  const parsed = createProductSchema.parse({
+    categoryId: formData.get("categoryId"),
+    slug: formData.get("slug"),
+    name: formData.get("name"),
+    description: formData.get("description") || undefined,
+    unit: formData.get("unit") || undefined,
+    priceNumeric: formData.get("priceNumeric") || undefined,
+  });
+
+  const supabase = await createClient();
+  const content = new ContentService(supabase);
+  await content.createProduct({
+    category_id: parsed.categoryId,
+    slug: parsed.slug,
+    name: parsed.name,
+    description: parsed.description ?? null,
+    unit: parsed.unit ?? null,
+    price_numeric: parsed.priceNumeric ?? null,
+  });
+
+  revalidatePath("/admin/produk");
+}
+
+export async function toggleProductPublic(id: string, isPublic: boolean): Promise<void> {
+  await requireRole("owner");
+  const supabase = await createClient();
+  const content = new ContentService(supabase);
+  await content.updateProduct(id, {
+    is_public: isPublic,
+    status: isPublic ? "published" : "draft",
+  });
+  revalidatePath("/admin/produk");
+}
+
+export async function togglePriceVisible(id: string, priceVisible: boolean): Promise<void> {
+  await requireRole("owner");
+  const supabase = await createClient();
+  const content = new ContentService(supabase);
+  await content.updateProduct(id, { price_visible: priceVisible });
+  revalidatePath("/admin/produk");
+}
+
+export async function deleteProduct(id: string): Promise<void> {
+  await requireRole("owner");
+  const supabase = await createClient();
+  const content = new ContentService(supabase);
+  await content.deleteProduct(id);
+  revalidatePath("/admin/produk");
+}

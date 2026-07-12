@@ -41,6 +41,14 @@ type TrialBalanceRow = {
   credit: number;
 };
 
+export type LedgerRow = {
+  entryDate: string;
+  memo: string;
+  sourceType: string;
+  debit: number;
+  credit: number;
+};
+
 /**
  * The accounting engine's only entry point for posting/reversing journal
  * entries. Every invariant (balance, no hard deletes) is enforced here AND
@@ -159,6 +167,40 @@ export class LedgerService {
     }
 
     return [...totals.values()].sort((a, b) => a.accountCode.localeCompare(b.accountCode));
+  }
+
+  /** Chronological mutations of one account within a period — the Buku Besar rows. */
+  async getLedgerRows(accountCode: string, from: string, to: string): Promise<LedgerRow[]> {
+    const { data, error } = await this.supabase
+      .from("journal_lines")
+      .select(
+        "debit, credit, accounts!inner(code), journal_entries!inner(entry_date, memo, source_type, status)",
+      )
+      .eq("accounts.code", accountCode)
+      .gte("journal_entries.entry_date", from)
+      .lte("journal_entries.entry_date", to)
+      .eq("journal_entries.status", "posted");
+
+    if (error || !data) {
+      throw new Error(`Failed to load ledger rows: ${error?.message}`);
+    }
+
+    return data
+      .map((row) => {
+        const entry = row.journal_entries as unknown as {
+          entry_date: string;
+          memo: string | null;
+          source_type: string | null;
+        };
+        return {
+          entryDate: entry.entry_date,
+          memo: entry.memo ?? "-",
+          sourceType: entry.source_type ?? "manual",
+          debit: row.debit,
+          credit: row.credit,
+        };
+      })
+      .sort((a, b) => a.entryDate.localeCompare(b.entryDate));
   }
 
   async getAccountBalance(accountCode: string, asOf: string): Promise<number> {

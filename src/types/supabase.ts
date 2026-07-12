@@ -89,6 +89,7 @@ export type Database = {
       commodity_categories: {
         Row: {
           commodity_type: Database["public"]["Enums"]["commodity_type"]
+          cover_image: string | null
           created_at: string
           description: string | null
           id: string
@@ -101,6 +102,7 @@ export type Database = {
         }
         Insert: {
           commodity_type: Database["public"]["Enums"]["commodity_type"]
+          cover_image?: string | null
           created_at?: string
           description?: string | null
           id?: string
@@ -113,6 +115,7 @@ export type Database = {
         }
         Update: {
           commodity_type?: Database["public"]["Enums"]["commodity_type"]
+          cover_image?: string | null
           created_at?: string
           description?: string | null
           id?: string
@@ -336,6 +339,7 @@ export type Database = {
           contact: string
           created_at: string
           id: string
+          interest: string | null
           message: string | null
           name: string
           source_page: string | null
@@ -344,6 +348,7 @@ export type Database = {
           contact: string
           created_at?: string
           id?: string
+          interest?: string | null
           message?: string | null
           name: string
           source_page?: string | null
@@ -352,6 +357,7 @@ export type Database = {
           contact?: string
           created_at?: string
           id?: string
+          interest?: string | null
           message?: string | null
           name?: string
           source_page?: string | null
@@ -429,8 +435,10 @@ export type Database = {
       }
       products: {
         Row: {
+          availability: Database["public"]["Enums"]["product_availability"]
+          breed: string | null
           category_id: string
-          cover_image_url: string | null
+          cover_image: string | null
           created_at: string
           created_by: string | null
           description: string | null
@@ -440,14 +448,18 @@ export type Database = {
           name: string
           price_numeric: number | null
           price_visible: boolean
+          short_desc: string | null
           slug: string
+          sort: number
           status: Database["public"]["Enums"]["product_status"]
           unit: string | null
           updated_at: string
         }
         Insert: {
+          availability?: Database["public"]["Enums"]["product_availability"]
+          breed?: string | null
           category_id: string
-          cover_image_url?: string | null
+          cover_image?: string | null
           created_at?: string
           created_by?: string | null
           description?: string | null
@@ -457,14 +469,18 @@ export type Database = {
           name: string
           price_numeric?: number | null
           price_visible?: boolean
+          short_desc?: string | null
           slug: string
+          sort?: number
           status?: Database["public"]["Enums"]["product_status"]
           unit?: string | null
           updated_at?: string
         }
         Update: {
+          availability?: Database["public"]["Enums"]["product_availability"]
+          breed?: string | null
           category_id?: string
-          cover_image_url?: string | null
+          cover_image?: string | null
           created_at?: string
           created_by?: string | null
           description?: string | null
@@ -474,7 +490,9 @@ export type Database = {
           name?: string
           price_numeric?: number | null
           price_visible?: boolean
+          short_desc?: string | null
           slug?: string
+          sort?: number
           status?: Database["public"]["Enums"]["product_status"]
           unit?: string | null
           updated_at?: string
@@ -525,11 +543,11 @@ export type Database = {
           address: string | null
           business_name: string
           email: string | null
-          hero_heading: string | null
-          hero_subheading: string | null
+          tagline: string | null
+          hero_text: string | null
           id: boolean
           logo_url: string | null
-          social: Json
+          social_links: Json
           updated_at: string
           whatsapp_number: string | null
         }
@@ -537,11 +555,11 @@ export type Database = {
           address?: string | null
           business_name?: string
           email?: string | null
-          hero_heading?: string | null
-          hero_subheading?: string | null
+          tagline?: string | null
+          hero_text?: string | null
           id?: boolean
           logo_url?: string | null
-          social?: Json
+          social_links?: Json
           updated_at?: string
           whatsapp_number?: string | null
         }
@@ -549,11 +567,11 @@ export type Database = {
           address?: string | null
           business_name?: string
           email?: string | null
-          hero_heading?: string | null
-          hero_subheading?: string | null
+          tagline?: string | null
+          hero_text?: string | null
           id?: boolean
           logo_url?: string | null
-          social?: Json
+          social_links?: Json
           updated_at?: string
           whatsapp_number?: string | null
         }
@@ -594,6 +612,8 @@ export type Database = {
           is_public: boolean
           location: string | null
           meta: Json
+          photo_url: string | null
+          sort: number
           subject_id: string
           title: string
         }
@@ -607,6 +627,8 @@ export type Database = {
           is_public?: boolean
           location?: string | null
           meta?: Json
+          photo_url?: string | null
+          sort?: number
           subject_id: string
           title: string
         }
@@ -620,6 +642,8 @@ export type Database = {
           is_public?: boolean
           location?: string | null
           meta?: Json
+          photo_url?: string | null
+          sort?: number
           subject_id?: string
           title?: string
         }
@@ -652,6 +676,7 @@ export type Database = {
           is_public: boolean
           product_id: string | null
           public_slug: string
+          title: string | null
           updated_at: string
         }
         Insert: {
@@ -665,6 +690,7 @@ export type Database = {
           is_public?: boolean
           product_id?: string | null
           public_slug: string
+          title?: string | null
           updated_at?: string
         }
         Update: {
@@ -678,6 +704,7 @@ export type Database = {
           is_public?: boolean
           product_id?: string | null
           public_slug?: string
+          title?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -771,8 +798,9 @@ export type Database = {
     Enums: {
       account_type: "asset" | "liability" | "equity" | "income" | "expense"
       category_status: "active" | "coming_soon"
-      commodity_type: "babi" | "kopi" | "perikanan"
+      commodity_type: "pig" | "coffee" | "fishery"
       journal_status: "posted" | "void"
+      product_availability: "available" | "preorder" | "sold_out"
       normal_side: "debit" | "credit"
       product_status: "draft" | "published" | "archived"
       transaction_type:
@@ -918,8 +946,9 @@ export const Constants = {
     Enums: {
       account_type: ["asset", "liability", "equity", "income", "expense"],
       category_status: ["active", "coming_soon"],
-      commodity_type: ["babi", "kopi", "perikanan"],
+      commodity_type: ["pig", "coffee", "fishery"],
       journal_status: ["posted", "void"],
+      product_availability: ["available", "preorder", "sold_out"],
       normal_side: ["debit", "credit"],
       product_status: ["draft", "published", "archived"],
       transaction_type: [

@@ -2,24 +2,13 @@
 
 import { useActionState, useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import { postTransaction } from "./actions";
 
 const TYPE_LABEL: Record<string, string> = {
   sale: "Penjualan",
   purchase_feed: "Pembelian Pakan",
   purchase_livestock: "Pembelian Ternak/Bibit",
-  purchase_medicine: "Pembelian Obat",
+  purchase_medicine: "Pembelian Obat/Vaksin",
   purchase_asset: "Pembelian Aset/CAPEX",
   purchase_service: "Pembelian Jasa",
   investor_contribution: "Setoran Modal Investor",
@@ -45,74 +34,127 @@ export function TransactionForm() {
 
   return (
     <form action={formAction} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="type">Jenis Transaksi</Label>
-        <Select
+      <div>
+        <label htmlFor="type" className="adm-label">
+          Jenis Transaksi
+        </label>
+        <select
+          id="type"
           name="type"
           value={type}
-          onValueChange={(value) => setType(value ?? "sale")}
+          onChange={(event) => setType(event.target.value)}
+          className="adm-input"
         >
-          <SelectTrigger id="type">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.entries(TYPE_LABEL).map(([value, label]) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+          {Object.entries(TYPE_LABEL).map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="entryDate">Tanggal</Label>
-        <Input id="entryDate" name="entryDate" type="date" required />
+      <div>
+        <label htmlFor="entryDate" className="adm-label">
+          Tanggal
+        </label>
+        <input id="entryDate" name="entryDate" type="date" required className="adm-input" />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="memo">Keterangan</Label>
-        <Input id="memo" name="memo" required placeholder="Penjualan karkas ke katering IMIP" />
+      <div>
+        <label htmlFor="memo" className="adm-label">
+          Keterangan
+        </label>
+        <input
+          id="memo"
+          name="memo"
+          required
+          placeholder="Contoh: Penjualan karkas ke katering IMIP"
+          className="adm-input"
+        />
       </div>
 
       {type !== "loan_repayment" && (
-        <div className="space-y-2">
-          <Label htmlFor="amount">Nominal (Rp)</Label>
-          <Input id="amount" name="amount" type="number" min={0} step="1" required />
+        <div>
+          <label htmlFor="amount" className="adm-label">
+            Nominal (Rp)
+          </label>
+          <input
+            id="amount"
+            name="amount"
+            type="number"
+            min={0}
+            step="1"
+            required
+            className="adm-input"
+          />
         </div>
       )}
 
       {type === "sale" && (
-        <div className="space-y-2">
-          <Label htmlFor="cogsAmount">HPP (opsional, Rp)</Label>
-          <Input id="cogsAmount" name="cogsAmount" type="number" min={0} step="1" />
+        <div>
+          <label htmlFor="cogsAmount" className="adm-label">
+            HPP (opsional, Rp)
+          </label>
+          <input
+            id="cogsAmount"
+            name="cogsAmount"
+            type="number"
+            min={0}
+            step="1"
+            className="adm-input"
+          />
         </div>
       )}
 
       {type === "loan_repayment" && (
         <>
-          <div className="space-y-2">
-            <Label htmlFor="principalAmount">Pokok (Rp)</Label>
-            <Input id="principalAmount" name="principalAmount" type="number" min={0} step="1" />
+          <div>
+            <label htmlFor="principalAmount" className="adm-label">
+              Pokok (Rp)
+            </label>
+            <input
+              id="principalAmount"
+              name="principalAmount"
+              type="number"
+              min={0}
+              step="1"
+              className="adm-input"
+            />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="interestAmount">Bunga (Rp)</Label>
-            <Input id="interestAmount" name="interestAmount" type="number" min={0} step="1" />
+          <div>
+            <label htmlFor="interestAmount" className="adm-label">
+              Bunga (Rp)
+            </label>
+            <input
+              id="interestAmount"
+              name="interestAmount"
+              type="number"
+              min={0}
+              step="1"
+              className="adm-input"
+            />
           </div>
         </>
       )}
 
       {CASH_TOGGLE_TYPES.has(type) && (
-        <div className="flex items-center gap-2">
-          <input id="isCash" name="isCash" type="checkbox" className="size-4" defaultChecked />
-          <Label htmlFor="isCash">Tunai (uncheck untuk piutang/utang usaha)</Label>
-        </div>
+        <label className="flex items-center gap-2 text-sm text-[#4a5568]">
+          <input name="isCash" type="checkbox" className="size-4" defaultChecked />
+          Tunai (hilangkan centang untuk piutang/utang usaha)
+        </label>
       )}
 
-      {state?.error && <p className="text-sm text-destructive">{state.error}</p>}
-      <Button type="submit" disabled={isPending}>
-        {isPending ? "Memposting..." : "Posting Transaksi"}
-      </Button>
+      {state?.error && (
+        <p className="rounded-lg bg-[#fdeaea] px-3 py-2 text-sm font-semibold text-[#c53030]">
+          {state.error}
+        </p>
+      )}
+      <button type="submit" disabled={isPending} className="adm-btn adm-btn-primary w-full justify-center">
+        {isPending ? "Memposting..." : "💾 Posting Transaksi"}
+      </button>
+      <p className="text-xs text-[#8896ab]">
+        Jurnal double-entry dibuat otomatis. Anda tidak perlu memahami debit/kredit.
+      </p>
     </form>
   );
 }

@@ -14,9 +14,12 @@ const createProductSchema = z.object({
     .min(2)
     .regex(/^[a-z0-9-]+$/, "Slug hanya boleh huruf kecil, angka, dan tanda hubung"),
   name: z.string().min(2),
+  shortDesc: z.string().optional(),
   description: z.string().optional(),
+  breed: z.string().optional(),
   unit: z.string().optional(),
   priceNumeric: z.coerce.number().nonnegative().optional(),
+  availability: z.enum(["available", "preorder", "sold_out"]),
 });
 
 export async function createProduct(formData: FormData): Promise<void> {
@@ -26,9 +29,12 @@ export async function createProduct(formData: FormData): Promise<void> {
     categoryId: formData.get("categoryId"),
     slug: formData.get("slug"),
     name: formData.get("name"),
+    shortDesc: formData.get("shortDesc") || undefined,
     description: formData.get("description") || undefined,
+    breed: formData.get("breed") || undefined,
     unit: formData.get("unit") || undefined,
     priceNumeric: formData.get("priceNumeric") || undefined,
+    availability: formData.get("availability") ?? "available",
   });
 
   const supabase = await createClient();
@@ -37,12 +43,16 @@ export async function createProduct(formData: FormData): Promise<void> {
     category_id: parsed.categoryId,
     slug: parsed.slug,
     name: parsed.name,
+    short_desc: parsed.shortDesc ?? null,
     description: parsed.description ?? null,
+    breed: parsed.breed ?? null,
     unit: parsed.unit ?? null,
     price_numeric: parsed.priceNumeric ?? null,
+    availability: parsed.availability,
   });
 
   revalidatePath("/admin/produk");
+  revalidatePath("/");
 }
 
 export async function toggleProductPublic(id: string, isPublic: boolean): Promise<void> {
@@ -54,6 +64,7 @@ export async function toggleProductPublic(id: string, isPublic: boolean): Promis
     status: isPublic ? "published" : "draft",
   });
   revalidatePath("/admin/produk");
+  revalidatePath("/");
 }
 
 export async function togglePriceVisible(id: string, priceVisible: boolean): Promise<void> {
@@ -62,6 +73,7 @@ export async function togglePriceVisible(id: string, priceVisible: boolean): Pro
   const content = new ContentService(supabase);
   await content.updateProduct(id, { price_visible: priceVisible });
   revalidatePath("/admin/produk");
+  revalidatePath("/");
 }
 
 export async function deleteProduct(id: string): Promise<void> {
@@ -70,4 +82,5 @@ export async function deleteProduct(id: string): Promise<void> {
   const content = new ContentService(supabase);
   await content.deleteProduct(id);
   revalidatePath("/admin/produk");
+  revalidatePath("/");
 }

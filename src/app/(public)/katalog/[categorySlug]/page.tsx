@@ -1,13 +1,21 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
+import { ProductCard } from "@/components/catalog-cards";
+import { buttonVariants } from "@/components/ui/button";
 import { PublicDataService } from "@/lib/services/public-data-service";
 import { createClient } from "@/lib/supabase/server";
 
 export const revalidate = 60;
 
-function formatRupiah(amount: number): string {
-  return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(amount);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ categorySlug: string }>;
+}): Promise<Metadata> {
+  const { categorySlug } = await params;
+  return { title: `Katalog ${categorySlug.charAt(0).toUpperCase()}${categorySlug.slice(1)}` };
 }
 
 export default async function KategoriKatalogPage({
@@ -22,40 +30,38 @@ export default async function KategoriKatalogPage({
   const categories = await publicData.getCategories();
   const category = categories.find((c) => c.slug === categorySlug);
 
-  if (!category) notFound();
+  if (!category || category.status !== "active") notFound();
 
   const products = await publicData.getProducts({ categorySlug });
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
-      <h1 className="font-heading text-3xl font-bold">{category.name}</h1>
-      {category.description && <p className="mt-2 text-muted-foreground">{category.description}</p>}
+      <Link href="/katalog" className="text-sm text-muted-foreground hover:underline">
+        ← Semua kategori
+      </Link>
+      <h1 className="mt-4 font-heading text-4xl font-bold">{category.name}</h1>
+      {category.description && (
+        <p className="mt-2 max-w-2xl text-muted-foreground">{category.description}</p>
+      )}
 
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {products.map((product) => (
-          <Link
-            key={product.id}
-            href={`/produk/${product.slug}`}
-            className="rounded-lg border border-border p-6 transition-colors hover:border-primary"
-          >
-            <h2 className="font-heading text-lg font-semibold">{product.name}</h2>
-            {product.description && (
-              <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-                {product.description}
-              </p>
-            )}
-            {product.price_visible && product.price_numeric != null && (
-              <p className="mt-3 font-semibold">
-                {formatRupiah(product.price_numeric)}
-                {product.unit && <span className="text-sm font-normal"> / {product.unit}</span>}
-              </p>
-            )}
-          </Link>
+          <ProductCard key={product.id} product={product} />
         ))}
-        {products.length === 0 && (
-          <p className="text-sm text-muted-foreground">Belum ada produk publik di kategori ini.</p>
-        )}
       </div>
+
+      {products.length === 0 && (
+        <div className="mt-10 rounded-2xl border border-dashed border-foreground/20 p-12 text-center">
+          <p className="text-lg font-semibold">Produk sedang disiapkan</p>
+          <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+            Kami sedang melengkapi katalog kategori ini. Hubungi kami untuk informasi
+            ketersediaan terbaru.
+          </p>
+          <Link href="/kontak" className={`${buttonVariants({ size: "lg" })} mt-6`}>
+            Hubungi Kami
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,24 +1,16 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { PageHeader } from "@/components/admin/page-header";
+import { formatRupiah } from "@/lib/accounting/period";
 import { requireRole } from "@/lib/auth/access-control";
 import { ContentService } from "@/lib/services/content-service";
 import { createClient } from "@/lib/supabase/server";
 
 import { createProduct, deleteProduct, togglePriceVisible, toggleProductPublic } from "./actions";
 
-function formatRupiah(amount: number): string {
-  return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(amount);
-}
+const AVAILABILITY_LABEL: Record<string, string> = {
+  available: "Tersedia",
+  preorder: "Pre-Order",
+  sold_out: "Habis",
+};
 
 export default async function ProdukPage() {
   await requireRole("owner", "staff");
@@ -31,105 +23,155 @@ export default async function ProdukPage() {
   ]);
 
   return (
-    <div className="space-y-8">
-      <h1 className="font-heading text-2xl font-bold">Produk</h1>
+    <div>
+      <PageHeader title="Produk" subtitle="Katalog produk yang tampil di website publik" />
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Nama</TableHead>
-            <TableHead>Harga</TableHead>
-            <TableHead>Harga Tampil</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Publik</TableHead>
-            <TableHead className="text-right">Aksi</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {products.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell className="font-medium">{product.name}</TableCell>
-              <TableCell>
-                {product.price_numeric != null ? formatRupiah(product.price_numeric) : "-"}
-              </TableCell>
-              <TableCell>
-                <form action={togglePriceVisible.bind(null, product.id, !product.price_visible)}>
-                  <Button type="submit" size="sm" variant="outline">
-                    {product.price_visible ? "Tampil" : "Sembunyi"}
-                  </Button>
-                </form>
-              </TableCell>
-              <TableCell>
-                <Badge variant={product.status === "published" ? "default" : "secondary"}>
-                  {product.status}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <form action={toggleProductPublic.bind(null, product.id, !product.is_public)}>
-                  <Button type="submit" size="sm" variant={product.is_public ? "default" : "outline"}>
-                    {product.is_public ? "Publik" : "Draft"}
-                  </Button>
-                </form>
-              </TableCell>
-              <TableCell className="text-right">
-                <form action={deleteProduct.bind(null, product.id)}>
-                  <Button type="submit" size="sm" variant="ghost" className="text-destructive">
-                    Hapus
-                  </Button>
-                </form>
-              </TableCell>
-            </TableRow>
-          ))}
-          {products.length === 0 && (
-            <TableRow>
-              <TableCell colSpan={6} className="text-center text-muted-foreground">
-                Belum ada produk.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-
-      <div className="max-w-md space-y-4 rounded-lg border border-border p-6">
-        <h2 className="font-heading text-lg font-semibold">Tambah Produk</h2>
-        <form action={createProduct} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="categoryId">Kategori</Label>
-            <Select name="categoryId" required>
-              <SelectTrigger id="categoryId">
-                <SelectValue placeholder="Pilih kategori" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
-                    {category.name}
-                  </SelectItem>
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-3">
+        <div className="adm-card p-5 xl:col-span-2">
+          <div className="overflow-x-auto">
+            <table className="adm-table">
+              <thead>
+                <tr>
+                  <th>Nama</th>
+                  <th>Jenis</th>
+                  <th className="text-right">Harga</th>
+                  <th>Harga Tampil</th>
+                  <th>Ketersediaan</th>
+                  <th>Publik</th>
+                  <th className="text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.map((product) => (
+                  <tr key={product.id}>
+                    <td className="max-w-48">
+                      <p className="truncate font-semibold">{product.name}</p>
+                      <p className="truncate text-xs text-[#8896ab]">/{product.slug}</p>
+                    </td>
+                    <td>{product.breed ?? "-"}</td>
+                    <td className="adm-amount">
+                      {product.price_numeric != null ? formatRupiah(product.price_numeric) : "-"}
+                    </td>
+                    <td>
+                      <form action={togglePriceVisible.bind(null, product.id, !product.price_visible)}>
+                        <button
+                          type="submit"
+                          className={`adm-badge ${product.price_visible ? "adm-badge-blue" : "adm-badge-gray"} cursor-pointer`}
+                        >
+                          {product.price_visible ? "Tampil" : "Sembunyi"}
+                        </button>
+                      </form>
+                    </td>
+                    <td>
+                      <span className="adm-badge adm-badge-gray">
+                        {AVAILABILITY_LABEL[product.availability] ?? product.availability}
+                      </span>
+                    </td>
+                    <td>
+                      <form action={toggleProductPublic.bind(null, product.id, !product.is_public)}>
+                        <button
+                          type="submit"
+                          className={`adm-badge ${product.is_public ? "adm-badge-green" : "adm-badge-gray"} cursor-pointer`}
+                        >
+                          {product.is_public ? "Publik" : "Draft"}
+                        </button>
+                      </form>
+                    </td>
+                    <td className="text-right">
+                      <form action={deleteProduct.bind(null, product.id)}>
+                        <button type="submit" className="adm-btn adm-btn-danger adm-btn-sm">
+                          Hapus
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
                 ))}
-              </SelectContent>
-            </Select>
+                {products.length === 0 && (
+                  <tr>
+                    <td colSpan={7} className="py-8 text-center text-[#8896ab]">
+                      Belum ada produk.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="name">Nama Produk</Label>
-            <Input id="name" name="name" required placeholder="Karkas Babi Duroc" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="slug">Slug</Label>
-            <Input id="slug" name="slug" required placeholder="karkas-babi-duroc" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="unit">Satuan</Label>
-            <Input id="unit" name="unit" placeholder="kg" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="priceNumeric">Harga (Rp)</Label>
-            <Input id="priceNumeric" name="priceNumeric" type="number" min={0} step="1" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="description">Deskripsi</Label>
-            <Input id="description" name="description" />
-          </div>
-          <Button type="submit">Simpan Produk</Button>
-        </form>
+        </div>
+
+        <div className="adm-card h-fit p-5">
+          <h3 className="mb-4 text-sm font-bold text-[#1e3f5c]">➕ Tambah Produk</h3>
+          <form action={createProduct} className="space-y-4">
+            <div>
+              <label htmlFor="categoryId" className="adm-label">
+                Kategori
+              </label>
+              <select id="categoryId" name="categoryId" required className="adm-input">
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="name" className="adm-label">
+                Nama Produk
+              </label>
+              <input id="name" name="name" required placeholder="Karkas Babi Duroc" className="adm-input" />
+            </div>
+            <div>
+              <label htmlFor="slug" className="adm-label">
+                Slug
+              </label>
+              <input id="slug" name="slug" required placeholder="karkas-babi-duroc" className="adm-input" />
+            </div>
+            <div>
+              <label htmlFor="breed" className="adm-label">
+                Jenis/Breed
+              </label>
+              <input id="breed" name="breed" placeholder="Duroc" className="adm-input" />
+            </div>
+            <div>
+              <label htmlFor="shortDesc" className="adm-label">
+                Ringkasan (1 baris, untuk kartu)
+              </label>
+              <input id="shortDesc" name="shortDesc" className="adm-input" />
+            </div>
+            <div>
+              <label htmlFor="description" className="adm-label">
+                Deskripsi Lengkap
+              </label>
+              <textarea id="description" name="description" rows={3} className="adm-input" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label htmlFor="unit" className="adm-label">
+                  Satuan
+                </label>
+                <input id="unit" name="unit" placeholder="kg" className="adm-input" />
+              </div>
+              <div>
+                <label htmlFor="priceNumeric" className="adm-label">
+                  Harga (Rp)
+                </label>
+                <input id="priceNumeric" name="priceNumeric" type="number" min={0} step="1" className="adm-input" />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="availability" className="adm-label">
+                Ketersediaan
+              </label>
+              <select id="availability" name="availability" defaultValue="available" className="adm-input">
+                <option value="available">Tersedia</option>
+                <option value="preorder">Pre-Order</option>
+                <option value="sold_out">Habis</option>
+              </select>
+            </div>
+            <button type="submit" className="adm-btn adm-btn-primary w-full justify-center">
+              💾 Simpan Produk
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

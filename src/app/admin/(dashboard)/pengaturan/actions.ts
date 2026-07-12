@@ -9,8 +9,8 @@ import { createClient } from "@/lib/supabase/server";
 
 const settingsSchema = z.object({
   businessName: z.string().min(2),
-  heroHeading: z.string().optional(),
-  heroSubheading: z.string().optional(),
+  tagline: z.string().optional(),
+  heroText: z.string().optional(),
   whatsappNumber: z.string().optional(),
   email: z.string().email().optional().or(z.literal("")),
   address: z.string().optional(),
@@ -21,8 +21,8 @@ export async function updateSiteSettings(formData: FormData): Promise<void> {
 
   const parsed = settingsSchema.parse({
     businessName: formData.get("businessName"),
-    heroHeading: formData.get("heroHeading") || undefined,
-    heroSubheading: formData.get("heroSubheading") || undefined,
+    tagline: formData.get("tagline") || undefined,
+    heroText: formData.get("heroText") || undefined,
     whatsappNumber: formData.get("whatsappNumber") || undefined,
     email: formData.get("email") || "",
     address: formData.get("address") || undefined,
@@ -32,8 +32,8 @@ export async function updateSiteSettings(formData: FormData): Promise<void> {
   const content = new ContentService(supabase);
   await content.updateSiteSettings({
     business_name: parsed.businessName,
-    hero_heading: parsed.heroHeading ?? null,
-    hero_subheading: parsed.heroSubheading ?? null,
+    tagline: parsed.tagline ?? null,
+    hero_text: parsed.heroText ?? null,
     whatsapp_number: parsed.whatsappNumber ?? null,
     email: parsed.email || null,
     address: parsed.address ?? null,

@@ -7,11 +7,13 @@ export type PublicProduct = Tables<"products">;
 export type PublicTraceSubject = Tables<"trace_subjects">;
 export type PublicTraceEvent = Tables<"trace_events">;
 export type PublicSiteSettings = Tables<"site_settings">;
+export type PublicContentBlock = Tables<"content_blocks">;
 
 export type LeadPayload = {
   name: string;
   contact: string;
   message?: string;
+  interest?: string;
   sourcePage?: string;
 };
 
@@ -43,17 +45,30 @@ export class PublicDataService {
   }
 
   async getProducts(options?: { categorySlug?: string }): Promise<PublicProduct[]> {
-    let query = this.supabase.from("products").select("*, commodity_categories!inner(slug)").eq(
-      "is_public",
-      true,
-    );
+    let query = this.supabase
+      .from("products")
+      .select("*, commodity_categories!inner(slug)")
+      .eq("is_public", true);
 
     if (options?.categorySlug) {
       query = query.eq("commodity_categories.slug", options.categorySlug);
     }
 
-    const { data, error } = await query.order("created_at", { ascending: false });
+    const { data, error } = await query
+      .order("sort", { ascending: true })
+      .order("created_at", { ascending: false });
     if (error || !data) throw new Error(`Failed to load products: ${error?.message}`);
+    return data;
+  }
+
+  async getFeaturedProducts(limit = 4): Promise<PublicProduct[]> {
+    const { data, error } = await this.supabase
+      .from("products")
+      .select("*")
+      .eq("is_public", true)
+      .order("sort", { ascending: true })
+      .limit(limit);
+    if (error || !data) throw new Error(`Failed to load featured products: ${error?.message}`);
     return data;
   }
 
@@ -66,6 +81,26 @@ export class PublicDataService {
       .maybeSingle();
     if (error) throw new Error(`Failed to load product: ${error.message}`);
     return data;
+  }
+
+  /** Ordered blocks for an editable page (home/about). Empty array if page not public. */
+  async getPageBlocks(pageSlug: string): Promise<PublicContentBlock[]> {
+    const { data: page, error: pageError } = await this.supabase
+      .from("page_contents")
+      .select("id")
+      .eq("slug", pageSlug)
+      .eq("is_public", true)
+      .maybeSingle();
+    if (pageError) throw new Error(`Failed to load page: ${pageError.message}`);
+    if (!page) return [];
+
+    const { data: blocks, error: blocksError } = await this.supabase
+      .from("content_blocks")
+      .select("*")
+      .eq("page_id", page.id)
+      .order("sort_order", { ascending: true });
+    if (blocksError) throw new Error(`Failed to load blocks: ${blocksError.message}`);
+    return blocks ?? [];
   }
 
   async getTraceabilityBySlug(
@@ -86,7 +121,8 @@ export class PublicDataService {
       .select("*")
       .eq("subject_id", subject.id)
       .eq("is_public", true)
-      .order("happened_at", { ascending: true });
+      .order("happened_at", { ascending: true })
+      .order("sort", { ascending: true });
 
     if (eventsError) throw new Error(`Failed to load trace events: ${eventsError.message}`);
 
@@ -112,7 +148,8 @@ export class PublicDataService {
           .select("*")
           .eq("subject_id", subject.id)
           .eq("is_public", true)
-          .order("happened_at", { ascending: true });
+          .order("happened_at", { ascending: true })
+          .order("sort", { ascending: true });
         return { subject, events: events ?? [] };
       }),
     );
@@ -125,6 +162,7 @@ export class PublicDataService {
       name: payload.name,
       contact: payload.contact,
       message: payload.message ?? null,
+      interest: payload.interest ?? null,
       source_page: payload.sourcePage ?? null,
     });
     if (error) throw new Error(`Failed to submit lead: ${error.message}`);

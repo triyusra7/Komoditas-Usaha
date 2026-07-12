@@ -1,22 +1,72 @@
-import Link from "next/link";
-
 import { signOut } from "@/app/admin/actions";
-import { Button } from "@/components/ui/button";
 import { requireUser } from "@/lib/auth/access-control";
 import type { UserRole } from "@/lib/auth/access-control";
 
-type NavItem = { href: string; label: string; roles: UserRole[] };
+import { AdminNav, type NavSection } from "./admin-nav";
 
-const NAV_ITEMS: NavItem[] = [
-  { href: "/admin", label: "Dashboard", roles: ["owner", "staff", "investor"] },
-  { href: "/admin/produk", label: "Produk", roles: ["owner", "staff"] },
-  { href: "/admin/kategori", label: "Kategori", roles: ["owner", "staff"] },
-  { href: "/admin/traceability", label: "Traceability", roles: ["owner", "staff"] },
-  { href: "/admin/transaksi", label: "Transaksi", roles: ["owner"] },
-  { href: "/admin/laporan", label: "Laporan Keuangan", roles: ["owner", "investor"] },
-  { href: "/admin/leads", label: "Leads", roles: ["owner", "staff"] },
-  { href: "/admin/pengaturan", label: "Pengaturan", roles: ["owner"] },
-];
+const ROLE_LABEL: Record<UserRole, string> = {
+  owner: "Owner",
+  staff: "Staf",
+  investor: "Investor",
+};
+
+function navSectionsForRole(role: UserRole): NavSection[] {
+  const all: (NavSection & { roles: UserRole[] })[] = [
+    {
+      title: "📌 Utama",
+      roles: ["owner", "staff", "investor"],
+      items: [
+        { href: "/admin", label: "Dashboard", icon: "🏠" },
+        { href: "/admin/leads", label: "Leads", icon: "📥" },
+      ],
+    },
+    {
+      title: "💰 Keuangan",
+      roles: ["owner"],
+      items: [
+        { href: "/admin/transaksi", label: "Transaksi", icon: "🧮" },
+        { href: "/admin/jurnal", label: "Jurnal", icon: "🧾" },
+        { href: "/admin/coa", label: "Chart of Accounts", icon: "📒" },
+      ],
+    },
+    {
+      title: "📊 Laporan Keuangan",
+      roles: ["owner", "investor"],
+      items: [
+        { href: "/admin/laporan/buku-besar", label: "Buku Besar", icon: "📚" },
+        { href: "/admin/laporan/neraca-saldo", label: "Neraca Saldo", icon: "⚖️" },
+        { href: "/admin/laporan/laba-rugi", label: "Laba Rugi", icon: "📊" },
+        { href: "/admin/laporan/neraca", label: "Neraca", icon: "🏛️" },
+        { href: "/admin/laporan/arus-kas", label: "Arus Kas", icon: "💹" },
+      ],
+    },
+    {
+      title: "🐖 Traceability",
+      roles: ["owner", "staff"],
+      items: [{ href: "/admin/traceability", label: "Subjek Jejak", icon: "🔍" }],
+    },
+    {
+      title: "🌐 Website (CMS)",
+      roles: ["owner", "staff"],
+      items: [
+        { href: "/admin/produk", label: "Produk", icon: "📦" },
+        { href: "/admin/kategori", label: "Kategori", icon: "🗂️" },
+        { href: "/admin/pengaturan", label: "Pengaturan Situs", icon: "⚙️" },
+      ],
+    },
+  ];
+
+  const leadsAllowed: UserRole[] = ["owner", "staff"];
+  return all
+    .filter((section) => section.roles.includes(role))
+    .map((section) => ({
+      title: section.title,
+      items:
+        section.title === "📌 Utama" && !leadsAllowed.includes(role)
+          ? section.items.filter((item) => item.href !== "/admin/leads")
+          : section.items,
+    }));
+}
 
 export default async function AdminDashboardLayout({
   children,
@@ -24,35 +74,61 @@ export default async function AdminDashboardLayout({
   children: React.ReactNode;
 }) {
   const user = await requireUser();
-  const visibleItems = NAV_ITEMS.filter((item) => item.roles.includes(user.role));
+  const sections = navSectionsForRole(user.role);
+  const initials = user.fullName
+    .split(" ")
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
 
   return (
-    <div className="flex min-h-screen bg-muted/40">
-      <aside className="flex w-64 shrink-0 flex-col justify-between border-r border-border bg-sidebar text-sidebar-foreground">
-        <div>
-          <div className="border-b border-sidebar-border px-6 py-5">
-            <span className="font-heading text-lg font-bold">Tri Agri</span>
-            <p className="text-xs text-sidebar-foreground/70">{user.fullName}</p>
+    <div className="adm flex h-screen overflow-hidden bg-[#f8f9fb]">
+      {/* Sidebar */}
+      <aside className="adm-sidebar flex w-64 shrink-0 flex-col text-white">
+        <div className="flex items-center gap-3 border-b border-white/15 px-4 py-4">
+          <div className="adm-brand-icon flex size-10 shrink-0 items-center justify-center rounded-[10px] text-lg">
+            🌱
           </div>
-          <nav className="flex flex-col gap-1 p-3">
-            {visibleItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-md px-3 py-2 text-sm font-medium hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+          <div>
+            <h2 className="text-[15px] font-bold tracking-wide">TRI AGRI</h2>
+            <p className="mt-0.5 text-[11px] text-[#c8d8e8]">CMS + ERP v1.0</p>
+          </div>
         </div>
-        <form action={signOut} className="p-3">
-          <Button type="submit" variant="outline" size="sm" className="w-full">
-            Keluar
-          </Button>
-        </form>
+        <AdminNav sections={sections} />
+        <div className="border-t border-white/15 p-3">
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="w-full rounded-lg border border-white/25 py-2 text-xs font-semibold text-[#e0eaf3] transition-colors hover:bg-white/10"
+            >
+              🚪 Keluar
+            </button>
+          </form>
+        </div>
       </aside>
-      <main className="flex-1 overflow-y-auto p-8">{children}</main>
+
+      {/* Main */}
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <header className="adm-topbar flex h-16 shrink-0 items-center justify-between px-7">
+          <div>
+            <h1 className="text-[16px] font-bold text-[#1e3f5c]">Panel Admin Tri Agri</h1>
+            <p className="text-xs text-[#5a6a7e]">Palopo & Morowali · Komoditas Babi</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="adm-badge adm-badge-blue">{ROLE_LABEL[user.role]}</span>
+            <div className="flex items-center gap-2.5">
+              <div className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-[#264C70] to-[#1e3f5c] text-sm font-bold text-white">
+                {initials}
+              </div>
+              <span className="hidden text-sm font-semibold text-[#2d3748] sm:block">
+                {user.fullName}
+              </span>
+            </div>
+          </div>
+        </header>
+        <main className="flex-1 overflow-y-auto p-7">{children}</main>
+      </div>
     </div>
   );
 }

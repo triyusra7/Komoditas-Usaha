@@ -13,7 +13,7 @@ const createCategorySchema = z.object({
     .min(2)
     .regex(/^[a-z0-9-]+$/, "Slug hanya boleh huruf kecil, angka, dan tanda hubung"),
   name: z.string().min(2),
-  commodityType: z.enum(["babi", "kopi", "perikanan"]),
+  commodityType: z.enum(["pig", "coffee", "fishery"]),
   description: z.string().optional(),
 });
 
@@ -37,6 +37,7 @@ export async function createCategory(formData: FormData): Promise<void> {
   });
 
   revalidatePath("/admin/kategori");
+  revalidatePath("/");
 }
 
 export async function toggleCategoryPublic(id: string, isPublic: boolean): Promise<void> {
@@ -45,6 +46,16 @@ export async function toggleCategoryPublic(id: string, isPublic: boolean): Promi
   const content = new ContentService(supabase);
   await content.updateCategory(id, { is_public: isPublic });
   revalidatePath("/admin/kategori");
+  revalidatePath("/");
+}
+
+export async function toggleCategoryStatus(id: string, status: "active" | "coming_soon"): Promise<void> {
+  await requireRole("owner");
+  const supabase = await createClient();
+  const content = new ContentService(supabase);
+  await content.updateCategory(id, { status });
+  revalidatePath("/admin/kategori");
+  revalidatePath("/");
 }
 
 export async function deleteCategory(id: string): Promise<void> {
@@ -53,4 +64,5 @@ export async function deleteCategory(id: string): Promise<void> {
   const content = new ContentService(supabase);
   await content.deleteCategory(id);
   revalidatePath("/admin/kategori");
+  revalidatePath("/");
 }

@@ -23,53 +23,54 @@ export default async function AdminDashboardPage() {
   const canSeeFinance = user?.role === "owner" || user?.role === "investor";
   const canSeeOps = user?.role === "owner" || user?.role === "staff";
 
-  const [{ count: activeSubjects }, { count: leadsCount }, { count: productsCount }] =
-    await Promise.all([
-      supabase.from("trace_subjects").select("id", { count: "exact", head: true }),
-      supabase.from("leads").select("id", { count: "exact", head: true }),
-      supabase.from("products").select("id", { count: "exact", head: true }),
-    ]);
+  const [
+    { count: activeSubjects },
+    { count: leadsCount },
+    { count: productsCount },
+    finance,
+    { data: recentEntries },
+    { data: recentLeads },
+  ] = await Promise.all([
+    supabase.from("trace_subjects").select("id", { count: "exact", head: true }),
+    supabase.from("leads").select("id", { count: "exact", head: true }),
+    supabase.from("products").select("id", { count: "exact", head: true }),
+    (async () => {
+      if (!canSeeFinance) return null;
+      const ledger = new LedgerService(supabase);
+      const financials = new FinancialStatements(supabase);
 
-  let finance: {
-    cash: number;
-    revenue: number;
-    netIncome: number;
-    debt: number;
-  } | null = null;
+      const [trialBalance, incomeStatement] = await Promise.all([
+        ledger.getTrialBalance(today),
+        financials.incomeStatement({ from: firstOfMonth, to: today }),
+      ]);
 
-  if (canSeeFinance) {
-    const ledger = new LedgerService(supabase);
-    const financials = new FinancialStatements(supabase);
-    const [kas, bank, utangBank, utangUsaha, incomeStatement] = await Promise.all([
-      ledger.getAccountBalance("1100", today),
-      ledger.getAccountBalance("1200", today),
-      ledger.getAccountBalance("2200", today),
-      ledger.getAccountBalance("2100", today),
-      financials.incomeStatement({ from: firstOfMonth, to: today }),
-    ]);
-    finance = {
-      cash: kas + bank,
-      revenue: incomeStatement.totalIncome,
-      netIncome: incomeStatement.netIncome,
-      debt: -(utangBank + utangUsaha),
-    };
-  }
+      const getBal = (code: string) => {
+        const row = trialBalance.find((r) => r.accountCode === code);
+        return row ? Math.round((row.debit - row.credit) * 100) / 100 : 0;
+      };
 
-  const { data: recentEntries } = canSeeFinance
-    ? await supabase
-        .from("journal_entries")
-        .select("id, entry_date, memo, source_type, status, journal_lines(debit)")
-        .order("created_at", { ascending: false })
-        .limit(6)
-    : { data: null };
-
-  const { data: recentLeads } = canSeeOps
-    ? await supabase
-        .from("leads")
-        .select("id, name, contact, interest, created_at")
-        .order("created_at", { ascending: false })
-        .limit(6)
-    : { data: null };
+      return {
+        cash: getBal("1100") + getBal("1200"),
+        revenue: incomeStatement.totalIncome,
+        netIncome: incomeStatement.netIncome,
+        debt: -(getBal("2200") + getBal("2100")),
+      };
+    })(),
+    canSeeFinance
+      ? supabase
+          .from("journal_entries")
+          .select("id, entry_date, memo, source_type, status, journal_lines(debit)")
+          .order("created_at", { ascending: false })
+          .limit(6)
+      : Promise.resolve({ data: null }),
+    canSeeOps
+      ? supabase
+          .from("leads")
+          .select("id, name, contact, interest, created_at")
+          .order("created_at", { ascending: false })
+          .limit(6)
+      : Promise.resolve({ data: null }),
+  ]);
 
   return (
     <div>

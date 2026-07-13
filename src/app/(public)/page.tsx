@@ -7,7 +7,7 @@ import { WhatsAppButton } from "@/components/whatsapp-button";
 import { buttonVariants } from "@/components/ui/button";
 import { PublicDataService } from "@/lib/services/public-data-service";
 import { createClient } from "@/lib/supabase/server";
-import { cn } from "@/lib/utils";
+
 import { t, tc } from "@/lib/i18n";
 import { getLanguage } from "@/lib/i18n-server";
 

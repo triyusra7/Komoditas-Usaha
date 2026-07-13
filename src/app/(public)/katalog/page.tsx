@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+
 
 import { AnimateIn } from "@/components/animate-in";
 import { CategoryCard } from "@/components/catalog-cards";

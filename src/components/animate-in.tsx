@@ -94,6 +94,7 @@ export function AnimateIn({
       "(prefers-reduced-motion: reduce)"
     ).matches;
     if (prefersReduced) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsVisible(true);
       return;
     }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+
 
 import { AnimateIn } from "@/components/animate-in";
 import { WhatsAppButton } from "@/components/whatsapp-button";
@@ -22,7 +22,13 @@ type BlockPayload = {
   url?: string;
 };
 
-function getBlockPayload(block: any): BlockPayload {
+type PageBlock = {
+  id?: string;
+  block_type?: string;
+  content?: unknown;
+};
+
+function getBlockPayload(block: PageBlock): BlockPayload {
   return (block.content ?? {}) as BlockPayload;
 }
 
@@ -36,9 +42,9 @@ export default async function TentangPage() {
   const lang = await getLanguage();
 
   // Parse blocks dynamically
-  const visionBlocks: any[] = [];
-  const modelBlocks: any[] = [];
-  const statBlocks: any[] = [];
+  const visionBlocks: PageBlock[] = [];
+  const modelBlocks: PageBlock[] = [];
+  const statBlocks: PageBlock[] = [];
 
   let headingCount = 0;
   for (const block of blocks) {

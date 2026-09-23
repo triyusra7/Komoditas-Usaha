@@ -101,12 +101,12 @@ export default async function TentangPage() {
             </AnimateIn>
             <AnimateIn variant="fade-up" delay={100}>
               <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black text-secondary tracking-tight">
-                {t("Penyedia Komoditas Ternak Tertelusur Terpercaya di Sulawesi", lang)}
+                {t("Penyedia Komoditas Jagung Pakan & Kopi Tertelusur di Sulawesi", lang)}
               </h2>
             </AnimateIn>
             <AnimateIn variant="fade-up" delay={200}>
               <p className="text-secondary/70 leading-relaxed font-sans font-medium text-base md:text-lg">
-                {t("Tri Agri didirikan dengan misi membawa standar baru dalam industri peternakan babi di Sulawesi. Melalui kombinasi manajemen pakan yang ketat, sanitasi modern, dan teknologi penelusuran (traceability) digital, kami menghadirkan produk daging babi yang higienis, sehat, dan segar untuk mitra industri dan konsumen langsung.", lang)}
+                {t("Tri Agri didirikan dengan misi membawa standar baru dalam rantai pasok agribisnis di Sulawesi. Melalui kemitraan erat dengan petani jagung dan perkebunan kopi, kontrol mutu bahan dan kadar air yang ketat, serta teknologi penelusuran (traceability) digital, kami menghadirkan jagung pakan berkualitas tinggi dan green bean kopi pilihan untuk mitra industri dan konsumen.", lang)}
               </p>
             </AnimateIn>
           </div>
@@ -114,9 +114,9 @@ export default async function TentangPage() {
             <AnimateIn variant="scale-up" delay={300} duration={800}>
               <div className="rounded-[18px] border-2 border-secondary bg-[#f5ebd6] p-8 shadow-[4px_4px_0px_#1d2b1f] text-center flex flex-col justify-center items-center h-full gap-4 max-w-sm mx-auto">
                 <span className="text-6xl">📍</span>
-                <h3 className="font-heading text-xl font-black text-secondary">{t("Palopo & Morowali", lang)}</h3>
+                <h3 className="font-heading text-xl font-black text-secondary">{t("Sentra Sulawesi", lang)}</h3>
                 <p className="text-secondary/70 font-sans font-medium text-sm">
-                  {t("Dua pusat operasional strategis untuk melayani pasar Sulawesi Selatan, Toraja, dan Kawasan Industri Morowali.", lang)}
+                  {t("Pusat kemitraan jagung pakan dan kopi dataran tinggi terbaik untuk memasok kebutuhan industri pakan dan roastery.", lang)}
                 </p>
               </div>
             </AnimateIn>
@@ -149,7 +149,7 @@ export default async function TentangPage() {
               <p className="text-secondary/70 leading-relaxed font-sans font-medium text-base sm:text-lg">
                 {visionBlocks.length > 0
                   ? tc(getBlockPayload(visionBlocks.find(b => b.block_type === "richtext") || visionBlocks[0]).text, lang)
-                  : t("Menjadi pemasok komoditas babi dan produk turunan berkualitas tinggi dengan jaminan ketertelusuran penuh demi kepuasan konsumen di Sulawesi.", lang)}
+                  : t("Menjadi pemasok komoditas jagung pakan dan kopi terpercaya dengan jaminan ketertelusuran penuh dan transparansi bahan demi kepuasan mitra di Indonesia.", lang)}
               </p>
             </div>
           </AnimateIn>
@@ -163,19 +163,19 @@ export default async function TentangPage() {
               <ul className="space-y-3 font-sans font-medium text-base text-secondary/70">
                 <li className="flex items-start gap-2">
                   <span className="text-secondary font-black">✓</span>
-                  <span>{t("Menjamin kesehatan ternak melalui pakan terformulasi khusus dan perawatan higienis.", lang)}</span>
+                  <span>{t("Mendukung produktivitas petani mitra melalui pendampingan benih unggul, pupuk berimbang, dan pasca-panen terstandar.", lang)}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-secondary font-black">✓</span>
-                  <span>{t("Menyediakan daging berkualitas premium dengan sistem penelusuran (traceability) digital yang transparan.", lang)}</span>
+                  <span>{t("Menyediakan jagung pakan berkadar air rendah (<14%) dan bebas aflatoksin untuk industri pakan ternak.", lang)}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-secondary font-black">✓</span>
-                  <span>{t("Menjadi mitra pasokan rutin utama bagi katering industri dan restoran di Sulawesi.", lang)}</span>
+                  <span>{t("Menghasilkan green bean kopi specialty dan fine robusta dengan profil rasa prima dan ketertelusuran kebun asal.", lang)}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-secondary font-black">✓</span>
-                  <span>{t("Menerapkan manajemen limbah ramah lingkungan untuk keberlanjutan sekitar.", lang)}</span>
+                  <span>{t("Menerapkan sistem penelusuran digital (traceability) transparan di setiap batch komoditas.", lang)}</span>
                 </li>
               </ul>
             </div>
@@ -252,10 +252,10 @@ export default async function TentangPage() {
               </AnimateIn>
               <AnimateIn variant="fade-up" delay={350}>
                 <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black text-secondary leading-tight tracking-tight">
-                  {t("Butuh pasokan rutin untuk katering atau usaha Anda?", lang)}
+                  {t("Butuh pasokan rutin jagung pakan atau green bean kopi untuk usaha Anda?", lang)}
                 </h2>
                 <p className="mt-4 text-secondary/80 font-sans font-medium text-base sm:text-lg max-w-2xl leading-relaxed">
-                  {t("Kami melayani kebutuhan katering kawasan industri, restoran, dan pengepul di Palopo, Morowali, dan sekitarnya.", lang)}
+                  {t("Kami melayani kebutuhan pabrik pakan, peternak mandiri, roastery, dan distributor komoditas di Sulawesi dan sekitarnya.", lang)}
                 </p>
               </AnimateIn>
             </div>

@@ -100,8 +100,8 @@ export default async function AdminDashboardPage() {
         <StatCard
           label="Subjek Jejak Aktif"
           value={String(activeSubjects ?? 0)}
-          sub="ekor/batch tercatat"
-          icon="🐖"
+          sub="batch/lot komoditas tercatat"
+          icon="🌽"
         />
         <StatCard
           label="Produk Katalog"

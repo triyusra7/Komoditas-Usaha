@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { CreateButton, FormModal } from "@/components/admin/modal";
 import { PageHeader } from "@/components/admin/page-header";
 import { requireRole } from "@/lib/auth/access-control";
@@ -9,25 +11,27 @@ import {
   deleteCategory,
   toggleCategoryPublic,
   toggleCategoryStatus,
+  updateCategory,
 } from "./actions";
 
 const COMMODITY_LABEL: Record<string, string> = {
-  pig: "🐖 Babi",
+  pig: "🌽 Jagung Pakan",
   coffee: "☕ Kopi",
-  fishery: "🐟 Perikanan",
+  fishery: "🌾 Pertanian Lainnya",
 };
 
 export default async function KategoriPage({
   searchParams,
 }: {
-  searchParams: Promise<{ new?: string }>;
+  searchParams: Promise<{ new?: string; edit?: string }>;
 }) {
   await requireRole("owner", "staff");
-  const { new: isCreating } = await searchParams;
+  const { new: isCreating, edit: editId } = await searchParams;
 
   const supabase = await createClient();
   const content = new ContentService(supabase);
   const categories = await content.listCategories();
+  const editingCategory = editId ? categories.find((c) => c.id === editId) : null;
 
   return (
     <div>
@@ -48,22 +52,22 @@ export default async function KategoriPage({
               <label htmlFor="name" className="adm-label">
                 Nama
               </label>
-              <input id="name" name="name" required placeholder="Babi" className="adm-input" />
+              <input id="name" name="name" required placeholder="Jagung Pakan" className="adm-input" />
             </div>
             <div>
               <label htmlFor="slug" className="adm-label">
                 Slug (untuk URL)
               </label>
-              <input id="slug" name="slug" required placeholder="babi" className="adm-input" />
+              <input id="slug" name="slug" required placeholder="jagung" className="adm-input" />
             </div>
             <div>
               <label htmlFor="commodityType" className="adm-label">
                 Jenis Komoditas
               </label>
               <select id="commodityType" name="commodityType" defaultValue="pig" className="adm-input">
-                <option value="pig">🐖 Babi</option>
+                <option value="pig">🌽 Jagung Pakan</option>
                 <option value="coffee">☕ Kopi</option>
-                <option value="fishery">🐟 Perikanan</option>
+                <option value="fishery">🌾 Pertanian Lainnya</option>
               </select>
             </div>
             <div>
@@ -74,6 +78,72 @@ export default async function KategoriPage({
             </div>
             <button type="submit" className="adm-btn adm-btn-primary w-full justify-center">
               Simpan Kategori
+            </button>
+          </form>
+        </FormModal>
+      )}
+
+      {editingCategory && (
+        <FormModal
+          title="Edit Kategori"
+          subtitle={`Ubah nama, slug, atau deskripsi ${editingCategory.name}`}
+          closeHref="/admin/kategori"
+        >
+          <form action={updateCategory} className="space-y-4">
+            <input type="hidden" name="id" value={editingCategory.id} />
+            <div>
+              <label htmlFor="edit-name" className="adm-label">
+                Nama Kategori
+              </label>
+              <input
+                id="edit-name"
+                name="name"
+                required
+                defaultValue={editingCategory.name}
+                className="adm-input"
+              />
+            </div>
+            <div>
+              <label htmlFor="edit-slug" className="adm-label">
+                Slug (untuk URL website)
+              </label>
+              <input
+                id="edit-slug"
+                name="slug"
+                required
+                defaultValue={editingCategory.slug}
+                className="adm-input"
+              />
+            </div>
+            <div>
+              <label htmlFor="edit-commodityType" className="adm-label">
+                Jenis Komoditas
+              </label>
+              <select
+                id="edit-commodityType"
+                name="commodityType"
+                defaultValue={editingCategory.commodity_type}
+                className="adm-input"
+              >
+                <option value="pig">🌽 Jagung Pakan</option>
+                <option value="coffee">☕ Kopi</option>
+                <option value="fishery">🌾 Pertanian Lainnya</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="edit-description" className="adm-label">
+                Deskripsi
+              </label>
+              <textarea
+                id="edit-description"
+                name="description"
+                rows={3}
+                defaultValue={editingCategory.description ?? ""}
+                className="adm-input"
+              />
+            </div>
+            <button type="submit" className="adm-btn adm-btn-primary w-full justify-center">
+              Simpan Perubahan
             </button>
           </form>
         </FormModal>
@@ -127,11 +197,19 @@ export default async function KategoriPage({
                     </form>
                   </td>
                   <td className="text-right">
-                    <form action={deleteCategory.bind(null, category.id)}>
-                      <button type="submit" className="adm-btn adm-btn-danger adm-btn-sm">
-                        Hapus
-                      </button>
-                    </form>
+                    <div className="flex items-center justify-end gap-2">
+                      <Link
+                        href={`/admin/kategori?edit=${category.id}`}
+                        className="adm-btn adm-btn-secondary adm-btn-sm"
+                      >
+                        Edit
+                      </Link>
+                      <form action={deleteCategory.bind(null, category.id)}>
+                        <button type="submit" className="adm-btn adm-btn-danger adm-btn-sm">
+                          Hapus
+                        </button>
+                      </form>
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -10,7 +10,8 @@ import { ContentService } from "@/lib/services/content-service";
 import { createClient } from "@/lib/supabase/server";
 
 import { createProduct, deleteProduct, togglePriceVisible, toggleProductPublic, updateProduct } from "./actions";
-import { ProductForm, productImages } from "./product-form";
+import { productImages } from "./product-helpers";
+import { ProductForm } from "./product-form";
 
 const AVAILABILITY_LABEL: Record<string, string> = {
   available: "Tersedia",
@@ -28,10 +29,38 @@ export default async function ProdukPage({
 
   const supabase = await createClient();
   const content = new ContentService(supabase);
-  const [products, categories] = await Promise.all([
+  const [products, rawCategories] = await Promise.all([
     content.listProducts(),
     content.listCategories(),
   ]);
+
+  const categories = rawCategories.map((c) => {
+    if (c.slug === "babi" || c.name.toLowerCase().includes("babi")) {
+      return {
+        ...c,
+        name: "🌽 Jagung Pakan",
+        slug: "jagung",
+      };
+    }
+    return c;
+  });
+
+  const hasCorn = categories.some((c) => c.slug === "jagung" || c.name.toLowerCase().includes("jagung"));
+  if (!hasCorn) {
+    categories.unshift({
+      id: "create_jagung_default",
+      name: "🌽 Jagung Pakan",
+      slug: "jagung",
+      commodity_type: "pig",
+      description: "Komoditas jagung pipil kering pakan ternak",
+      status: "active",
+      is_public: true,
+      sort_order: 1,
+      cover_image: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    });
+  }
 
   const editingProduct = editId ? products.find((product) => product.id === editId) : undefined;
 

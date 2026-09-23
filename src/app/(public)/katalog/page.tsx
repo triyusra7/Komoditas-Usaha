@@ -13,7 +13,7 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Katalog Komoditas",
-  description: "Katalog komoditas Tri Agri: babi, kopi, dan perikanan.",
+  description: "Katalog komoditas Tri Agri: jagung pakan dan kopi Sulawesi tertelusur.",
 };
 
 export default async function KatalogPage() {
@@ -48,7 +48,7 @@ export default async function KatalogPage() {
           </AnimateIn>
           <AnimateIn variant="fade-up" delay={200} duration={600}>
             <p className="text-[#f7f0e6]/70 leading-relaxed font-sans font-medium text-base sm:text-lg max-w-2xl mt-2">
-              {t("Jelajahi produk segar dan pilihan komoditas unggulan kami. Dari daging babi segar dengan ketertelusuran penuh, hingga komoditas andalan Sulawesi lainnya yang diproses secara higienis.", lang)}
+              {t("Jelajahi komoditas unggulan kami: jagung pakan berkualitas tinggi dengan kadar air terkontrol dan biji kopi pilihan dari kebun-kebun terbaik Sulawesi dengan ketertelusuran penuh.", lang)}
             </p>
           </AnimateIn>
         </div>
@@ -56,7 +56,11 @@ export default async function KatalogPage() {
 
       {/* Categories Grid */}
       <section className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+        <div
+          className={`grid grid-cols-1 gap-6 ${
+            categories.length === 2 ? "sm:grid-cols-2 max-w-4xl" : "sm:grid-cols-2 lg:grid-cols-3"
+          }`}
+        >
           {categories.map((category, i) => (
             <AnimateIn key={category.id} variant="fade-up" delay={i * 120} duration={600} className="h-full">
               <CategoryCard category={category} lang={lang} />

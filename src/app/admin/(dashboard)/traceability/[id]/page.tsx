@@ -12,12 +12,22 @@ import { createClient } from "@/lib/supabase/server";
 import { createEvent } from "../actions";
 
 const EVENT_TYPE_LABEL: Record<string, string> = {
-  acquisition: "🐷 Akuisisi Bibit",
+  sourcing: "🌱 Asal Lahan / Kebun & Bibit",
+  planting_inputs: "🚜 Penanaman & Pemupukan",
+  harvest: "🌽 Panen (Jagung/Kopi)",
+  processing: "⚙️ Pengolahan Pasca-Panen",
+  drying: "☀️ Pengeringan & Kadar Air",
+  quality_lab: "🔬 Uji Lab & Standar Mutu",
+  grading: "🧺 Sortasi & Grading",
+  cupping: "☕ Uji Cita Rasa (Cupping)",
+  distribution: "📦 Siap Distribusi / Pengemasan",
+  // Compatibility fallback
+  acquisition: "🌱 Asal Lahan / Bibit",
   transport: "🚚 Transportasi",
-  housing: "🏠 Penempatan Kandang",
+  housing: "🏠 Penyimpanan Gudang",
   growth: "📈 Pertumbuhan",
-  health: "💉 Kesehatan",
-  ready_slaughter: "✅ Siap Potong / Karkas",
+  health: "🔬 Uji Mutu & Laboratorium",
+  ready_slaughter: "✅ Siap Kirim",
 };
 
 export default async function TraceSubjectDetailPage({
@@ -90,7 +100,7 @@ export default async function TraceSubjectDetailPage({
                 id="title"
                 name="title"
                 required
-                placeholder="Vaksinasi hog cholera dosis 1"
+                placeholder="Uji laboratorium kadar air & aflatoksin"
                 className="adm-input"
               />
             </div>
@@ -104,7 +114,7 @@ export default async function TraceSubjectDetailPage({
               <label htmlFor="location" className="adm-label">
                 Lokasi
               </label>
-              <input id="location" name="location" placeholder="Kandang Palopo" className="adm-input" />
+              <input id="location" name="location" placeholder="Gudang Sentra / Kebun Toraja" className="adm-input" />
             </div>
             <div>
               <label htmlFor="description" className="adm-label">
@@ -114,7 +124,7 @@ export default async function TraceSubjectDetailPage({
             </div>
             <div>
               <label htmlFor="extraNote" className="adm-label">
-                Catatan Detail (mis. bobot 62 kg)
+                Catatan Detail (mis. Kadar air 13.8%, varietas NK 212)
               </label>
               <input id="extraNote" name="extraNote" className="adm-input" />
             </div>
@@ -129,7 +139,7 @@ export default async function TraceSubjectDetailPage({
               <input
                 id="currentStatus"
                 name="currentStatus"
-                placeholder="mis. Pertumbuhan / Siap Potong"
+                placeholder="mis. Pengeringan / Selesai Uji Lab / Siap Kirim"
                 className="adm-input"
               />
             </div>

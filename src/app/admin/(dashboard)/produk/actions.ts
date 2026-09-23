@@ -13,7 +13,9 @@ import { getUploadedFiles, uploadImage } from "@/lib/supabase/storage";
 const MAX_PRODUCT_IMAGES = 4;
 
 const productSchema = z.object({
-  categoryId: z.string().uuid(),
+  categoryId: z.string().min(1),
+  newCategoryName: z.string().optional(),
+  newCategorySlug: z.string().optional(),
   slug: z
     .string()
     .min(2)
@@ -30,6 +32,8 @@ const productSchema = z.object({
 function parseProductFields(formData: FormData) {
   return productSchema.parse({
     categoryId: formData.get("categoryId"),
+    newCategoryName: (formData.get("newCategoryName") as string)?.trim() || undefined,
+    newCategorySlug: (formData.get("newCategorySlug") as string)?.trim() || undefined,
     slug: formData.get("slug"),
     name: formData.get("name"),
     shortDesc: formData.get("shortDesc") || undefined,
@@ -39,6 +43,87 @@ function parseProductFields(formData: FormData) {
     priceNumeric: formData.get("priceNumeric") || undefined,
     availability: formData.get("availability") ?? "available",
   });
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function resolveCategoryId(supabase: any, parsed: ReturnType<typeof parseProductFields>): Promise<string> {
+  // If user selected custom new category or typed a new category name
+  if (parsed.categoryId === "custom_new" || parsed.newCategoryName) {
+    const catName = parsed.newCategoryName || "Komoditas Baru";
+    const catSlug = (
+      parsed.newCategorySlug ||
+      catName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") ||
+      "kategori-baru"
+    ).trim();
+
+    const { data: existing } = await supabase
+      .from("commodity_categories")
+      .select("id")
+      .eq("slug", catSlug)
+      .maybeSingle();
+
+    if (existing) return existing.id;
+
+    const type = catSlug.includes("kopi") ? "coffee" : "pig";
+    const { data: newCat, error: insertError } = await supabase
+      .from("commodity_categories")
+      .insert({
+        name: catName,
+        slug: catSlug,
+        commodity_type: type,
+        status: "active",
+        is_public: true,
+        description: `Kategori komoditas ${catName}`,
+      })
+      .select("id")
+      .single();
+
+    if (insertError) throw new Error(`Gagal membuat kategori baru: ${insertError.message}`);
+    return newCat.id;
+  }
+
+  // If user selected default virtual Jagung
+  if (parsed.categoryId === "create_jagung_default") {
+    const { data: existingJagung } = await supabase
+      .from("commodity_categories")
+      .select("id")
+      .eq("slug", "jagung")
+      .maybeSingle();
+
+    if (existingJagung) return existingJagung.id;
+
+    // Check if legacy 'babi' category can be renamed to 'jagung'
+    const { data: legacyBabi } = await supabase
+      .from("commodity_categories")
+      .select("id")
+      .eq("slug", "babi")
+      .maybeSingle();
+
+    if (legacyBabi) {
+      await supabase
+        .from("commodity_categories")
+        .update({ name: "Jagung Pakan", slug: "jagung" })
+        .eq("id", legacyBabi.id);
+      return legacyBabi.id;
+    }
+
+    const { data: created, error } = await supabase
+      .from("commodity_categories")
+      .insert({
+        name: "Jagung Pakan",
+        slug: "jagung",
+        commodity_type: "pig",
+        status: "active",
+        is_public: true,
+        description: "Komoditas jagung pipil kering berkualitas tinggi",
+      })
+      .select("id")
+      .single();
+    if (error) throw new Error(`Gagal membuat kategori jagung: ${error.message}`);
+    return created.id;
+  }
+
+  return parsed.categoryId;
 }
 
 async function uploadNewPhotos(formData: FormData, limit: number): Promise<string[]> {
@@ -59,15 +144,16 @@ function revalidateProductPages(slug: string): void {
 }
 
 export async function createProduct(formData: FormData): Promise<void> {
-  await requireRole("owner");
+  await requireRole("owner", "staff");
 
   const parsed = parseProductFields(formData);
   const images = await uploadNewPhotos(formData, MAX_PRODUCT_IMAGES);
 
   const supabase = await createClient();
+  const finalCategoryId = await resolveCategoryId(supabase, parsed);
   const content = new ContentService(supabase);
   await content.createProduct({
-    category_id: parsed.categoryId,
+    category_id: finalCategoryId,
     slug: parsed.slug,
     name: parsed.name,
     short_desc: parsed.shortDesc ?? null,
@@ -85,7 +171,7 @@ export async function createProduct(formData: FormData): Promise<void> {
 }
 
 export async function updateProduct(id: string, formData: FormData): Promise<void> {
-  await requireRole("owner");
+  await requireRole("owner", "staff");
 
   const parsed = parseProductFields(formData);
 
@@ -99,9 +185,10 @@ export async function updateProduct(id: string, formData: FormData): Promise<voi
   const images = [...keptImages, ...newImages];
 
   const supabase = await createClient();
+  const finalCategoryId = await resolveCategoryId(supabase, parsed);
   const content = new ContentService(supabase);
   await content.updateProduct(id, {
-    category_id: parsed.categoryId,
+    category_id: finalCategoryId,
     slug: parsed.slug,
     name: parsed.name,
     short_desc: parsed.shortDesc ?? null,
@@ -119,7 +206,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<voi
 }
 
 export async function toggleProductPublic(id: string, isPublic: boolean): Promise<void> {
-  await requireRole("owner");
+  await requireRole("owner", "staff");
   const supabase = await createClient();
   const content = new ContentService(supabase);
   await content.updateProduct(id, {
@@ -131,7 +218,7 @@ export async function toggleProductPublic(id: string, isPublic: boolean): Promis
 }
 
 export async function togglePriceVisible(id: string, priceVisible: boolean): Promise<void> {
-  await requireRole("owner");
+  await requireRole("owner", "staff");
   const supabase = await createClient();
   const content = new ContentService(supabase);
   await content.updateProduct(id, { price_visible: priceVisible });
@@ -140,7 +227,7 @@ export async function togglePriceVisible(id: string, priceVisible: boolean): Pro
 }
 
 export async function deleteProduct(id: string): Promise<void> {
-  await requireRole("owner");
+  await requireRole("owner", "staff");
   const supabase = await createClient();
   const content = new ContentService(supabase);
   await content.deleteProduct(id);

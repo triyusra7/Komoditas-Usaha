@@ -18,6 +18,17 @@ const createCategorySchema = z.object({
   description: z.string().optional(),
 });
 
+const updateCategorySchema = z.object({
+  id: z.string().uuid(),
+  slug: z
+    .string()
+    .min(2)
+    .regex(/^[a-z0-9-]+$/, "Slug hanya boleh huruf kecil, angka, dan tanda hubung"),
+  name: z.string().min(2),
+  commodityType: z.enum(["pig", "coffee", "fishery"]),
+  description: z.string().optional(),
+});
+
 export async function createCategory(formData: FormData): Promise<void> {
   await requireRole("owner");
 
@@ -31,6 +42,31 @@ export async function createCategory(formData: FormData): Promise<void> {
   const supabase = await createClient();
   const content = new ContentService(supabase);
   await content.createCategory({
+    slug: parsed.slug,
+    name: parsed.name,
+    commodity_type: parsed.commodityType,
+    description: parsed.description ?? null,
+  });
+
+  revalidatePath("/admin/kategori");
+  revalidatePath("/");
+  redirect("/admin/kategori");
+}
+
+export async function updateCategory(formData: FormData): Promise<void> {
+  await requireRole("owner");
+
+  const parsed = updateCategorySchema.parse({
+    id: formData.get("id"),
+    slug: formData.get("slug"),
+    name: formData.get("name"),
+    commodityType: formData.get("commodityType"),
+    description: formData.get("description") || undefined,
+  });
+
+  const supabase = await createClient();
+  const content = new ContentService(supabase);
+  await content.updateCategory(parsed.id, {
     slug: parsed.slug,
     name: parsed.name,
     commodity_type: parsed.commodityType,

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 
 import { AnimateIn } from "@/components/animate-in";
@@ -20,15 +20,23 @@ const AVAILABILITY_LABEL: Record<string, string> = {
   sold_out: "Stok Habis",
 };
 
+const LEGACY_SLUG_REDIRECTS: Record<string, string> = {
+  "karkas-babi-duroc": "jagung-pipil-kering-grade-a",
+  "daging-babi-potongan-komersial": "jagung-pipil-curah-super",
+  "babi-hidup-siap-potong": "kopi-arabika-toraja-sapan",
+  "bibit-weaner-crossbreed-f1": "kopi-robusta-enrekang-grade-1",
+};
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const targetSlug = LEGACY_SLUG_REDIRECTS[slug] ?? slug;
   const supabase = await createClient();
   const publicData = new PublicDataService(supabase);
-  const product = await publicData.getProductBySlug(slug);
+  const product = await publicData.getProductBySlug(targetSlug);
   return {
     title: product?.name ?? "Produk",
     description: product?.short_desc ?? undefined,
@@ -41,6 +49,13 @@ export default async function ProdukDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+
+  if (LEGACY_SLUG_REDIRECTS[slug]) {
+    redirect(`/produk/${LEGACY_SLUG_REDIRECTS[slug]}`);
+  }
+  if (slug.includes("babi")) {
+    redirect("/katalog/jagung");
+  }
 
   const supabase = await createClient();
   const publicData = new PublicDataService(supabase);
@@ -62,7 +77,7 @@ export default async function ProdukDetailPage({
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <AnimateIn variant="fade" duration={400}>
-        <Link href="/katalog/babi" className="text-sm text-muted-foreground hover:underline">
+        <Link href="/katalog" className="text-sm text-muted-foreground hover:underline">
           {t("← Kembali ke katalog", lang)}
         </Link>
       </AnimateIn>
@@ -103,7 +118,7 @@ export default async function ProdukDetailPage({
             </div>
           ) : (
             <div className="flex h-80 items-center justify-center rounded-3xl bg-gradient-to-br from-primary/30 via-card to-secondary/10 text-9xl lg:h-[420px]">
-              <span className="animate-float-slow" aria-hidden="true">🐖</span>
+              <span className="animate-float-slow" aria-hidden="true">🌽</span>
             </div>
           )}
         </AnimateIn>

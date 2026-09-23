@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 
 import { AnimateIn } from "@/components/animate-in";
@@ -19,6 +19,9 @@ export async function generateMetadata({
   params: Promise<{ categorySlug: string }>;
 }): Promise<Metadata> {
   const { categorySlug } = await params;
+  if (categorySlug === "babi" || categorySlug === "jagung") {
+    return { title: "Katalog Jagung Pakan" };
+  }
   return { title: `Katalog ${categorySlug.charAt(0).toUpperCase()}${categorySlug.slice(1)}` };
 }
 
@@ -29,13 +32,19 @@ export default async function KategoriKatalogPage({
 }) {
   const { categorySlug } = await params;
 
+  if (categorySlug === "babi") {
+    redirect("/katalog/jagung");
+  }
+
   const supabase = await createClient();
   const publicData = new PublicDataService(supabase);
   const [categories, settings] = await Promise.all([
     publicData.getCategories(),
     publicData.getSiteSettings(),
   ]);
-  const category = categories.find((c) => c.slug === categorySlug);
+  const category = categories.find(
+    (c) => c.slug === categorySlug || (categorySlug === "jagung" && c.slug === "babi")
+  );
 
   if (!category || category.status !== "active") notFound();
 

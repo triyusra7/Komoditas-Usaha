@@ -123,7 +123,7 @@ export default async function AdminDashboardLayout({
               Panel Admin Tri Agri
             </h1>
             <p className="text-xs font-medium text-muted-foreground">
-              Palopo & Morowali · Komoditas Babi
+              Sulawesi · Jagung Pakan & Kopi Tertelusur
             </p>
           </div>
           <div className="flex items-center gap-3">

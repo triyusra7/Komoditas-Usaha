@@ -38,7 +38,7 @@ export default async function BerandaPage() {
             </AnimateIn>
             <AnimateIn variant="fade-up" delay={150} duration={700}>
               <h1 className="font-heading text-5xl font-black tracking-tight text-secondary leading-[1.1] sm:text-6xl lg:text-7xl">
-                {t("Dari kandang sampai ke meja Anda —", lang)}{" "}
+                {t("Dari lahan & kebun terbaik Sulawesi —", lang)}{" "}
                 <span 
                   className="text-primary font-heading relative inline-block drop-shadow-[2.5px_2.5px_0px_#1d2b1f] tracking-tight [-webkit-text-stroke:1.5px_#1d2b1f] ml-1"
                 >
@@ -77,7 +77,7 @@ export default async function BerandaPage() {
             <div className="grid grid-cols-2 gap-6">
               <AnimateIn variant="scale-up" delay={200} duration={700}>
                 <div className="animate-float flex h-40 w-40 items-center justify-center rounded-3xl bg-primary/20 text-7xl border-2 border-secondary shadow-[4px_4px_0px_#1d2b1f]">
-                  🐖
+                  🌽
                 </div>
               </AnimateIn>
               <AnimateIn variant="scale-up" delay={350} duration={700}>
@@ -87,7 +87,7 @@ export default async function BerandaPage() {
               </AnimateIn>
               <AnimateIn variant="scale-up" delay={500} duration={700}>
                 <div className="animate-float-slow -mt-6 flex h-40 w-40 items-center justify-center rounded-3xl bg-[#f7f0e6] text-7xl border-2 border-secondary shadow-[4px_4px_0px_#1d2b1f]">
-                  🐟
+                  🌾
                 </div>
               </AnimateIn>
               <AnimateIn variant="scale-up" delay={650} duration={700}>
@@ -131,12 +131,16 @@ export default async function BerandaPage() {
                 {t("Semua Kategori", lang)} →
               </Link>
               <p className="text-secondary/70 leading-relaxed font-sans font-medium text-base md:text-lg max-w-md md:text-right">
-                {t("Fokus rilis pertama: Babi. Kopi & Perikanan menyusul.", lang)}
+                {t("Komoditas unggulan: Jagung Pakan & Kopi Sulawesi.", lang)}
               </p>
             </div>
           </div>
         </AnimateIn>
-        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
+        <div
+          className={`mt-8 grid grid-cols-1 gap-6 ${
+            categories.length === 2 ? "sm:grid-cols-2 max-w-4xl" : "sm:grid-cols-2 lg:grid-cols-3"
+          }`}
+        >
           {categories.map((category, i) => (
             <AnimateIn key={category.id} variant="fade-up" delay={i * 120} duration={600} className="h-full">
               <CategoryCard category={category} lang={lang} />
@@ -161,7 +165,7 @@ export default async function BerandaPage() {
                 </div>
                 <div className="flex flex-col items-start md:items-end justify-between gap-4 md:gap-8 md:text-right">
                   <Link 
-                    href="/katalog/babi" 
+                    href="/katalog" 
                     className="text-sm font-black tracking-wide uppercase text-secondary hover:underline flex items-center gap-1"
                   >
                     {t("Semua Produk", lang)} →
@@ -195,10 +199,10 @@ export default async function BerandaPage() {
               </AnimateIn>
               <AnimateIn variant="fade-up" delay={350}>
                 <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black text-secondary leading-tight tracking-tight">
-                  {t("Butuh pasokan rutin untuk katering atau usaha Anda?", lang)}
+                  {t("Butuh pasokan rutin jagung pakan atau green bean kopi untuk usaha Anda?", lang)}
                 </h2>
                 <p className="mt-4 text-secondary/80 font-sans font-medium text-base sm:text-lg max-w-2xl leading-relaxed">
-                  {t("Kami melayani kebutuhan katering kawasan industri, restoran, dan pengepul di Palopo, Morowali, dan sekitarnya.", lang)}
+                  {t("Kami melayani kebutuhan pabrik pakan, peternak mandiri, roastery, dan distributor komoditas di Sulawesi dan sekitarnya.", lang)}
                 </p>
               </AnimateIn>
             </div>

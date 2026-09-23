@@ -9,14 +9,15 @@ const STATIC_TRANSLATIONS: Record<string, Record<Language, string>> = {
   "Hubungi Kami": { id: "Hubungi Kami", en: "Contact Us", zh: "联系我们" },
 
   // Hero
-  "Dari kandang sampai ke meja Anda —": { id: "Dari kandang sampai ke meja Anda —", en: "From farm to your table —", zh: "从农场到您的餐桌 —" },
+  "Dari lahan & kebun terbaik Sulawesi —": { id: "Dari lahan & kebun terbaik Sulawesi —", en: "From the finest farms & plantations of Sulawesi —", zh: "源自苏拉威西精选农田与庄园 —" },
   "tertelusur penuh.": { id: "tertelusur penuh.", en: "fully traceable.", zh: "全程可追溯。" },
   "Lihat Katalog": { id: "Lihat Katalog", en: "View Catalog", zh: "查看产品目录" },
   "Hubungi via WhatsApp": { id: "Hubungi via WhatsApp", en: "Contact via WhatsApp", zh: "通过 WhatsApp 联系" },
 
   // Categories & Featured
   "Komoditas Kami": { id: "Komoditas Kami", en: "Our Commodities", zh: "我们的主要产品" },
-  "Fokus rilis pertama: Babi. Kopi & Perikanan menyusul.": { id: "Fokus rilis pertama: Babi. Kopi & Perikanan menyusul.", en: "First release focus: Pork. Coffee & Fisheries to follow.", zh: "首期发布重点：生猪。咖啡与渔业产品即将推出。" },
+  "Komoditas unggulan: Jagung Pakan & Kopi Sulawesi.": { id: "Komoditas unggulan: Jagung Pakan & Kopi Sulawesi.", en: "Featured commodities: Feed Corn & Sulawesi Coffee.", zh: "核心特色产品：饲料玉米与苏拉威西咖啡。" },
+  "Fokus rilis pertama: Babi. Kopi & Perikanan menyusul.": { id: "Komoditas unggulan: Jagung Pakan & Kopi Sulawesi.", en: "Featured commodities: Feed Corn & Sulawesi Coffee.", zh: "核心特色产品：饲料玉米与苏拉威西咖啡。" },
   "Semua kategori →": { id: "Semua kategori →", en: "All categories →", zh: "所有品类 →" },
   "Produk Unggulan": { id: "Produk Unggulan", en: "Featured Products", zh: "推荐产品" },
   "Setiap produk punya jejak yang bisa Anda periksa sendiri.": { id: "Setiap produk punya jejak yang bisa Anda periksa sendiri.", en: "Every product has a journey you can inspect yourself.", zh: "每件产品都拥有您可以自主查询的追溯档案。" },
@@ -31,32 +32,73 @@ const STATIC_TRANSLATIONS: Record<string, Record<Language, string>> = {
   },
 
   // CTA
-  "Butuh pasokan rutin untuk katering atau usaha Anda?": { id: "Butuh pasokan rutin untuk katering atau usaha Anda?", en: "Need regular supply for your catering or business?", zh: "您的餐饮服务或企业需要定期供应吗？" },
-  "Kami melayani kebutuhan katering kawasan industri, restoran, dan pengepul di Palopo, Morowali, dan sekitarnya.": { id: "Kami melayani kebutuhan katering kawasan industri, restoran, dan pengepul di Palopo, Morowali, dan sekitarnya.", en: "We serve catering needs for industrial zones, restaurants, and wholesalers in Palopo, Morowali, and surrounding areas.", zh: "我们为巴罗波 (Palopo)、莫罗瓦利 (Morowali) 及周边地区的工业区餐饮、餐厅 and 批发商提供供应服务。" },
+  "Butuh pasokan rutin jagung pakan atau green bean kopi untuk usaha Anda?": { id: "Butuh pasokan rutin jagung pakan atau green bean kopi untuk usaha Anda?", en: "Need regular supply of feed corn or green bean coffee for your business?", zh: "您的企业需要定期采购饲料玉米或咖啡生豆吗？" },
+  "Kami melayani kebutuhan pabrik pakan, peternak mandiri, roastery, dan distributor komoditas di Sulawesi dan sekitarnya.": { id: "Kami melayani kebutuhan pabrik pakan, peternak mandiri, roastery, dan distributor komoditas di Sulawesi dan sekitarnya.", en: "We serve feed mills, independent farmers, roasteries, and commodity distributors across Sulawesi and beyond.", zh: "我们为苏拉威西及周边地区的饲料加工厂、独立养殖户、烘焙工坊及贸易商提供供应服务。" },
+  "Butuh pasokan rutin untuk katering atau usaha Anda?": { id: "Butuh pasokan rutin jagung pakan atau green bean kopi untuk usaha Anda?", en: "Need regular supply of feed corn or green bean coffee for your business?", zh: "您的企业需要定期采购饲料玉米或咖啡生豆吗？" },
+  "Kami melayani kebutuhan katering kawasan industri, restoran, dan pengepul di Palopo, Morowali, dan sekitarnya.": { id: "Kami melayani kebutuhan pabrik pakan, peternak mandiri, roastery, dan distributor komoditas di Sulawesi dan sekitarnya.", en: "We serve feed mills, independent farmers, roasteries, and commodity distributors across Sulawesi and beyond.", zh: "我们为苏拉威西及周边地区的饲料加工厂、独立养殖户、烘焙工坊及贸易商提供供应服务。" },
   "Chat WhatsApp Sekarang": { id: "Chat WhatsApp Sekarang", en: "Chat via WhatsApp", zh: "立即通过 WhatsApp 咨询" },
   "Kirim Pesan": { id: "Kirim Pesan", en: "Send Message", zh: "发送信息" },
 
   // Tentang Page
   "Tentang Kami": { id: "Tentang Kami", en: "About Us", zh: "关于我们" },
   "Ingin tahu lebih banyak?": { id: "Ingin tahu lebih banyak?", en: "Want to know more?", zh: "想了解更多？" },
-  "Kami terbuka untuk kunjungan kandang, kemitraan, dan pertanyaan seputar produk.": { id: "Kami terbuka untuk kunjungan kandang, kemitraan, dan pertanyaan seputar produk.", en: "We are open to farm visits, partnerships, and product inquiries.", zh: "我们欢迎农场参观、业务合作及产品咨询。" },
+  "Kami terbuka untuk kunjungan kebun, kemitraan petani, dan pertanyaan seputar produk.": { id: "Kami terbuka untuk kunjungan kebun, kemitraan petani, dan pertanyaan seputar produk.", en: "We are open to farm visits, farmer partnerships, and product inquiries.", zh: "我们欢迎农场参观、农户合作及产品咨询。" },
+  "Kami terbuka untuk kunjungan kandang, kemitraan, dan pertanyaan seputar produk.": { id: "Kami terbuka untuk kunjungan kebun, kemitraan petani, dan pertanyaan seputar produk.", en: "We are open to farm visits, farmer partnerships, and product inquiries.", zh: "我们欢迎农场参观、农户合作及产品咨询。" },
   "Konten halaman ini sedang disiapkan. Silakan hubungi kami untuk informasi lebih lanjut.": { id: "Konten halaman ini sedang disiapkan. Silakan hubungi kami untuk informasi lebih lanjut.", en: "The content of this page is being prepared. Please contact us for more information.", zh: "本页内容正在准备中。如需了解更多详情，请与我们联系。" },
   "Siapa Kami": { id: "Siapa Kami", en: "Who We Are", zh: "我们是谁" },
-  "Penyedia Komoditas Ternak Tertelusur Terpercaya di Sulawesi": { id: "Penyedia Komoditas Ternak Tertelusur Terpercaya di Sulawesi", en: "Trusted Traceable Livestock Commodity Provider in Sulawesi", zh: "苏拉威西值得信赖的可追溯畜牧产品供应商" },
-  "Tri Agri didirikan dengan misi membawa standar baru dalam industri peternakan babi di Sulawesi. Melalui kombinasi manajemen pakan yang ketat, sanitasi modern, dan teknologi penelusuran (traceability) digital, kami menghadirkan produk daging babi yang higienis, sehat, dan segar untuk mitra industri dan konsumen langsung.": { id: "Tri Agri didirikan dengan misi membawa standar baru dalam industri peternakan babi di Sulawesi. Melalui kombinasi manajemen pakan yang ketat, sanitasi modern, dan teknologi penelusuran (traceability) digital, kami menghadirkan produk daging babi yang higienis, sehat, dan segar untuk mitra industri dan konsumen langsung.", en: "Tri Agri was founded with a mission to bring new standards to the livestock industry in Sulawesi. Through a combination of strict feed management, modern sanitation, and digital traceability technology, we deliver hygienic, healthy, and fresh pork products to industrial partners and direct consumers.", zh: "Tri Agri 的创立使命是为苏拉威西的生猪养殖业树立新标准。通过严格的饲料管理、现代化的卫生标准以及数字可追溯技术的结合，我们为工业合作伙伴和直接消费者提供卫生、健康、新鲜的猪肉产品。" },
-  "Palopo & Morowali": { id: "Palopo & Morowali", en: "Palopo & Morowali", zh: "巴罗波 & 莫罗瓦利" },
-  "Dua pusat operasional strategis untuk melayani pasar Sulawesi Selatan, Toraja, dan Kawasan Industri Morowali.": { id: "Dua pusat operasional strategis untuk melayani pasar Sulawesi Selatan, Toraja, dan Kawasan Industri Morowali.", en: "Two strategic operational centers serving the South Sulawesi, Toraja, and Morowali Industrial Zone markets.", zh: "两大战略运营中心，服务于南苏拉威西、塔纳托拉雅以及莫罗瓦利 (IMIP) 工业区市场。" },
+  "Penyedia Komoditas Jagung Pakan & Kopi Tertelusur di Sulawesi": { id: "Penyedia Komoditas Jagung Pakan & Kopi Tertelusur di Sulawesi", en: "Trusted Provider of Traceable Feed Corn & Coffee in Sulawesi", zh: "苏拉威西值得信赖的可追溯饲料玉米与咖啡供应商" },
+  "Penyedia Komoditas Ternak Tertelusur Terpercaya di Sulawesi": { id: "Penyedia Komoditas Jagung Pakan & Kopi Tertelusur di Sulawesi", en: "Trusted Provider of Traceable Feed Corn & Coffee in Sulawesi", zh: "苏拉威西值得信赖的可追溯饲料玉米与咖啡供应商" },
+  "Tri Agri didirikan dengan misi membawa standar baru dalam rantai pasok agribisnis di Sulawesi. Melalui kemitraan erat dengan petani jagung dan perkebunan kopi, kontrol mutu bahan dan kadar air yang ketat, serta teknologi penelusuran (traceability) digital, kami menghadirkan jagung pakan berkualitas tinggi dan green bean kopi pilihan untuk mitra industri dan konsumen.": {
+    id: "Tri Agri didirikan dengan misi membawa standar baru dalam rantai pasok agribisnis di Sulawesi. Melalui kemitraan erat dengan petani jagung dan perkebunan kopi, kontrol mutu bahan dan kadar air yang ketat, serta teknologi penelusuran (traceability) digital, kami menghadirkan jagung pakan berkualitas tinggi dan green bean kopi pilihan untuk mitra industri dan konsumen.",
+    en: "Tri Agri was founded with a mission to bring new standards to the agribusiness supply chain in Sulawesi. Through close partnerships with corn farmers and coffee plantations, strict quality control of materials and moisture, and digital traceability technology, we deliver high-quality feed corn and premium green beans to industrial partners and consumers.",
+    zh: "Tri Agri 的创立使命是为苏拉威西的农业供应链树立新标准。通过与玉米种植农户及咖啡庄园的紧密合作、严格的原料与水分品控，以及数字化追溯技术，我们为工业合作伙伴及客户提供高品质饲料玉米和精选咖啡生豆。"
+  },
+  "Sentra Sulawesi": { id: "Sentra Sulawesi", en: "Sulawesi Agricultural Hub", zh: "苏拉威西农业核心基地" },
+  "Palopo & Morowali": { id: "Sentra Sulawesi", en: "Sulawesi Agricultural Hub", zh: "苏拉威西农业核心基地" },
+  "Pusat kemitraan jagung pakan dan kopi dataran tinggi terbaik untuk memasok kebutuhan industri pakan dan roastery.": {
+    id: "Pusat kemitraan jagung pakan dan kopi dataran tinggi terbaik untuk memasok kebutuhan industri pakan dan roastery.",
+    en: "Partnership center for high-grade feed corn and highland coffee supplying feed mills and specialty roasteries.",
+    zh: "优质饲料玉米与高海拔咖啡合作中心，持续供应饲料工业及精品咖啡烘焙厂需求。"
+  },
+  "Dua pusat operasional strategis untuk melayani pasar Sulawesi Selatan, Toraja, dan Kawasan Industri Morowali.": {
+    id: "Pusat kemitraan jagung pakan dan kopi dataran tinggi terbaik untuk memasok kebutuhan industri pakan dan roastery.",
+    en: "Partnership center for high-grade feed corn and highland coffee supplying feed mills and specialty roasteries.",
+    zh: "优质饲料玉米与高海拔咖啡合作中心，持续供应饲料工业及精品咖啡烘焙厂需求。"
+  },
   "Visi & Misi": { id: "Visi & Misi", en: "Vision & Mission", zh: "愿景与使命" },
   "Arah & Landasan Kerja Kami": { id: "Arah & Landasan Kerja Kami", en: "Our Direction & Working Foundation", zh: "我们的指引与工作基石" },
   "Misi Kami": { id: "Misi Kami", en: "Our Mission", zh: "我们的使命" },
-  "Menjamin kesehatan ternak melalui pakan terformulasi khusus dan perawatan higienis.": { id: "Menjamin kesehatan ternak melalui pakan terformulasi khusus dan perawatan higienis.", en: "Ensuring livestock health through specially formulated feed and hygienic care.", zh: "通过配方饲料和卫生护理，保障牲畜的健康成长。" },
-  "Menyediakan daging berkualitas premium dengan sistem penelusuran (traceability) digital yang transparan.": { id: "Menyediakan daging berkualitas premium dengan sistem penelusuran (traceability) digital yang transparan.", en: "Providing premium quality meat with a transparent digital traceability system.", zh: "通过公开透明的数字化追溯系统，提供高品质猪肉产品。" },
-  "Menjadi mitra pasokan rutin utama bagi katering industri dan restoran di Sulawesi.": { id: "Menjadi mitra pasokan rutin utama bagi katering industri dan restoran di Sulawesi.", en: "Becoming the main routine supply partner for industrial catering and restaurants in Sulawesi.", zh: "成为苏拉威西工业区餐饮和餐厅的主要定期供应商。" },
-  "Menerapkan manajemen limbah ramah lingkungan untuk keberlanjutan sekitar.": { id: "Menerapkan manajemen limbah ramah lingkungan untuk keberlanjutan sekitar.", en: "Implementing eco-friendly waste management for surrounding environmental sustainability.", zh: "实施环保的废弃物管理，促进周边环境的可持续发展。" },
-  "Menjadi pemasok komoditas babi dan produk turunan berkualitas tinggi dengan jaminan ketertelusuran penuh demi kepuasan konsumen di Sulawesi.": { id: "Menjadi pemasok komoditas babi dan produk turunan berkualitas tinggi dengan jaminan ketertelusuran penuh demi kepuasan konsumen di Sulawesi.", en: "To be a supplier of high-quality pork commodities and derivative products for consumer satisfaction in Sulawesi.", zh: "致力于成为苏拉威西地区高品质生猪及副产品供应商，提供全程可追溯保障，满足消费者需求。" },
-  "Kami berkomitmen menghadirkan produk peternakan berkualitas tinggi dengan jaminan ketertelusuran penuh dari kandang hingga meja Anda.": { id: "Kami berkomitmen menghadirkan produk peternakan berkualitas tinggi dengan jaminan ketertelusuran penuh dari kandang hingga meja Anda.", en: "We are committed to delivering high-quality livestock products with a full traceability guarantee from farm to your table.", zh: "我们致力于提供高品质的畜牧产品，并提供从农场到餐桌的全程可追溯保障。" },
-  "Jelajahi produk segar dan pilihan komoditas unggulan kami. Dari daging babi segar dengan ketertelusuran penuh, hingga komoditas andalan Sulawesi lainnya yang diproses secara higienis.": { id: "Jelajahi produk segar dan pilihan komoditas unggulan kami. Dari daging babi segar dengan ketertelusuran penuh, hingga komoditas andalan Sulawesi lainnya yang diproses secara higienis.", en: "Explore our fresh products and premium commodity selections. From fresh pork with complete traceability to other signature Sulawesi commodities processed hygienically.", zh: "探索我们的新鲜产品与优质商品选择。从拥有完整追溯档案的新鲜猪肉，到其他源自苏拉威西、经过卫生加工的特色产品。" },
-  "Jelajahi pilihan produk segar berkualitas tinggi dari kategori ini, diproduksi higienis dengan jaminan penelusuran penuh.": { id: "Jelajahi pilihan produk segar berkualitas tinggi dari kategori ini, diproduksi higienis dengan jaminan penelusuran penuh.", en: "Explore our selection of high-quality fresh products from this category, produced hygienically with full traceability guarantee.", zh: "探索该品类下精选的高品质新鲜产品，卫生生产并提供完整的可追溯保障。" },
+  "Mendukung produktivitas petani mitra melalui pendampingan benih unggul, pupuk berimbang, dan pasca-panen terstandar.": {
+    id: "Mendukung produktivitas petani mitra melalui pendampingan benih unggul, pupuk berimbang, dan pasca-panen terstandar.",
+    en: "Supporting partner farmers through superior seeds, balanced fertilization, and standardized post-harvest practices.",
+    zh: "通过优质良种指导、平衡施肥方案及标准化采后加工，助力合作农户提高生产力。"
+  },
+  "Menyediakan jagung pakan berkadar air rendah (<14%) dan bebas aflatoksin untuk industri pakan ternak.": {
+    id: "Menyediakan jagung pakan berkadar air rendah (<14%) dan bebas aflatoksin untuk industri pakan ternak.",
+    en: "Supplying low-moisture (<14%) and aflatoxin-free feed corn for livestock feed mills.",
+    zh: "为畜禽饲料加工厂提供低水分 (<14%) 且无黄曲霉毒素的优质饲料玉米。"
+  },
+  "Menghasilkan green bean kopi specialty dan fine robusta dengan profil rasa prima dan ketertelusuran kebun asal.": {
+    id: "Menghasilkan green bean kopi specialty dan fine robusta dengan profil rasa prima dan ketertelusuran kebun asal.",
+    en: "Producing specialty arabica and fine robusta green beans with exquisite taste profiles and plantation traceability.",
+    zh: "出品拥有卓越风味轮廓和源头庄园全程追溯的精品阿拉比卡与精细罗布斯塔咖啡生豆。"
+  },
+  "Menerapkan sistem penelusuran digital (traceability) transparan di setiap batch komoditas.": {
+    id: "Menerapkan sistem penelusuran digital (traceability) transparan di setiap batch komoditas.",
+    en: "Implementing transparent digital traceability across every commodity batch.",
+    zh: "在每个批次的大宗商品中实施公开透明的数字化追溯系统。"
+  },
+  "Menjadi pemasok komoditas jagung pakan dan kopi terpercaya dengan jaminan ketertelusuran penuh dan transparansi bahan demi kepuasan mitra di Indonesia.": {
+    id: "Menjadi pemasok komoditas jagung pakan dan kopi terpercaya dengan jaminan ketertelusuran penuh dan transparansi bahan demi kepuasan mitra di Indonesia.",
+    en: "To be a trusted supplier of feed corn and coffee with complete traceability and material transparency for partner satisfaction across Indonesia.",
+    zh: "致力于成为印度尼西亚值得信赖的饲料玉米与咖啡供应商，提供全流程追溯与用料透明保障，满足商业伙伴需求。"
+  },
+  "Jelajahi komoditas unggulan kami: jagung pakan berkualitas tinggi dengan kadar air terkontrol dan biji kopi pilihan dari kebun-kebun terbaik Sulawesi dengan ketertelusuran penuh.": {
+    id: "Jelajahi komoditas unggulan kami: jagung pakan berkualitas tinggi dengan kadar air terkontrol dan biji kopi pilihan dari kebun-kebun terbaik Sulawesi dengan ketertelusuran penuh.",
+    en: "Explore our signature commodities: high-grade feed corn with controlled moisture and select coffee beans from Sulawesi's finest plantations with complete traceability.",
+    zh: "探索我们的核心特色商品：水分严控的高品质饲料玉米，以及源自苏拉威西精选庄园、全程可追溯的优质咖啡豆。"
+  },
+  "Jelajahi pilihan produk segar berkualitas tinggi dari kategori ini, diproduksi higienis dengan jaminan penelusuran penuh.": { id: "Jelajahi pilihan produk segar berkualitas tinggi dari kategori ini, diproduksi higienis dengan jaminan penelusuran penuh.", en: "Explore our selection of high-quality products from this category with full traceability guarantee.", zh: "探索该品类下精选的高品质产品，提供完整的可追溯保障。" },
 
   // Kontak Page
   "Hubungi / Jadi Mitra": { id: "Hubungi / Jadi Mitra", en: "Contact / Become a Partner", zh: "联系我们 / 成为合作伙伴" },
@@ -131,215 +173,152 @@ const STATIC_TRANSLATIONS: Record<string, Record<Language, string>> = {
 
 /** Dynamic database content translations */
 const CONTENT_TRANSLATIONS: Record<string, Record<Language, string>> = {
-  "Babi": { id: "Babi", en: "Pork", zh: "生猪" },
+  "Jagung Pakan": { id: "Jagung Pakan", en: "Feed Corn", zh: "饲料玉米" },
   "Kopi": { id: "Kopi", en: "Coffee", zh: "咖啡" },
   "Perikanan": { id: "Perikanan", en: "Fisheries", zh: "渔业" },
-  "Babi jenis Duroc, Landrace, dan Crossbreed F1 — digemukkan di kandang Palopo & Morowali dengan pencatatan pertumbuhan rutin.": {
-    id: "Babi jenis Duroc, Landrace, dan Crossbreed F1 — digemukkan di kandang Palopo & Morowali dengan pencatatan pertumbuhan rutin.",
-    en: "Duroc, Landrace, and Crossbreed F1 pigs — fattened in Palopo & Morowali farms with regular growth monitoring.",
-    zh: "杜洛克 (Duroc)、长白 (Landrace) 及 F1 杂交猪 —— 在巴罗波 (Palopo) 与莫罗瓦利 (Morowali) 农场进行育肥，并记录日常生长数据。"
-  },
-  "Kopi Arabika Toraja & Wamena, diolah full wash langsung dari petani. Segera hadir.": {
-    id: "Kopi Arabika Toraja & Wamena, diolah full wash langsung dari petani. Segera hadir.",
-    en: "Toraja & Wamena Arabica Coffee, processed via full wash directly from farmers. Coming soon.",
-    zh: "塔纳托拉雅 (Toraja) 与瓦梅纳 (Wamena) 阿拉比卡咖啡，由农户直接进行全水洗处理。即将推出。"
-  },
-  "Hasil perikanan segar dari perairan Sulawesi. Segera hadir.": {
-    id: "Hasil perikanan segar dari perairan Sulawesi. Segera hadir.",
-    en: "Fresh fishery products sourced from Sulawesi waters. Coming soon.",
-    zh: "源自苏拉威西海域的新鲜渔业产品。即将推出。"
-  },
+  "Jagung": { id: "Jagung", en: "Corn", zh: "玉米" },
+  "Babi": { id: "Jagung Pakan", en: "Feed Corn", zh: "饲料玉米" },
 
-  // Product names & breeds
-  "Karkas Babi Duroc": {
-    id: "Karkas Babi Duroc",
-    en: "Duroc Pork Carcass",
-    zh: "杜洛克猪胴体"
+  "Jagung pipil kering kualitas super untuk bahan pakan ternak. Dipanen dari lahan mitra Sulawesi dengan kadar air terkontrol (<14%).": {
+    id: "Jagung pipil kering kualitas super untuk bahan pakan ternak. Dipanen dari lahan mitra Sulawesi dengan kadar air terkontrol (<14%).",
+    en: "Premium dry shelled corn for animal feed raw materials. Harvested from Sulawesi partner farms with controlled moisture (<14%).",
+    zh: "特级烘干脱粒饲料玉米。源自苏拉威西合作农场，水分严控 (<14%)，富含营养。"
   },
-  "Karkas babi Duroc dari kandang Palopo. Dipelihara 8-9 bulan dengan pakan terkontrol dan pencatatan bobot rutin. Rendemen karkas rata-rata di atas 75%. Setiap karkas dapat ditelusuri riwayatnya melalui halaman jejak produk.": {
-    id: "Karkas babi Duroc dari kandang Palopo. Dipelihara 8-9 bulan dengan pakan terkontrol dan pencatatan bobot rutin. Rendemen karkas rata-rata di atas 75%. Setiap karkas dapat ditelusuri riwayatnya melalui halaman jejak produk.",
-    en: "Duroc pork carcass from Palopo farm. Raised for 8-9 months with controlled feed and regular weight tracking. Average carcass yield above 75%. The history of each carcass can be traced via the product journey page.",
-    zh: "源自巴罗波农场的杜洛克猪胴体。经过 8-9 个月的科学饲喂，并进行定期称重记录。平均屠宰率超过 75%。可通过产品追溯页面查询每只猪的生长历程。"
+  "Kopi Arabika Toraja & Sulawesi Specialty, dipetik merah dan diolah terstandar langsung dari petani.": {
+    id: "Kopi Arabika Toraja & Sulawesi Specialty, dipetik merah dan diolah terstandar langsung dari petani.",
+    en: "Toraja & Sulawesi Specialty Arabica Coffee, 100% red-cherry picked and processed directly with farmers.",
+    zh: "托拉雅与苏拉威西精品阿拉比卡咖啡，严格全红果采摘，由合作农户标准化精制。"
   },
-  "Karkas utuh babi Duroc umur potong 8-9 bulan, rendemen 75%+.": {
-    id: "Karkas utuh babi Duroc umur potong 8-9 bulan, rendemen 75%+.",
-    en: "Whole Duroc pork carcass, slaughter age 8-9 months, yield 75%+.",
-    zh: "8-9 个月出栏的整只杜洛克猪胴体，屠宰率 75% 以上。"
-  },
-  "Daging Babi Potongan Komersial": {
-    id: "Daging Babi Potongan Komersial",
-    en: "Commercial Pork Cuts",
-    zh: "商业分割猪肉"
-  },
-  "Potongan komersial dari karkas pilihan: loin, belly (samcan), shoulder, dan ham. Dipotong higienis dan dikemas vakum. Cocok untuk katering, restoran, dan kebutuhan rumah tangga di Palopo & Morowali.": {
-    id: "Potongan komersial dari karkas pilihan: loin, belly (samcan), shoulder, dan ham. Dipotong higienis dan dikemas vakum. Cocok untuk katering, restoran, dan kebutuhan rumah tangga di Palopo & Morowali.",
-    en: "Commercial cuts from premium carcasses: loin, belly, shoulder, and ham. Hygienically cut and vacuum packed. Ideal for catering, restaurants, and household needs in Palopo & Morowali.",
-    zh: "精选优质胴体进行商业分割：里脊、五花、梅花/前腿肉和后腿肉。卫生切割并进行真空包装，适用于餐饮服务、餐厅以及巴罗波与莫罗瓦利居民的家庭日常需求。"
-  },
-  "Potongan komersial siap masak: loin, belly, shoulder, ham.": {
-    id: "Potongan komersial siap masak: loin, belly, shoulder, ham.",
-    en: "Ready-to-cook commercial cuts: loin, belly, shoulder, ham.",
-    zh: "即烹型商业分割肉：里脊、五花肉、前腿肉、后腿肉。"
-  },
-  "Babi Hidup Siap Potong": {
-    id: "Babi Hidup Siap Potong",
-    en: "Live Pig (Slaughter-ready)",
-    zh: "待宰活猪"
-  },
-  "Babi hidup siap potong dengan bobot 90-110 kg. Setiap ekor punya kode jejak yang bisa Anda periksa: asal bibit, riwayat pakan, vaksinasi, dan perkembangan bobot. Harga mengikuti bobot timbang dan kondisi pasar — hubungi kami untuk penawaran.": {
-    id: "Babi hidup siap potong dengan bobot 90-110 kg. Setiap ekor punya kode jejak yang bisa Anda periksa: asal bibit, riwayat pakan, vaksinasi, dan perkembangan bobot. Harga mengikuti bobot timbang dan kondisi pasar — hubungi kami untuk penawaran.",
-    en: "Slaughter-ready live pigs with 90-110 kg weight. Each head has a trace code you can inspect: breed origin, feed history, vaccination, and weight progress. Price depends on weight scale and market conditions — contact us for quotes.",
-    zh: "体重在 90-110 公斤的待宰活猪。每只猪都拥有专属追溯编码，您可以查询其幼崽来源、饲喂记录、疫苗接种和体重增长情况。价格根据实际称重及市场行情决定 —— 欢迎联系我们获取报价。"
-  },
-  "Babi hidup bobot 90-110 kg, siap potong, jejak lengkap.": {
-    id: "Babi hidup bobot 90-110 kg, siap potong, jejak lengkap.",
-    en: "Live pig weight 90-110 kg, slaughter-ready, complete traceability.",
-    zh: "体重 90-110 公斤的活猪，待宰，提供完整追溯数据。"
-  },
-  "Bibit Weaner Crossbreed F1": {
-    id: "Bibit Weaner Crossbreed F1",
-    en: "F1 Crossbreed Weaner Piglets",
-    zh: "F1 杂交断奶仔猪"
-  },
-  "Bibit weaner Crossbreed F1 umur 6-8 minggu, sudah melalui vaksinasi dasar dan pemeriksaan kesehatan. Cocok untuk mitra penggemukan. Ketersediaan terbatas per batch — pre-order disarankan.": {
-    id: "Bibit weaner Crossbreed F1 umur 6-8 minggu, sudah melalui vaksinasi dasar dan pemeriksaan kesehatan. Cocok untuk mitra penggemukan. Ketersediaan terbatas per batch — pre-order disarankan.",
-    en: "F1 Crossbreed weaner piglets aged 6-8 weeks, completed basic vaccinations and health checks. Suitable for fattening partners. Limited availability per batch — pre-order recommended.",
-    zh: "6-8 周龄的 F1 杂交断奶仔猪，已完成基础疫苗接种和健康检查。适用于合作育肥农场。每批次供应数量有限 —— 建议提前预订。"
-  },
-  "Weaner umur 6-8 minggu untuk penggemukan, kesehatan terverifikasi.": {
-    id: "Weaner umur 6-8 minggu untuk penggemukan, kesehatan terverifikasi.",
-    en: "Weaners aged 6-8 weeks for fattening, verified health status.",
-    zh: "用于育肥的 6-8 周龄仔猪，健康状态已验证。"
-  },
-  "Duroc / Landrace": { id: "Duroc / Landrace", en: "Duroc / Landrace", zh: "杜洛克 / 长白" },
-  "Duroc / Crossbreed F1": { id: "Duroc / Crossbreed F1", en: "Duroc / Crossbreed F1", zh: "杜洛克 / F1 杂交猪" },
-  "Crossbreed F1": { id: "Crossbreed F1", en: "Crossbreed F1", zh: "F1 杂交猪" },
-
-  // Site settings
-  "Komoditas tertelusur dari Sulawesi": { id: "Komoditas tertelusur dari Sulawesi", en: "Traceable commodities from Sulawesi", zh: "来自苏拉威西的可追溯产品" },
-  "Peternakan babi di Palopo & Morowali dengan pencatatan jejak penuh — setiap ekor tercatat dari akuisisi bibit sampai siap potong. Menyusul: kopi Toraja & perikanan.": {
-    id: "Peternakan babi di Palopo & Morowali dengan pencatatan jejak penuh — setiap ekor tercatat dari akuisisi bibit sampai siap potong. Menyusul: kopi Toraja & perikanan.",
-    en: "Pig farming in Palopo & Morowali with complete traceability — each head is recorded from breed sourcing to slaughter-ready. Coming soon: Toraja coffee & fisheries.",
-    zh: "位于巴罗波与莫罗瓦利的生猪养殖场，提供全程追溯记录 —— 每只猪从幼崽引进到出栏皆有据可查。即将推出：托拉雅咖啡与渔业产品。"
-  },
-  "Palopo & Morowali, Sulawesi": { id: "Palopo & Morowali, Sulawesi", en: "Palopo & Morowali, Sulawesi", zh: "苏拉威西，巴罗波 & 莫罗瓦利" },
-
-  // Traceability subjects
-  "Babi Duroc #001": { id: "Babi Duroc #001", en: "Duroc Pig #001", zh: "杜洛克生猪 #001" },
-  "Babi Crossbreed F1 #014": { id: "Babi Crossbreed F1 #014", en: "F1 Crossbreed Pig #014", zh: "F1 杂交生猪 #014" },
-  "Siap Potong": { id: "Siap Potong", en: "Slaughter-ready", zh: "准备出栏" },
-  "Pertumbuhan": { id: "Pertumbuhan", en: "Growth", zh: "生长期" },
-
-  // Traceability events
-  "Akuisisi Bibit": { id: "Akuisisi Bibit", en: "Breed Acquisition", zh: "幼崽引进" },
-  "Weaner Duroc jantan dibeli dari peternak mitra di Toraja Utara. Kondisi sehat, nafsu makan baik.": {
-    id: "Weaner Duroc jantan dibeli dari peternak mitra di Toraja Utara. Kondisi sehat, nafsu makan baik.",
-    en: "Male Duroc weaner purchased from a partner breeder in North Toraja. Healthy condition, good appetite.",
-    zh: "从北托拉雅的合作伙伴处引进杜洛克雄性仔猪。健康状况良好，食欲旺盛。"
-  },
-  "Toraja Utara": { id: "Toraja Utara", en: "North Toraja", zh: "北托拉雅" },
-  "Transportasi ke Kandang": { id: "Transportasi ke Kandang", en: "Transport to Farm", zh: "运送至农场" },
-  "Diangkut dengan pickup berkandang ventilasi. Perjalanan lancar tanpa stres berarti.": {
-    id: "Diangkut dengan pickup berkandang ventilasi. Perjalanan lancar tanpa stres berarti.",
-    en: "Transported using a ventilated pickup. Smooth trip without significant stress.",
-    zh: "采用通风良好的皮卡车进行运输。运输过程顺利，无明显应激反应。"
-  },
-  "Toraja Utara → Palopo": { id: "Toraja Utara → Palopo", en: "North Toraja → Palopo", zh: "北托拉雅 → 巴罗波" },
-  "Penempatan Kandang": { id: "Penempatan Kandang", en: "Housing Placement", zh: "入舍安置" },
-  "Masuk kandang karantina 2 minggu, lalu pindah ke pen penggemukan blok A.": {
-    id: "Masuk kandang karantina 2 minggu, lalu pindah ke pen penggemukan blok A.",
-    en: "Entered quarantine pen for 2 weeks, then moved to fattening pen block A.",
-    zh: "进入隔离舍观察两周，随后转入育肥舍 A 区。"
-  },
-  "Kandang Palopo": { id: "Kandang Palopo", en: "Palopo Farm", zh: "巴罗波农场" },
-  "Pertumbuhan Bulan ke-4": { id: "Pertumbuhan Bulan ke-4", en: "Month 4 Growth", zh: "第 4 个月生长期" },
-  "Perkembangan bobot sesuai target. Pakan konsentrat + hijauan fermentasi.": {
-    id: "Perkembangan bobot sesuai target. Pakan konsentrat + hijauan fermentasi.",
-    en: "Weight progress on track. Concentrated feed + fermented forage.",
-    zh: "体重增长符合预期目标。饲喂精饲料 + 发酵粗饲料。"
-  },
-  "Vaksinasi & Pemeriksaan": { id: "Vaksinasi & Pemeriksaan", en: "Vaccination & Health Check", zh: "疫苗接种与检疫" },
-  "Vaksinasi hog cholera booster dan pemeriksaan kesehatan menyeluruh. Hasil: sehat.": {
-    id: "Vaksinasi hog cholera booster dan pemeriksaan kesehatan menyeluruh. Hasil: sehat.",
-    en: "Hog cholera booster vaccination and thorough health check. Result: healthy.",
-    zh: "接种猪瘟强化疫苗并进行全面健康检查。结果：健康。"
-  },
-  "Mencapai bobot potong optimal. Estimasi rendemen karkas 76%.": {
-    id: "Mencapai bobot potong optimal. Estimasi rendemen karkas 76%.",
-    en: "Reached optimal slaughter weight. Estimated carcass yield 76%.",
-    zh: "达到最佳出栏体重。预计屠宰率 76%。"
-  },
-  "Weaner Crossbreed F1 betina dari batch mitra Palopo.": {
-    id: "Weaner Crossbreed F1 betina dari batch mitra Palopo.",
-    en: "Female F1 Crossbreed weaner from Palopo partner batch.",
-    zh: "源自巴罗波合作伙伴批次的雌性 F1 杂交仔猪。"
-  },
-  "Palopo": { id: "Palopo", en: "Palopo", zh: "巴罗波" },
-  "Langsung masuk kandang Morowali blok B setelah karantina singkat.": {
-    id: "Langsung masuk kandang Morowali blok B setelah karantina singkat.",
-    en: "Moved directly to Morowali pen block B after a short quarantine.",
-    zh: "在进行简短的隔离观察后，直接送入莫罗瓦利农场 B 区。"
-  },
-  "Kandang Morowali": { id: "Kandang Morowali", en: "Morowali Farm", zh: "莫罗瓦利农场" },
-  "Pertumbuhan Bulan ke-2": { id: "Pertumbuhan Bulan ke-2", en: "Month 2 Growth", zh: "第 2 个月生长期" },
-  "Bobot naik konsisten, target potong Desember 2026.": {
-    id: "Bobot naik konsisten, target potong Desember 2026.",
-    en: "Consistent weight gain, slaughter target December 2026.",
-    zh: "体重稳定增长，计划于 2026 年 12 月出栏。"
-  },
-  "Vaksinasi Dasar": { id: "Vaksinasi Dasar", en: "Basic Vaccination", zh: "基础免疫" },
-  "Vaksin hog cholera dosis pertama.": {
-    id: "Vaksin hog cholera dosis pertama.",
-    en: "First dose hog cholera vaccine.",
-    zh: "接种第一剂猪瘟疫苗。"
+  "Hasil komoditas pertanian dan perkebunan berkualitas tinggi dari Sulawesi.": {
+    id: "Hasil komoditas pertanian dan perkebunan berkualitas tinggi dari Sulawesi.",
+    en: "High-quality agricultural and plantation commodities from Sulawesi.",
+    zh: "源自苏拉威西的优质农产品与大宗经济作物。"
   },
 
   // Product names
-  "Babi Hidup (Slaughter)": { id: "Babi Hidup (Slaughter)", en: "Live Pig (Slaughter)", zh: "待宰活猪" },
-  "Karkas Babi (Pork Carcass)": { id: "Karkas Babi (Pork Carcass)", en: "Pork Carcass", zh: "猪胴体" },
-  "Babi Ekstra Lemak": { id: "Babi Ekstra Lemak", en: "Extra Fat Pig", zh: "高脂猪" },
-  "Anakan Babi (Weaner)": { id: "Anakan Babi (Weaner)", en: "Weaner Pig", zh: "断奶仔猪" },
+  "Jagung Pipil Kering Pakan Ternak": {
+    id: "Jagung Pipil Kering Pakan Ternak",
+    en: "Dry Shelled Feed Corn",
+    zh: "烘干脱粒饲料玉米"
+  },
+  "Jagung pipil kering kadar air rendah (<14%), bebas jamur dan aflatoksin, kaya karbohidrat dan protein untuk formulasi pakan ternak unggas dan ruminansia.": {
+    id: "Jagung pipil kering kadar air rendah (<14%), bebas jamur dan aflatoksin, kaya karbohidrat dan protein untuk formulasi pakan ternak unggas dan ruminansia.",
+    en: "Low-moisture (<14%) dry shelled corn, free of mold and aflatoxins, rich in carbohydrates and protein for poultry and ruminant feed formulations.",
+    zh: "低水分 (<14%) 烘干玉米粒，无霉变及黄曲霉毒素，富含碳水化合物与粗蛋白，专供禽类与反刍动物饲料调配。"
+  },
+  "Jagung pipil kering kadar air <14%, bebas aflatoksin, standar pakan industri.": {
+    id: "Jagung pipil kering kadar air <14%, bebas aflatoksin, standar pakan industri.",
+    en: "Dry shelled corn with moisture <14%, aflatoxin-safe, industrial feed standard.",
+    zh: "含水率 <14% 烘干脱粒玉米，符合工业饲料检测安全标准。"
+  },
+
+  "Kopi Arabika Toraja Green Bean": {
+    id: "Kopi Arabika Toraja Green Bean",
+    en: "Toraja Arabica Green Bean",
+    zh: "托拉雅阿拉比卡咖啡生豆"
+  },
+  "Biji kopi Arabika Toraja pilihan dari ketinggian 1.400-1.600 mdpl. Proses Full Wash / Wet Hulled dengan sortasi ketat Grade 1, defect rendah, dan cupping score 84+.": {
+    id: "Biji kopi Arabika Toraja pilihan dari ketinggian 1.400-1.600 mdpl. Proses Full Wash / Wet Hulled dengan sortasi ketat Grade 1, defect rendah, dan cupping score 84+.",
+    en: "Selected Toraja Arabica green beans from 1,400-1,600 masl altitude. Full Wash / Wet Hulled with strict Grade 1 sorting, low defect, and cupping score 84+.",
+    zh: "精选托拉雅高海拔 (1400-1600米) 阿拉比卡咖啡生豆。全水洗/湿刨处理，严格 Grade 1 手工挑瑕，SCAA 杯测分数 84+。"
+  },
+  "Green bean Arabika Toraja Grade 1, ketinggian 1.500 mdpl, cupping score 84+.": {
+    id: "Green bean Arabika Toraja Grade 1, ketinggian 1.500 mdpl, cupping score 84+.",
+    en: "Toraja Arabica Green Bean Grade 1, altitude 1,500 masl, cupping score 84+.",
+    zh: "托拉雅阿拉比卡一级生豆，海拔 1500 米，杯测 84 分以上。"
+  },
+
+  "Kopi Robusta Sulawesi Premium": {
+    id: "Kopi Robusta Sulawesi Premium",
+    en: "Premium Sulawesi Robusta Coffee",
+    zh: "苏拉威西特级罗布斯塔咖啡"
+  },
+  "Kopi Robusta petik merah dengan bodi tebal dan aroma cokelat karamel khas Sulawesi. Cocok untuk blend espresso komersial dan industri kopi.": {
+    id: "Kopi Robusta petik merah dengan bodi tebal dan aroma cokelat karamel khas Sulawesi. Cocok untuk blend espresso komersial dan industri kopi.",
+    en: "Red-picked Robusta coffee with bold body and signature chocolate caramel aroma from Sulawesi. Ideal for commercial espresso blends and coffee industry.",
+    zh: "全红果采摘罗布斯塔咖啡，醇厚度高，带有典型的黑巧焦糖风味，适用于商用浓缩拼配及速溶原料。"
+  },
+
+  // Site settings
+  "Komoditas tertelusur dari Sulawesi": { id: "Komoditas tertelusur dari Sulawesi", en: "Traceable commodities from Sulawesi", zh: "来自苏拉威西的可追溯产品" },
+  "Kemitraan petani jagung pakan dan kebun kopi di Sulawesi dengan pencatatan jejak penuh — mulai dari benih, pemupukan, hingga hasil uji laboratorium.": {
+    id: "Kemitraan petani jagung pakan dan kebun kopi di Sulawesi dengan pencatatan jejak penuh — mulai dari benih, pemupukan, hingga hasil uji laboratorium.",
+    en: "Partnerships with corn farmers and coffee plantations in Sulawesi with complete traceability — from seeds and fertilization to laboratory test results.",
+    zh: "苏拉威西饲料玉米及咖啡庄园深度合作，提供全程追溯档案 —— 从良种、施肥到实验室化验报告全面透明。"
+  },
+  "Sentra Agribisnis Sulawesi": { id: "Sentra Agribisnis Sulawesi", en: "Sulawesi Agribusiness Hub", zh: "苏拉威西农业商务中心" },
+
+  // Traceability subjects
+  "Batch Jagung Pakan Pipil #001": { id: "Batch Jagung Pakan Pipil #001", en: "Feed Corn Batch #001", zh: "饲料玉米批次 #001" },
+  "Lot Kopi Arabika Toraja #001": { id: "Lot Kopi Arabika Toraja #001", en: "Toraja Arabica Lot #001", zh: "托拉雅阿拉比卡咖啡批次 #001" },
+  "Siap Distribusi": { id: "Siap Distribusi", en: "Ready for Delivery", zh: "已达标可发运" },
+  "Selesai Uji Lab": { id: "Selesai Uji Lab", en: "Lab Tested", zh: "完成化验" },
+  "Proses Pengeringan": { id: "Proses Pengeringan", en: "Drying Stage", zh: "烘干脱水阶段" },
+
+  // Traceability events - Corn
+  "Asal Lahan & Benih Unggul": { id: "Asal Lahan & Benih Unggul", en: "Farm Origin & Superior Seeds", zh: "种植地块与良种引进" },
+  "Penanaman & Input Pemupukan Berimbang": { id: "Penanaman & Input Pemupukan Berimbang", en: "Planting & Balanced Inputs", zh: "播种与平衡施肥" },
+  "Panen Tongkol Jagung": { id: "Panen Tongkol Jagung", en: "Corn Cob Harvest", zh: "成熟采收" },
+  "Pengeringan & Kadar Air": { id: "Pengeringan & Kadar Air", en: "Drying & Moisture Control", zh: "脱粒烘干与水分检测" },
+  "Uji Laboratorium & Standar Mutu": { id: "Uji Laboratorium & Standar Mutu", en: "Lab Quality & Aflatoxin Test", zh: "实验室化验与质量评定" },
+  "Pengemasan & Siap Pasok Pakan": { id: "Pengemasan & Siap Pasok Pakan", en: "Packaging & Feed Supply Delivery", zh: "定量包装与发运" },
+
+  // Traceability events - Coffee
+  "Asal Kebun & Petani Toraja": { id: "Asal Kebun & Petani Toraja", en: "Toraja Plantation & Partner Farmers", zh: "托拉雅庄园与农户建档" },
+  "Panen Petik Merah 100%": { id: "Panen Petik Merah 100%", en: "100% Red Cherry Harvest", zh: "100% 全红果人工采摘" },
+  "Pengolahan Pasca-Panen Full Wash": { id: "Pengolahan Pasca-Panen Full Wash", en: "Full Wash Post-Harvest Processing", zh: "全水洗后处理工序" },
+  "Pengeringan di Raised Bed": { id: "Pengeringan di Raised Bed", en: "Sun-Drying on Raised Beds", zh: "高架棚日晒脱水" },
+  "Hulling & Sortasi Biji Grade 1": { id: "Hulling & Sortasi Biji Grade 1", en: "Hulling & Grade 1 Defect Sorting", zh: "脱壳精选与手工剔瑕" },
+  "Uji Cita Rasa & Cupping Lab SCAA": { id: "Uji Cita Rasa & Cupping Lab SCAA", en: "SCAA Cupping & Moisture Lab Test", zh: "SCAA 杯测与水分检测" },
+  "Pengemasan Green Bean GrainPro": { id: "Pengemasan Green Bean GrainPro", en: "GrainPro Hermetic Packaging", zh: "GrainPro 气密高保鲜包装" },
 
   // Traceability stages (EventType labels)
-  "Transportasi": { id: "Transportasi", en: "Transportation", zh: "运输环节" },
-  "Kesehatan": { id: "Kesehatan", en: "Health Track", zh: "健康监测" },
-  "Siap Potong / Karkas": { id: "Siap Potong / Karkas", en: "Slaughter-ready / Carcass", zh: "出栏 / 胴体" },
+  "Asal Lahan & Benih": { id: "Asal Lahan & Benih", en: "Origin & Seeds", zh: "地块与良种" },
+  "Tanam & Pemupukan": { id: "Tanam & Pemupukan", en: "Planting & Fertilizer", zh: "播种施肥" },
+  "Panen Tongkol": { id: "Panen Tongkol", en: "Corn Harvest", zh: "玉米采收" },
+  "Uji Lab & Mutu": { id: "Uji Lab & Mutu", en: "Lab & Quality Testing", zh: "化验品控" },
+  "Siap Pasok Pakan": { id: "Siap Pasok Pakan", en: "Ready for Feed Supply", zh: "饲料出库" },
+  "Asal Kebun & Petani": { id: "Asal Kebun & Petani", en: "Plantation Origin", zh: "庄园农户" },
+  "Pengolahan Pasca-Panen": { id: "Pengolahan Pasca-Panen", en: "Post-Harvest Processing", zh: "采后精制" },
+  "Hulling & Sortasi Biji": { id: "Hulling & Sortasi Biji", en: "Hulling & Sorting", zh: "脱壳精选" },
+  "Uji Cita Rasa (Cupping)": { id: "Uji Cita Rasa (Cupping)", en: "Cupping Test", zh: "风味杯测" },
+  "Kemasan Green Bean": { id: "Kemasan Green Bean", en: "Green Bean Packaging", zh: "生豆包装" },
 
   // Page blocks - Home page
   "Kenapa Tri Agri": { id: "Kenapa Tri Agri", en: "Why Tri Agri", zh: "为什么选择 Tri Agri" },
-  "Kami percaya pembeli premium berhak tahu asal-usul produknya. Karena itu setiap ekor babi di kandang kami tercatat: dari siapa bibitnya dibeli, bagaimana perjalanannya, apa pakannya, sampai kapan siap potong.": {
-    id: "Kami percaya pembeli premium berhak tahu asal-usul produknya. Karena itu setiap ekor babi di kandang kami tercatat: dari siapa bibitnya dibeli, bagaimana perjalanannya, apa pakannya, sampai kapan siap potong.",
-    en: "We believe premium buyers deserve to know the origin of their products. That is why every pig in our farm is recorded: from whom the breed was purchased, how its journey went, what its feed was, until when it is ready for slaughter.",
-    zh: "我们相信优质客户有权了解产品的来源。因此，我们农场里的每一只猪都有完整记录：包括幼崽购自何处、运输过程、饲料种类以及出栏时间。"
+  "Kami percaya pembeli dan mitra industri berhak tahu asal-usul dan bahan komoditas yang mereka beli. Setiap batch jagung dan kopi kami tercatat: benih/varietas, pupuk, perlakuan lahan, metode pengeringan, hingga hasil uji mutu laboratorium.": {
+    id: "Kami percaya pembeli dan mitra industri berhak tahu asal-usul dan bahan komoditas yang mereka beli. Setiap batch jagung dan kopi kami tercatat: benih/varietas, pupuk, perlakuan lahan, metode pengeringan, hingga hasil uji mutu laboratorium.",
+    en: "We believe buyers and industrial partners deserve to know the origin and input materials of their commodities. Every batch of our corn and coffee is transparently tracked: seeds/variety, fertilizers, farm care, drying methods, and laboratory quality tests.",
+    zh: "我们坚信工业合作伙伴有权获知所采购农产品的真实源头与投入物料。我们的每批玉米与咖啡均有完整记录：良种品系、肥料施用、地块管理、烘干脱水及实验室化验结果。"
   },
-  "Ekor dalam pemeliharaan": { id: "Ekor dalam pemeliharaan", en: "Heads under breeding", zh: "在栏生猪数" },
-  "Lokasi kandang": { id: "Lokasi kandang", en: "Farm locations", zh: "农场分布" },
-  "Rendemen karkas rata-rata": { id: "Rendemen karkas rata-rata", en: "Average carcass yield", zh: "平均屠宰率" },
-  "Tahap jejak per ekor": { id: "Tahap jejak per ekor", en: "Trace stages per head", zh: "单只猪可追溯阶段" },
+  "Ton jagung tersalurkan": { id: "Ton jagung tersalurkan", en: "Tons of corn delivered", zh: "已供应饲料玉米吨数" },
+  "Mitra petani aktif": { id: "Mitra petani aktif", en: "Active partner farmers", zh: "签约合作农户" },
+  "Rata-rata kadar air jagung": { id: "Rata-rata kadar air jagung", en: "Average corn moisture", zh: "平均玉米含水率" },
+  "Tahap jejak mutu per batch": { id: "Tahap jejak mutu per batch", en: "Quality stages per batch", zh: "每批次追溯质检节点" },
 
   // Page blocks - About page
   "Visi Kami": { id: "Visi Kami", en: "Our Vision", zh: "我们的愿景" },
-  "Menjadi pemasok komoditas tertelusur terpercaya di Sulawesi — mulai dari daging babi berkualitas untuk pasar Palopo & Morowali, lalu berkembang ke kopi Toraja/Wamena dan hasil perikanan.": {
-    id: "Menjadi pemasok komoditas tertelusur terpercaya di Sulawesi — mulai dari daging babi berkualitas untuk pasar Palopo & Morowali, lalu berkembang ke kopi Toraja/Wamena dan hasil perikanan.",
-    en: "To be a trusted traceable commodity supplier in Sulawesi — starting from quality pork for the Palopo & Morowali markets, then expanding into Toraja/Wamena coffee and fishery products.",
-    zh: "致力于成为苏拉威西地区值得信赖的可追溯商品供应商 —— 从满足巴罗波和莫罗瓦利市场的高品质猪肉开始，进而扩展到托拉雅/瓦梅纳咖啡以及渔业产品。"
+  "Menjadi pemasok komoditas agribisnis tertelusur terpercaya di Sulawesi — mengutamakan jagung pakan berkualitas tinggi dan green bean kopi specialty dengan ketertelusuran penuh untuk pasar nasional dan ekspor.": {
+    id: "Menjadi pemasok komoditas agribisnis tertelusur terpercaya di Sulawesi — mengutamakan jagung pakan berkualitas tinggi dan green bean kopi specialty dengan ketertelusuran penuh untuk pasar nasional dan ekspor.",
+    en: "To be the most trusted traceable agribusiness commodity supplier in Sulawesi — specializing in high-grade feed corn and specialty coffee green beans with complete transparency for domestic and export markets.",
+    zh: "致力于成为苏拉威西地区最受信赖的可追溯农产品供应商 —— 专注供应高品质饲料玉米及精品咖啡生豆，以全流程透明度服务国内及国际贸易市场。"
   },
   "Model Bisnis": { id: "Model Bisnis", en: "Business Model", zh: "商业模式" },
-  "Kami membeli weaner (anak babi lepas sapih) dari pemasok terverifikasi, menggemukkannya 6-8 bulan di kandang sendiri dengan pakan terkontrol, lalu menjualnya sebagai babi hidup siap potong, karkas, atau potongan komersial. Sebagian kecil induk dipelihara untuk breeding jangka panjang.": {
-    id: "Kami membeli weaner (anak babi lepas sapih) dari pemasok terverifikasi, menggemukkannya 6-8 bulan di kandang sendiri dengan pakan terkontrol, lalu menjualnya sebagai babi hidup siap potong, karkas, atau potongan komersial. Sebagian kecil induk dipelihara untuk breeding jangka panjang.",
-    en: "We purchase weaners (weaned piglets) from verified suppliers, fatten them for 6-8 months in our own pens with controlled feed, and sell them as slaughter-ready live pigs, carcasses, or commercial cuts. A small number of sows are raised for long-term breeding.",
-    zh: "我们从经过验证的供应商处购买断奶仔猪，在自有农场中进行 6-8 个月的科学育肥，随后作为出栏活猪、胴体或商业分割猪肉销售。我们还保留了少量的母猪进行长期繁育。"
+  "Kami membangun kemitraan langsung dengan petani jagung dan kelompok tani kopi di Sulawesi. Kami mendampingi standardisasi benih unggul, pemupukan berimbang, serta penanganan pasca-panen (dryer & wet-mill) sehingga menghasilkan komoditas dengan spesifikasi mutu tinggi, kadar air terkontrol, dan catatan jejak digital yang dapat diaudit langsung oleh mitra pembeli.": {
+    id: "Kami membangun kemitraan langsung dengan petani jagung dan kelompok tani kopi di Sulawesi. Kami mendampingi standardisasi benih unggul, pemupukan berimbang, serta penanganan pasca-panen (dryer & wet-mill) sehingga menghasilkan komoditas dengan spesifikasi mutu tinggi, kadar air terkontrol, dan catatan jejak digital yang dapat diaudit langsung oleh mitra pembeli.",
+    en: "We build direct partnerships with corn farmers and coffee farmer groups in Sulawesi. We support high-yield seed varieties, balanced inputs, and modern post-harvest handling (dryers & wet-mills) to deliver high-spec commodities with strictly controlled moisture and verifiable digital records.",
+    zh: "我们与苏拉威西各地的玉米种植户及咖啡庄园建立产地直采合作。协同推行优选良种、平衡施肥及现代化采后处理（机械烘干与水洗处理站），确保出产商品具备高规格标准、低含水率与数字化追溯可信度。"
   },
-  "Kandang utama di Palopo (Sulawesi Selatan) melayani pasar lokal dan Toraja. Kandang kedua di Morowali (Sulawesi Tengah) melayani kebutuhan katering kawasan industri IMIP dan sekitarnya.": {
-    id: "Kandang utama di Palopo (Sulawesi Selatan) melayani pasar lokal dan Toraja. Kandang kedua di Morowali (Sulawesi Tengah) melayani kebutuhan katering kawasan industri IMIP dan sekitarnya.",
-    en: "The main farm in Palopo (South Sulawesi) serves local and Toraja markets. The second farm in Morowali (Central Sulawesi) serves the catering needs of the IMIP industrial zone and surroundings.",
-    zh: "位于巴罗波 (南苏拉威西) 的主农场服务于本地及托拉雅市场。位于莫罗瓦利 (中苏拉威西) 的第二农场主要服务于 IMIP 工业区餐饮及周边需求。"
+  "Sentra kemitraan jagung di dataran subur Sulawesi Selatan dan pengolahan kopi arabika di Toraja Utara & Enrekang.": {
+    id: "Sentra kemitraan jagung di dataran subur Sulawesi Selatan dan pengolahan kopi arabika di Toraja Utara & Enrekang.",
+    en: "Corn partnership center across fertile South Sulawesi plains and arabica coffee processing stations in North Toraja & Enrekang.",
+    zh: "玉米合作种植基地分布于南苏拉威西沃野，高海拔阿拉比卡咖啡加工处理站位于北托拉雅及恩雷康。"
   },
   "Berdiri": { id: "Berdiri", en: "Established", zh: "成立时间" },
-  "Kapasitas kandang": { id: "Kapasitas kandang", en: "Farm capacity", zh: "农场容量" },
-  "200 ekor": { id: "200 ekor", en: "200 heads", zh: "200 头" },
-  "Tim lapangan": { id: "Tim lapangan", en: "Field team", zh: "现场团队" },
-  "5 orang": { id: "5 orang", en: "5 people", zh: "5 人" },
+  "Kapasitas dryer & gudang": { id: "Kapasitas dryer & gudang", en: "Dryer & storage capacity", zh: "烘干及仓储产能" },
+  "500 ton/bln": { id: "500 ton/bln", en: "500 tons/mo", zh: "500 吨/月" },
+  "Mitra kelompok tani": { id: "Mitra kelompok tani", en: "Farmer groups", zh: "合作农户社" },
+  "12 kelompok": { id: "12 kelompok", en: "12 groups", zh: "12 个合作社" },
 };
 
 export function t(key: string, lang: Language): string {

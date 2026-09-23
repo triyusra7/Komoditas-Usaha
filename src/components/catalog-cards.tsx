@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils";
 import { t, tc, type Language } from "@/lib/i18n";
 
 const COMMODITY_EMOJI: Record<string, string> = {
-  pig: "🐖",
+  corn: "🌽",
   coffee: "☕",
-  fishery: "🐟",
+  fishery: "🌾",
+  pig: "🌽",
 };
 
 const AVAILABILITY_LABEL: Record<string, { label: string; className: string }> = {
@@ -60,7 +61,20 @@ function CoverVisual({
 
 export function CategoryCard({ category, lang = "id" }: { category: PublicCategory; lang?: Language }) {
   const isActive = category.status === "active";
-  const emoji = COMMODITY_EMOJI[category.commodity_type] ?? "🌱";
+  const nameLower = category.name.toLowerCase();
+  const slugLower = category.slug.toLowerCase();
+  const emoji =
+    nameLower.includes("kopi") || slugLower.includes("kopi")
+      ? "☕"
+      : nameLower.includes("jagung") || slugLower.includes("jagung")
+        ? "🌽"
+        : nameLower.includes("kakao") || nameLower.includes("cokelat")
+          ? "🍫"
+          : nameLower.includes("kelapa") || nameLower.includes("sawit")
+            ? "🥥"
+            : nameLower.includes("beras") || nameLower.includes("padi")
+              ? "🌾"
+              : COMMODITY_EMOJI[category.commodity_type] ?? "🌱";
 
   const inner = (
     <div
@@ -113,7 +127,7 @@ export function ProductCard({ product, lang = "id" }: { product: PublicProduct; 
       href={`/produk/${product.slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-[18px] border-2 border-secondary bg-[#fdfbf7] shadow-[4px_4px_0px_#1d2b1f] transition-all duration-300 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#1d2b1f]"
     >
-      <CoverVisual src={product.cover_image} alt={tc(product.name, lang)} emoji="🐖" className="h-44" />
+      <CoverVisual src={product.cover_image} alt={tc(product.name, lang)} emoji="🌽" className="h-44" />
       <div className="flex flex-1 flex-col gap-3 p-6">
         <div className="flex flex-wrap items-center gap-2">
           {product.breed && (

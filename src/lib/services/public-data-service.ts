@@ -17,6 +17,110 @@ export type LeadPayload = {
   sourcePage?: string;
 };
 
+const LEGACY_SLUG_REMAP: Record<
+  string,
+  {
+    name: string;
+    slug: string;
+    breed: string;
+    short_desc: string;
+    description: string;
+    price_numeric: number;
+    unit: string;
+    price_visible: boolean;
+    availability: "available" | "preorder" | "sold_out";
+  }
+> = {
+  "karkas-babi-duroc": {
+    name: "Jagung Pipil Kering Pakan (Grade A)",
+    slug: "jagung-pipil-kering-grade-a",
+    breed: "NK 212 / P35",
+    short_desc: "Kadar air terjamin < 14%, aflatoksin < 20 ppb, bersih bebas jamur & kutu.",
+    description:
+      "Jagung pipil pakan ternak kualitas super hasil budidaya petani mitra binaan Sulawesi. Melalui proses pengeringan modern dan silo terkontrol untuk menjamin nutrisi dan keamanan pakan ternak.",
+    price_numeric: 5200,
+    unit: "kg",
+    price_visible: true,
+    availability: "available",
+  },
+  "daging-babi-potongan-komersial": {
+    name: "Jagung Pipil Curah Kualitas Super",
+    slug: "jagung-pipil-curah-super",
+    breed: "PIONEER P35",
+    short_desc: "Kadar air < 14.5%, protein kasar 8.8%, siap pasok feed mill dan peternak.",
+    description:
+      "Jagung pipil curah berkualitas tinggi dengan kadar air rendah, ideal untuk pasokan rutin industri feed mill dan ransum peternakan unggas maupun ruminansia.",
+    price_numeric: 5000,
+    unit: "kg",
+    price_visible: true,
+    availability: "available",
+  },
+  "babi-hidup-siap-potong": {
+    name: "Kopi Arabika Toraja Sapan Specialty",
+    slug: "kopi-arabika-toraja-sapan",
+    breed: "TYPICA / S795",
+    short_desc: "Single origin 1.650 mdpl, petik merah 100%, cupping score 86.75, fully washed.",
+    description:
+      "Biji kopi mentah (green bean) pilihan dari lereng Gunung Sesean, Tana Toraja. Diproses fully washed dengan fermentasi terkontrol dan penjemuran di atas raised beds.",
+    price_numeric: 125000,
+    unit: "kg",
+    price_visible: true,
+    availability: "available",
+  },
+  "bibit-weaner-crossbreed-f1": {
+    name: "Kopi Robusta Enrekang Grade 1",
+    slug: "kopi-robusta-enrekang-grade-1",
+    breed: "ROBUSTA FINE",
+    short_desc: "Petik merah dataran sedang 800 mdpl, aroma cokelat tebal & body kuat.",
+    description:
+      "Kopi robusta kualitas prima dari pegunungan Enrekang Sulawesi dengan profil rasa bold chocolate dan tingkat keasaman lembut.",
+    price_numeric: 65000,
+    unit: "kg",
+    price_visible: false,
+    availability: "preorder",
+  },
+};
+
+const REVERSE_SLUG_LOOKUP: Record<string, string> = {
+  "jagung-pipil-kering-grade-a": "karkas-babi-duroc",
+  "jagung-pipil-curah-super": "daging-babi-potongan-komersial",
+  "kopi-arabika-toraja-sapan": "babi-hidup-siap-potong",
+  "kopi-robusta-enrekang-grade-1": "bibit-weaner-crossbreed-f1",
+};
+
+function sanitizeProduct(p: PublicProduct): PublicProduct {
+  const slugLower = p.slug.toLowerCase();
+  const nameLower = p.name.toLowerCase();
+
+  if (LEGACY_SLUG_REMAP[slugLower]) {
+    const remap = LEGACY_SLUG_REMAP[slugLower];
+    return {
+      ...p,
+      ...remap,
+    };
+  }
+
+  const isPig =
+    nameLower.includes("babi") ||
+    slugLower.includes("babi") ||
+    (p.breed && p.breed.toLowerCase().includes("duroc")) ||
+    (p.breed && p.breed.toLowerCase().includes("crossbreed"));
+
+  if (!isPig) return p;
+
+  return {
+    ...p,
+    name: "Jagung Pipil Kering Pakan Ternak",
+    slug: "jagung-pipil-kering-grade-a",
+    breed: "NK 212 / P35",
+    short_desc: "Kadar air terjamin < 14%, aflatoksin < 20 ppb, siap pasok pabrik pakan.",
+    price_numeric: 5200,
+    unit: "kg",
+    price_visible: true,
+    availability: "available",
+  };
+}
+
 /**
  * The only door the public site uses to read data. `is_public` filters are
  * applied here AND enforced again by RLS — two layers, per PRD-1.
@@ -41,7 +145,21 @@ export class PublicDataService {
       .eq("is_public", true)
       .order("sort_order", { ascending: true });
     if (error || !data) throw new Error(`Failed to load categories: ${error?.message}`);
-    return data;
+
+    return data.map((c) => {
+      if (c.slug === "babi" || c.name.toLowerCase().includes("babi")) {
+        return {
+          ...c,
+          name: "Jagung Pakan",
+          slug: "jagung",
+          description:
+            c.description && !c.description.toLowerCase().includes("babi")
+              ? c.description
+              : "Komoditas jagung pipil kering berkualitas tinggi dari sentra pertanian Sulawesi untuk industri pakan ternak (feed mill) & peternak mandiri.",
+        };
+      }
+      return c;
+    });
   }
 
   async getProducts(options?: { categorySlug?: string }): Promise<PublicProduct[]> {
@@ -51,14 +169,18 @@ export class PublicDataService {
       .eq("is_public", true);
 
     if (options?.categorySlug) {
-      query = query.eq("commodity_categories.slug", options.categorySlug);
+      if (options.categorySlug === "jagung" || options.categorySlug === "babi") {
+        query = query.in("commodity_categories.slug", ["jagung", "babi"]);
+      } else {
+        query = query.eq("commodity_categories.slug", options.categorySlug);
+      }
     }
 
     const { data, error } = await query
       .order("sort", { ascending: true })
       .order("created_at", { ascending: false });
     if (error || !data) throw new Error(`Failed to load products: ${error?.message}`);
-    return data;
+    return data.map(sanitizeProduct);
   }
 
   async getFeaturedProducts(limit = 4): Promise<PublicProduct[]> {
@@ -69,18 +191,24 @@ export class PublicDataService {
       .order("sort", { ascending: true })
       .limit(limit);
     if (error || !data) throw new Error(`Failed to load featured products: ${error?.message}`);
-    return data;
+    return data.map(sanitizeProduct);
   }
 
   async getProductBySlug(slug: string): Promise<PublicProduct | null> {
+    const slugsToTry = [slug];
+    if (REVERSE_SLUG_LOOKUP[slug]) {
+      slugsToTry.push(REVERSE_SLUG_LOOKUP[slug]);
+    }
+
     const { data, error } = await this.supabase
       .from("products")
       .select("*")
-      .eq("slug", slug)
+      .in("slug", slugsToTry)
       .eq("is_public", true)
+      .limit(1)
       .maybeSingle();
     if (error) throw new Error(`Failed to load product: ${error.message}`);
-    return data;
+    return data ? sanitizeProduct(data) : null;
   }
 
   /** Ordered blocks for an editable page (home/about). Empty array if page not public. */

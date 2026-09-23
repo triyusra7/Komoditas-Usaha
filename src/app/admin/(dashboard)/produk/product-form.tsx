@@ -1,19 +1,13 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
+import { useState } from "react";
 import { ImageInput } from "@/components/admin/image-input";
 import type { CommodityCategory, Product } from "@/lib/services/content-service";
-
-export const MAX_PRODUCT_IMAGES = 4;
-
-/** Cover first, then gallery — the exact order the actions persist. */
-export function productImages(product: Product): string[] {
-  const gallery = Array.isArray(product.gallery)
-    ? product.gallery.filter((item): item is string => typeof item === "string")
-    : [];
-  return [product.cover_image, ...gallery].filter((url): url is string => !!url);
-}
+import { MAX_PRODUCT_IMAGES, productImages } from "./product-helpers";
 
 /**
- * Shared create/edit product form (server-rendered). When `product` is set the
+ * Shared create/edit product form. When `product` is set the
  * fields are prefilled and existing photos can be unchecked to remove them.
  */
 export function ProductForm({
@@ -28,26 +22,89 @@ export function ProductForm({
   submitLabel: string;
 }) {
   const existingImages = product ? productImages(product) : [];
+  const defaultCatId = product?.category_id ?? (categories[0]?.id || "create_jagung_default");
+  const [selectedCatId, setSelectedCatId] = useState<string>(defaultCatId);
+  const [isCustomNew, setIsCustomNew] = useState<boolean>(false);
 
   return (
     <form action={action} className="space-y-4">
       <div>
-        <label htmlFor="categoryId" className="adm-label">
-          Kategori
-        </label>
-        <select
-          id="categoryId"
-          name="categoryId"
-          required
-          defaultValue={product?.category_id}
-          className="adm-input"
-        >
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
+        <div className="flex items-center justify-between mb-1">
+          <label htmlFor="categoryId" className="adm-label mb-0">
+            Kategori Komoditas
+          </label>
+          {!isCustomNew ? (
+            <button
+              type="button"
+              onClick={() => setIsCustomNew(true)}
+              className="text-xs font-bold text-primary-600 hover:underline flex items-center gap-1"
+            >
+              ➕ Ketik Kategori Baru
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setIsCustomNew(false)}
+              className="text-xs text-muted-foreground hover:underline"
+            >
+              Batal / Pilih dari Daftar
+            </button>
+          )}
+        </div>
+
+        {!isCustomNew ? (
+          <select
+            id="categoryId"
+            name="categoryId"
+            required
+            value={selectedCatId}
+            onChange={(e) => {
+              if (e.target.value === "custom_new") {
+                setIsCustomNew(true);
+              } else {
+                setSelectedCatId(e.target.value);
+              }
+            }}
+            className="adm-input"
+          >
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+            <option value="custom_new">➕ Tambah Kategori Baru (Ketik Sendiri)...</option>
+          </select>
+        ) : (
+          <div className="rounded-xl border-2 border-primary/30 bg-primary/10 p-3.5 space-y-3">
+            <input type="hidden" name="categoryId" value="custom_new" />
+            <p className="text-xs font-black uppercase tracking-wider text-secondary">
+              ✨ Kategori Baru (Akan Otomatis Disimpan ke Database)
+            </p>
+            <div>
+              <label htmlFor="newCategoryName" className="adm-label text-xs">
+                Nama Kategori Komoditas Baru
+              </label>
+              <input
+                id="newCategoryName"
+                name="newCategoryName"
+                required={isCustomNew}
+                placeholder="Contoh: Jagung Pakan / Kakao / Kelapa / Beras"
+                className="adm-input text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="newCategorySlug" className="adm-label text-xs">
+                Slug URL (Opsional, contoh: &apos;kakao&apos; untuk /katalog/kakao)
+              </label>
+              <input
+                id="newCategorySlug"
+                name="newCategorySlug"
+                placeholder="Biarkan kosong untuk otomatisasi"
+                className="adm-input text-sm"
+              />
+            </div>
+          </div>
+        )}
       </div>
       <div>
         <label htmlFor="name" className="adm-label">
@@ -58,7 +115,7 @@ export function ProductForm({
           name="name"
           required
           defaultValue={product?.name}
-          placeholder="Karkas Babi Duroc"
+          placeholder="Jagung Pipil Kering Pakan Ternak"
           className="adm-input"
         />
       </div>
@@ -71,19 +128,19 @@ export function ProductForm({
           name="slug"
           required
           defaultValue={product?.slug}
-          placeholder="karkas-babi-duroc"
+          placeholder="jagung-pipil-kering"
           className="adm-input"
         />
       </div>
       <div>
         <label htmlFor="breed" className="adm-label">
-          Jenis/Breed
+          Jenis / Varietas / Grade
         </label>
         <input
           id="breed"
           name="breed"
           defaultValue={product?.breed ?? ""}
-          placeholder="Duroc"
+          placeholder="NK 212 / Arabika Grade 1"
           className="adm-input"
         />
       </div>

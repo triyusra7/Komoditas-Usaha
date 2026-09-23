@@ -9,9 +9,9 @@ import { createClient } from "@/lib/supabase/server";
 import { createSubject, toggleSubjectPublic } from "./actions";
 
 const COMMODITY_LABEL: Record<string, string> = {
-  pig: "🐖 Babi",
+  pig: "🌽 Jagung Pakan",
   coffee: "☕ Kopi",
-  fishery: "🐟 Perikanan",
+  fishery: "🌾 Pertanian Lainnya",
 };
 
 export default async function TraceabilityPage({
@@ -30,14 +30,14 @@ export default async function TraceabilityPage({
     <div>
       <PageHeader
         title="Traceability"
-        subtitle="Subjek jejak — 1 ekor atau 1 batch per subjek"
+        subtitle="Subjek jejak — 1 batch atau lot komoditas per subjek"
         actions={<CreateButton label="Subjek Baru" />}
       />
 
       {isCreating && (
         <FormModal
           title="Subjek Jejak Baru"
-          subtitle="Buat 1 subjek untuk 1 ekor atau 1 batch"
+          subtitle="Buat 1 subjek untuk 1 batch atau lot komoditas"
           closeHref="/admin/traceability"
         >
           <form action={createSubject} className="space-y-4">
@@ -45,28 +45,28 @@ export default async function TraceabilityPage({
               <label htmlFor="code" className="adm-label">
                 Kode Internal
               </label>
-              <input id="code" name="code" required placeholder="BABI-2026-015" className="adm-input" />
+              <input id="code" name="code" required placeholder="JAGUNG-2026-001" className="adm-input" />
             </div>
             <div>
               <label htmlFor="title" className="adm-label">
                 Judul (tampil di publik)
               </label>
-              <input id="title" name="title" required placeholder="Babi Duroc #015" className="adm-input" />
+              <input id="title" name="title" required placeholder="Batch Jagung Pakan Pipil #001" className="adm-input" />
             </div>
             <div>
               <label htmlFor="publicSlug" className="adm-label">
                 Slug Publik (URL /jejak/...)
               </label>
-              <input id="publicSlug" name="publicSlug" required placeholder="babi-2026-015" className="adm-input" />
+              <input id="publicSlug" name="publicSlug" required placeholder="jagung-2026-001" className="adm-input" />
             </div>
             <div>
               <label htmlFor="commodityType" className="adm-label">
                 Jenis Komoditas
               </label>
               <select id="commodityType" name="commodityType" defaultValue="pig" className="adm-input">
-                <option value="pig">🐖 Babi</option>
+                <option value="pig">🌽 Jagung Pakan</option>
                 <option value="coffee">☕ Kopi</option>
-                <option value="fishery">🐟 Perikanan</option>
+                <option value="fishery">🌾 Pertanian Lainnya</option>
               </select>
             </div>
             <button type="submit" className="adm-btn adm-btn-primary w-full justify-center">

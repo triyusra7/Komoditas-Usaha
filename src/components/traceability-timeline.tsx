@@ -14,39 +14,51 @@ export type TraceabilityStage = {
 };
 
 const EVENT_META_BY_COMMODITY: Record<string, Record<string, { icon: string; label: string }>> = {
-  pig: {
-    acquisition: { icon: "🐷", label: "Akuisisi Bibit" },
-    transport: { icon: "🚚", label: "Transportasi" },
-    housing: { icon: "🏠", label: "Penempatan Kandang" },
-    growth: { icon: "📈", label: "Pertumbuhan" },
-    health: { icon: "💉", label: "Kesehatan" },
-    ready_slaughter: { icon: "✅", label: "Siap Potong / Karkas" },
+  corn: {
+    sourcing: { icon: "🌱", label: "Asal Lahan & Benih" },
+    planting_inputs: { icon: "🚜", label: "Tanam & Pemupukan" },
+    harvest: { icon: "🌽", label: "Panen Tongkol" },
+    drying: { icon: "☀️", label: "Pengeringan & Kadar Air" },
+    quality_lab: { icon: "🔬", label: "Uji Lab & Mutu" },
+    distribution: { icon: "📦", label: "Siap Pasok Pakan" },
   },
   coffee: {
-    sourcing: { icon: "🌱", label: "Asal" },
-    harvest: { icon: "🍒", label: "Panen" },
-    transport: { icon: "🚚", label: "Perjalanan" },
-    processing: { icon: "⚙️", label: "Pengolahan" },
+    sourcing: { icon: "🏞️", label: "Asal Kebun & Petani" },
+    harvest: { icon: "🍒", label: "Panen Petik Merah" },
+    processing: { icon: "⚙️", label: "Pengolahan Pasca-Panen" },
+    drying: { icon: "☀️", label: "Pengeringan & Kadar Air" },
+    grading: { icon: "🧺", label: "Hulling & Sortasi Biji" },
+    cupping: { icon: "☕", label: "Uji Cita Rasa (Cupping)" },
+    packaging: { icon: "📦", label: "Kemasan Green Bean" },
+  },
+  // Fallback compatibility
+  pig: {
+    sourcing: { icon: "🌱", label: "Asal Lahan" },
+    planting_inputs: { icon: "🚜", label: "Perawatan & Input" },
+    harvest: { icon: "🌽", label: "Pemanenan" },
     drying: { icon: "☀️", label: "Pengeringan" },
-    packaging: { icon: "📦", label: "Green Bean" },
+    quality_lab: { icon: "🔬", label: "Uji Mutu" },
+    distribution: { icon: "📦", label: "Distribusi" },
   },
 };
 
 const META_KEY_LABEL: Record<string, Record<Language, string>> = {
-  umur_saat_beli: { id: "Umur saat beli", en: "Age at purchase", zh: "购买时月龄" },
-  tanggal_lahir: { id: "Tanggal lahir", en: "Date of birth", zh: "出生日期" },
-  jenis: { id: "Jenis", en: "Type", zh: "类型" },
-  moda: { id: "Moda", en: "Mode", zh: "运输方式" },
-  lama_perjalanan: { id: "Lama perjalanan", en: "Travel duration", zh: "运输时长" },
-  blok: { id: "Blok kandang", en: "Pen block", zh: "舍区/栏位" },
+  varietas_benih: { id: "Varietas Benih", en: "Seed Variety", zh: "种子品种" },
+  jenis_pupuk: { id: "Bahan Pupuk", en: "Fertilizer / Inputs", zh: "肥料/投入品" },
+  bahan_input: { id: "Bahan & Input", en: "Materials & Inputs", zh: "原料与投入品" },
+  mitra_tani: { id: "Mitra Petani", en: "Partner Farmer", zh: "合作农户" },
+  luas_lahan: { id: "Luas Lahan", en: "Farm Area", zh: "种植面积" },
+  kadar_air: { id: "Kadar Air", en: "Moisture Content", zh: "水分含量" },
+  aflatoksin: { id: "Kadar Aflatoksin", en: "Aflatoxin Level", zh: "黄曲霉毒素" },
+  protein_kasar: { id: "Protein Kasar", en: "Crude Protein", zh: "粗蛋白" },
+  elevasi: { id: "Ketinggian (Elevasi)", en: "Altitude", zh: "海拔高度" },
+  metode_olah: { id: "Metode Olah", en: "Processing Method", zh: "处理方式" },
+  cupping_score: { id: "Skor Cupping (SCAA)", en: "Cupping Score", zh: "杯测得分" },
+  tasting_notes: { id: "Profil Rasa", en: "Tasting Notes", zh: "风味特征" },
+  kemasan: { id: "Standar Kemasan", en: "Packaging Standard", zh: "包装标准" },
   kondisi: { id: "Kondisi", en: "Condition", zh: "状态" },
-  bobot: { id: "Bobot", en: "Weight", zh: "体重" },
-  umur: { id: "Umur", en: "Age", zh: "月龄" },
-  pakan: { id: "Pakan", en: "Feed", zh: "饲料" },
-  vaksin: { id: "Vaksin", en: "Vaccine", zh: "疫苗" },
-  hasil: { id: "Hasil", en: "Result", zh: "结果" },
-  bobot_potong: { id: "Bobot potong", en: "Slaughter weight", zh: "出栏体重" },
-  rendemen: { id: "Rendemen karkas", en: "Carcass yield", zh: "屠宰率" },
+  bobot: { id: "Bobot/Volume", en: "Weight/Volume", zh: "重量/数量" },
+  hasil: { id: "Hasil Uji", en: "Test Result", zh: "检验结果" },
 };
 
 type TraceabilityTimelineProps = {

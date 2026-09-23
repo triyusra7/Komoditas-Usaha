@@ -103,7 +103,7 @@ export default async function JejakDetailPage({
       {subject.product_id && (
         <AnimateIn variant="fade-up" delay={100} duration={600}>
           <div className="mt-12 text-center">
-            <Link href="/katalog/babi" className="text-sm font-semibold hover:underline">
+            <Link href="/katalog" className="text-sm font-semibold hover:underline">
               {t("← Lihat produk terkait di katalog", lang)}
             </Link>
           </div>
